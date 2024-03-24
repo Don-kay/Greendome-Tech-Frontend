@@ -1,0 +1,66 @@
+{
+  "name": "greendome_frontend",
+  "version": "0.1.0",
+  "author": {
+    "name": "David Emeka"
+  },
+  "private": true,
+  "license": "MIT",
+  "keywords": [
+    "ui",
+    "react",
+    "components",
+    "dashboard",
+    "admin",
+    "tailwindcss",
+    "next",
+    "Next.js",
+    "layout"
+  ],
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@fullcalendar/daygrid": "^6.1.8",
+    "@fullcalendar/react": "^6.1.8",
+    "@headlessui/react": "^1.7.18",
+    "@mui/material": "^5.11.14",
+    "@mui/x-data-grid": "^6.0.3",
+    "@reduxjs/toolkit": "^1.9.3",
+    "@roketid/windmill-react-ui": "^0.1.1",
+    "axios": "^1.3.4",
+    "classnames": "^2.5.1",
+    "cookies": "^0.8.0",
+    "eslint": "8.35.0",
+    "eslint-config-next": "^14.0.4",
+    "jwt-decode": "^3.1.2",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "next": "^14.0.4",
+    "next-auth": "^4.20.1",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-datetime": "^3.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
+    "react-modal": "^3.16.1",
+    "react-redux": "^8.0.5",
+    "react-select": "^5.7.2",
+    "react-toastify": "^9.1.1",
+    "recharts": "^2.5.0",
+    "redux-persist": "^6.0.0",
+    "styled-components": "^5.3.6",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "tailwind-scrollbar": "^3.0.5",
+    "tailwindcss": "^3.2.7"
+  }
+}
