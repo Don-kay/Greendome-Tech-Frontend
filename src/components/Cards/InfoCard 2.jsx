@@ -33,9 +33,9 @@ function InfoCard2({
 }) {
   return (
     <Card className=" drop-shadow-sm">
-      <CardBody className=" flex items-center w-full flex-col">
+      <CardBody className=" flex items-center ">
         {children}
-        <div className=" relative items-center flex gap-y-4 flex-col">
+        <div className=" relative  flex items-center gap-y-4 flex-col">
           <p className=" text-sm font-medium text-greenGraded1 dark:text-gray-400">
             {title}
           </p>
@@ -60,8 +60,8 @@ function InfoCard2({
               />
             </div>
           )}
-          <div className=" flex items-center w-40">
-            <div className="  flex flex-col gap-y-4">
+          <div className=" flex px-5 w-96 relative left-6 ">
+            <div className="  flex flex-col w-60 gap-y-4">
               <div className=" flex flex-row gap-x-2">
                 <h4 className=" text-sm font-bold">{sub1}</h4>
                 <p className="text-sm font-semibold text-greenGraded1 dark:text-gray-200">

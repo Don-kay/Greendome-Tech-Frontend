@@ -38,12 +38,13 @@ const CreateCourse = () => {
   const { isLoading } = useSelector((strore) => strore.user);
   const disPatch = useDispatch();
 
-  // console.log(stats);
+  //console.log("stats");
   // console.log(course);
   useEffect(() => {
     disPatch(setLoading(false));
     disPatch(resetStats());
     disPatch(resetCourse());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     const state = setTimeout(() => {
@@ -57,6 +58,7 @@ const CreateCourse = () => {
     // } else if (userID !== "") {
 
     // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
   const { stats, course } = useSelector((strore) => strore.course);
@@ -73,6 +75,7 @@ const CreateCourse = () => {
     }
     disPatch(resetStats());
     disPatch(resetCourse());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stats]);
 
   // const statusOptions = [

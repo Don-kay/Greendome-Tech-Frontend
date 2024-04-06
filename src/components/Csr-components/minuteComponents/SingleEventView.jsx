@@ -15,7 +15,7 @@ const SingleEventView = ({ events, id, isOpen, onClosed }) => {
   const customStyles = {
     content: {
       position: "relative",
-      top: "9vh",
+      top: "18vh",
       left: "35%",
       maxWidth: "40%",
       padding: "3%",
@@ -27,10 +27,12 @@ const SingleEventView = ({ events, id, isOpen, onClosed }) => {
     },
   };
   const singleEvent = events.filter((i) => i._id === id);
-
+  // console.log(singleEvent);
+  // console.log(events);
+  // console.log("events");
   return (
     <Modal
-      className="rounded-md flex justify-center items-center flex-col border-y-greenui overflow-y-scroll scrollbar-thin scrollbar-track-metal scrollbar-thumb-dark scroll-p-10 "
+      className=" rounded-md flex flex-col items-center border-y-greenui overflow-y-scroll scrollbar-thin scrollbar-track-metal scrollbar-thumb-dark scroll-p-10 "
       style={customStyles}
       isOpen={isOpen}
       onRequestClose={onClosed}
@@ -41,22 +43,17 @@ const SingleEventView = ({ events, id, isOpen, onClosed }) => {
         const ended = moment(end).format("YYYY-MM-DD HH:MM:SS");
         const imageType = image === undefined || image === "" ? "" : image;
         return (
-          <div
-            className="grid gap-14 mb-8 sm:grid-cols-1 md:grid-cols-1"
-            key={idx}
-          >
-            <div className=" my-3" key={idx}>
-              <InfoCard2
-                imageType={imageType}
-                title={title}
-                value1={description}
-                value2={starter}
-                value3={ended}
-                sub1="description:"
-                sub2="commencement:"
-                sub3="submission:"
-              />
-            </div>
+          <div className="" key={idx}>
+            <InfoCard2
+              imageType={imageType}
+              title={title}
+              value1={description}
+              value2={starter}
+              value3={ended}
+              sub1="description:"
+              sub2="commencement:"
+              sub3="submission:"
+            />
           </div>
         );
       })}

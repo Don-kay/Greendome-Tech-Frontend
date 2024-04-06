@@ -1,4 +1,4 @@
-import EditCourse from "@/components/Csr-components/pagesComponent/editCourse";
+import EditCourse from "../../../../components/Csr-components/pagesComponent/editCourse";
 
 export default function page(req) {
   const courseparams = req.params.id;

@@ -6,6 +6,7 @@ import { addUserLocalStorage } from "../../utilities/localStorage";
 // const { setToken, setStatus, setRole } = useGlobalContext();
 const initialState = {
   isLoading: false,
+  isLoading1: false,
   successMsg: "",
   user: "",
   role: [],

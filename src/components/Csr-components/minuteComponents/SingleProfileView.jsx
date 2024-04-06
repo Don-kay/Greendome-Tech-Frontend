@@ -35,7 +35,7 @@ const SingleProfileView = ({ courses, users, id }) => {
   try {
     const singleProfile = users?.filter((i) => i.id === id);
     return (
-      <section>
+      <section className="">
         {singleProfile?.map((item, idx) => {
           const {
             id,
@@ -64,8 +64,8 @@ const SingleProfileView = ({ courses, users, id }) => {
           const imageType = image === undefined || image === "" ? "" : image;
           return (
             <div
-              className="grid gap-14 mb-8 sm:grid-cols-1 md:grid-cols-1 relative top-20"
-              key={idx}
+              className="flex relative top-10 justify-center cursor-pointer overflow-x-hidden bg-greenGradedHov p-12 rounded-md mx-10 items-center flex-col hover:bg-whiteGraded"
+              key={id}
             >
               <InfoCard2
                 imageType={imageType}
@@ -89,7 +89,7 @@ const SingleProfileView = ({ courses, users, id }) => {
                 sub7="biography:"
                 sub8="joined:"
                 sub9="updated:"
-                sub10="updated:"
+                sub10="certificate:"
               />
               {paidCourses?.length === 0 ? (
                 <div className=" flex justify-center items-center relative">

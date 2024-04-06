@@ -9,6 +9,8 @@ import EditProfile from "./editProfile";
 import moment from "moment";
 import _ from "lodash";
 import Image from "next/image";
+import Loading from "../layout_constructs/loading";
+// { setLoading } from "../../../features/user/userSlice";
 import Modal from "react-modal";
 import EditQuestion from "./editQuestion2";
 import CreateQuestion from "./createQuestion";
@@ -35,19 +37,29 @@ const initialState = {
   createdAt: "",
   updatedAt: "",
 };
-const StudentView = ({ studentid, isOpen, onClosed, userID }) => {
+const StudentView = ({
+  studentid,
+  isOpen,
+  onClosed,
+  IsCompany,
+  loggedInUser,
+  setStudent,
+  userID,
+}) => {
   const dispatch = useDispatch();
   const [trigger, setTrigger] = useState(false);
+  // const { isLoading } = useSelector((strore) => strore.user);
   const [users, setUsers] = useState(initialState);
   const [courses, setCourses] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const { ishover } = useSelector((strore) => strore.functions);
 
   //console.log(studentid);
   const customStyles = {
     content: {
       position: "relative",
-      top: "10vh",
+      top: "16vh",
       left: "18%",
       overflowY: "auto",
       padding: "2.5rem",
@@ -61,6 +73,7 @@ const StudentView = ({ studentid, isOpen, onClosed, userID }) => {
 
   useEffect(() => {
     dispatch(HoverModal(false));
+    setLoading(true);
     const fetchCourse = async () => {
       try {
         const course = await axios.get(
@@ -105,7 +118,10 @@ const StudentView = ({ studentid, isOpen, onClosed, userID }) => {
           updatedAt,
         } = users;
         const img = image === undefined || image === "" ? "" : image;
-        //console.log(users);
+        if (users !== undefined || users !== "") {
+          setLoading(false);
+        }
+
         setUsers({
           id: _id,
           email,
@@ -132,6 +148,7 @@ const StudentView = ({ studentid, isOpen, onClosed, userID }) => {
     // setDeleteHover(false);
     fetchCourse();
     fetchProfiles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [studentid]);
 
   const {
@@ -170,8 +187,10 @@ const StudentView = ({ studentid, isOpen, onClosed, userID }) => {
             <Image width={100} height={100} src={Greendome} alt="image" />
           </div>
         )}
-        <h2 key={id}>title: {item.name}</h2>
-        <small>id: {item._id}</small>
+        <h2 className="font-medium" key={id}>
+          title: {item.name}
+        </h2>
+        <small className="font-medium">id: {item._id}</small>
       </div>
     );
   });
@@ -235,12 +254,19 @@ const StudentView = ({ studentid, isOpen, onClosed, userID }) => {
         isOpen={modalOpen}
         studentid={studentid}
         setUser={setUsers}
+        IsCompany={IsCompany}
+        setStudent={setStudent}
+        loggedInUser={loggedInUser}
       />
 
       <button onClick={() => onClosed()}>back</button>
       <section className=" flex justify-center items-center flex-col ">
         <div>{`questions set to ${username}`}</div>
-
+        {isLoading && (
+          <div className=" flex items-center  min-w-innerlay3 h-96 top-32 left-0 z-20 absolute ">
+            <Loading />
+          </div>
+        )}
         <div className="">
           <div>
             <div className=" flex item-center px-16 justify-between w-full bg-greenGraded flex-row ">
@@ -275,9 +301,15 @@ const StudentView = ({ studentid, isOpen, onClosed, userID }) => {
                   <h3 className=" font-medium">Mobile: </h3>{" "}
                   <h2 className=" mx-7">{`+${phoneNumber}`}</h2>
                 </div>
-                <div className="  flex justify-start px-5 p-5 m-1 border-width1px  border-grey items-center flex-col ">
-                  <h3 className=" font-medium">Active membership: </h3>{" "}
-                  <h2>{contentDisplay}</h2>
+                <div className="  flex justify-start px-5 p-5 m-1 border-width1px overflow-y-scroll scrollbar-thin scrollbar-track-metal scrollbar-thumb-dark scroll-p-10  border-grey items-center flex-col ">
+                  {contentDisplay.length === 0 ? (
+                    <h2 className="font-medium">no registered course</h2>
+                  ) : (
+                    <div>
+                      <h3 className=" font-medium">Active membership: </h3>{" "}
+                      <h2>{contentDisplay}</h2>
+                    </div>
+                  )}
                 </div>
                 <div className="  flex justify-start px-5 m-1 border-width1px  border-grey items-center flex-row ">
                   <h3 className=" font-medium">Member since: </h3>{" "}

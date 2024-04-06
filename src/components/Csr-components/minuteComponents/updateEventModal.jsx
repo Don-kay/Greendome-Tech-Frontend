@@ -6,7 +6,7 @@ import Image from "next/image";
 import axios from "axios";
 import TextARea from "../../TextArea";
 import PageTitle from "../../typography/PageTitle";
-
+import Loading from "../layout_constructs/loading";
 import FormRow from "../../FormRow";
 import _ from "lodash";
 
@@ -29,6 +29,7 @@ const UpdateEventModal = ({
   const [nuEnd, setNuend] = useState(23);
   const [file, setFile] = useState("");
   const [img, setImg] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const image = !eImage ? "" : eImage;
   //console.log(singleEvent);
@@ -41,8 +42,8 @@ const UpdateEventModal = ({
       setNuend(new Date(eEnd));
       setFile(image);
       setDescription(eDescription);
-    }
-  }, [singleEvent, onClosed]);
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [singleEvent]);
   // console.log(start);
 
   const customStyles = {
@@ -96,6 +97,7 @@ const UpdateEventModal = ({
     const start = nuStart._d;
     const end = nuEnd._d;
     const image = file;
+    setLoading(true);
 
     const resp = await axios.patch(
       `http://localhost:8000/greendometech/ng/calendar/update-events/${params}`,
@@ -114,9 +116,11 @@ const UpdateEventModal = ({
     const updatedEvent = await resp.data.event;
     const updatedId = updatedEvent._id;
     const refreshed = events.filter((item) => item._id !== updatedId);
-
+    //console.log(resp);
     setEvent([...refreshed, updatedEvent]);
-
+    if (resp.data.msg === "schedule successfully updated") {
+      setLoading(false);
+    }
     onClosed();
   };
 
@@ -127,6 +131,11 @@ const UpdateEventModal = ({
       isOpen={isOpen}
       onRequestClose={onClosed}
     >
+      {loading && (
+        <div className=" flex items-center w-full h-full -top-10 left-0 z-20 absolute">
+          <Loading />
+        </div>
+      )}
       <PageTitle>Update Event</PageTitle>
       <button onClick={() => onClosed()}>Go Back</button>
       <form

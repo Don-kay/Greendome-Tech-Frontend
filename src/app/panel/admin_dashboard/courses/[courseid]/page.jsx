@@ -1,5 +1,5 @@
 import React from "react";
-import ViewCoursePage from "@/components/Csr-components/pagesComponent/viewCourse page";
+import ViewCoursePage from "../../../../../components/Csr-components/pagesComponent/viewCourse page";
 
 const viewCourse = async () => {
   return (

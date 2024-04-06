@@ -65,6 +65,7 @@ const StudentsSlice = ({ trigger }) => {
   // };
   useEffect(() => {
     dispatch(GetAllUsers());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trigger]);
 
   const studentObj = users?.filter((item) => {
@@ -135,6 +136,7 @@ const StudentsSlice = ({ trigger }) => {
     } else {
       dispatch(setActiveStudent(activeStudents?.length));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users]);
 
   const columns = useMemo(
@@ -162,8 +164,8 @@ const StudentsSlice = ({ trigger }) => {
           <ProfileActions isAdmin={IsAdmin} {...{ params }} />
         ),
       },
-    ],
-    [rowId]
+    ], // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import CreateModule from "@/components/Csr-components/pagesComponent/createModule";
+import CreateModule from "../../../../../../../components/Csr-components/pagesComponent/createModule";
 
 const Create_module = (req) => {
   const courseId = req.params.id;

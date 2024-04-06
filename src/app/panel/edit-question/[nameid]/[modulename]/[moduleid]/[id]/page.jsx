@@ -1,4 +1,4 @@
-import EditQuestion from "@/components/Csr-components/pagesComponent/editQuestion";
+import EditQuestion from "../../../../../../../components/Csr-components/pagesComponent/editQuestion2";
 
 export default function updateQuestions(req) {
   const questionparams = req.params.id;

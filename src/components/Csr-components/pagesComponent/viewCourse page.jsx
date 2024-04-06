@@ -8,8 +8,8 @@ import EditCourse from "./editCourse";
 import _ from "lodash";
 import Modal from "react-modal";
 import UpdateDropDown from "../minuteComponents/updateDropDown";
-import { HoverModal } from "@/features/functions/functionSlice";
-import { resetModule } from "@/features/course/module/moduleSlice";
+import { HoverModal } from "../../../features/functions/functionSlice";
+import { resetModule } from "../../../features/course/module/moduleSlice";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Greendome from "../../asset/greendome.jpg";
@@ -107,6 +107,7 @@ const ViewCoursePage = ({
 
       //   console.log(cookie);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [course]);
 
   const customStyles = {

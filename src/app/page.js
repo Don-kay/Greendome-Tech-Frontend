@@ -20,7 +20,7 @@ import {
 } from "../components/ROLE_LISTS";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function page() {
+export default function Page() {
   const { user } = useSelector((state) => state.user);
   const { users } = useSelector((strore) => strore.profiles);
   const loggedInUserId = user?.data.user.id;
@@ -95,7 +95,7 @@ export default function page() {
   } else if (areEqual(userRole, TutorStudent)) {
     isTutor = true;
   }
-  // console.log(isAdmin);
+
   // console.log(isCompany);
   // console.log(isTutor);
   return (

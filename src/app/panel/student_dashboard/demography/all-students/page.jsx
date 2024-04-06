@@ -1,10 +1,10 @@
 import React from "react";
-import Students from "../../../../../components/Csr-components/pagesComponent/students";
+import AllStudents from "../../../../../components/Csr-components/minuteComponents/allStudents";
 
 const page = () => {
   return (
     <div>
-      <Students />
+      <AllStudents />
     </div>
   );
 };

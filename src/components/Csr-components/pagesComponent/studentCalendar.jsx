@@ -66,6 +66,7 @@ const StudentCalendar = () => {
     } catch (error) {
       return;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateModalOpen]);
 
   // useEffect(() => {
@@ -85,53 +86,62 @@ const StudentCalendar = () => {
   });
   // console.log(profileView);
 
-  const columns = useMemo(() => [
-    {
-      field: "image",
-      headerName: "Image",
-      width: 220,
-      renderCell: (params) =>
-        params.row.image === "" || params.row.image === undefined ? (
-          <Image width={200} height={200} src={Greendome} alt="image" />
-        ) : (
-          <Image width={100} height={100} src={params.row.image} alt="image" />
-        ),
-      sortable: false,
-      filterable: false,
-    },
+  const columns = useMemo(
+    () => [
+      {
+        field: "image",
+        headerName: "Image",
+        width: 220,
+        renderCell: (params) =>
+          params.row.image === "" || params.row.image === undefined ? (
+            <Image width={200} height={200} src={Greendome} alt="image" />
+          ) : (
+            <Image
+              width={100}
+              height={100}
+              src={params.row.image}
+              alt="image"
+            />
+          ),
+        sortable: false,
+        filterable: false,
+      },
 
-    { field: "id", headerName: "Id", width: 300 },
-    { field: "title", headerName: "Title", width: 300 },
-    {
-      field: "start",
-      headerName: "Start",
-      width: 200,
-      renderCell: (params) =>
-        moment(params.row.start).format("YYYY-MM-DD HH:MM:SS"),
-    },
-    {
-      field: "end",
-      headerName: "End",
-      width: 200,
-      renderCell: (params) =>
-        moment(params.row.end).format("YYYY-MM-DD HH:MM:SS"),
-    },
-    {
-      field: "settings",
-      headerName: "Settings",
-      width: 220,
-      renderCell: (params) => (
-        <CalendarFunction
-          {...{ params }}
-          setEventview={setEventview}
-          isStudent={IsStudent}
-          isOpen={setModalOpen}
-          onclosed={(prop) => updateEventHandler(prop)}
-          ondelete={(prop) => deleteEventHandler(prop)}
-        />
-      ),
-    },
-  ]);
+      { field: "id", headerName: "Id", width: 300 },
+      { field: "title", headerName: "Title", width: 300 },
+      {
+        field: "start",
+        headerName: "Start",
+        width: 200,
+        renderCell: (params) =>
+          moment(params.row.start).format("YYYY-MM-DD HH:MM:SS"),
+      },
+      {
+        field: "end",
+        headerName: "End",
+        width: 200,
+        renderCell: (params) =>
+          moment(params.row.end).format("YYYY-MM-DD HH:MM:SS"),
+      },
+      {
+        field: "settings",
+        headerName: "Settings",
+        width: 220,
+        renderCell: (params) => (
+          <CalendarFunction
+            {...{ params }}
+            setEventview={setEventview}
+            isStudent={IsStudent}
+            isOpen={setModalOpen}
+            onclosed={(prop) => updateEventHandler(prop)}
+            ondelete={(prop) => deleteEventHandler(prop)}
+          />
+        ),
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    ],
+    [IsStudent]
+  );
   // console.log(event);
 
   return (

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Loading from "../layout_constructs/loading";
 import { setLoading } from "../../../features/user/userSlice";
 import customFetch from "../../../utilities/axios";
@@ -102,9 +102,11 @@ const CreateModule = ({
     showModal({ show: false });
     disPatch(resetErrorMsg(""));
     disPatch(resetModule(""));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     onClosed();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onclosetrigger]);
 
   // const completedOptions = [
@@ -180,6 +182,7 @@ const CreateModule = ({
     }, 5000);
 
     return () => clearTimeout(error);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trigged]);
 
   const customStyles = {
@@ -342,7 +345,8 @@ const CreateModule = ({
     if (levelCont === "") {
       setLevelCont("beginner");
     }
-  }, [handleSelectedLevel, handleSelectedStatus, handleSubmitt]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // console.log(moduleid);
   // setTrigger;

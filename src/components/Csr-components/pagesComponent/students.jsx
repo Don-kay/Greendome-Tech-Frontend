@@ -39,9 +39,13 @@ const Students = () => {
   const Admin = loggedInUser?.map((i) => {
     return i.roles.includes("Admin");
   });
+  const company = loggedInUser?.map((i) => {
+    return i.roles.includes("company");
+  });
 
   const IsAdmin = _.toString(Admin);
-  // console.log(users);
+  const IsCompany = _.toString(company);
+  //console.log(student);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -55,7 +59,7 @@ const Students = () => {
           }
         );
         const resp = { data: profiles.data, stats: profiles.status };
-        console.log(resp.stats);
+        //console.log(resp.stats);
         const data = resp.data.user;
         if (resp.stats === 200) {
           dispatch(setLoading(false));
@@ -104,6 +108,7 @@ const Students = () => {
 
     fetchUsers();
     dispatch(GetAllUsers());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [studentId]);
 
   //console.log(users);
@@ -116,7 +121,7 @@ const Students = () => {
 
   const handleModalId = (id) => {
     setStudentId(id);
-    setModalOpen(true);
+    //setModalOpen(true);
   };
 
   useEffect(() => {
@@ -127,6 +132,7 @@ const Students = () => {
     } else {
       dispatch(setActiveStudent(activeStudent.length));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users]);
 
   const columns = useMemo(
@@ -190,8 +196,8 @@ const Students = () => {
           />
         ),
       },
-    ],
-    [rowId]
+    ], // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   return (
@@ -201,10 +207,13 @@ const Students = () => {
         onClosed={() => setModalOpen(false)}
         isOpen={modalOpen}
         studentid={studentId}
+        IsCompany={IsCompany}
+        loggedInUser={loggedInUserId}
+        setStudent={setStudent}
       />
       {/* <button onClick={() => view}>view all users</button> */}
       {isLoading && (
-        <div className=" flex items-center  min-w-innerlay3 h-96 -top-32 left-0 z-20 absolute ">
+        <div className=" flex items-center  min-w-innerlay3 h-96 top-32 left-0 z-20 absolute ">
           <Loading />
         </div>
       )}

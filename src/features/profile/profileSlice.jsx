@@ -10,7 +10,7 @@ const initialFilterState = {
 };
 
 const initialState = {
-  isLoading: true,
+  isLoading: false,
   isUpdated: false,
   users: [],
   totalUsers: 0,

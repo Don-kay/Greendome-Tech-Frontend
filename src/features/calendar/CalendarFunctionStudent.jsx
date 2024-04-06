@@ -6,16 +6,7 @@ import { AiFillSetting, AiFillDelete } from "react-icons/ai";
 import { ProfileModal } from "../functions/functionSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const CalendarFunction = ({
-  isOpen,
-  params,
-  onclosed,
-  updateEventHandler,
-  ondelete,
-  isStudent,
-  isAdmin,
-  setEventview,
-}) => {
+const CalendarFunctionStudent = ({ isOpen, params }) => {
   // const { users } = useSelector((strore) => strore.profiles);
 
   const dispatch = useDispatch();
@@ -41,19 +32,6 @@ const CalendarFunction = ({
         flexFlow: "row",
       }}
     >
-      {isAdmin === "true" ? (
-        <Fab
-          onClick={() => updateEventHandler(eventId)}
-          color="primary"
-          sx={{
-            width: 40,
-            height: 40,
-          }}
-        >
-          <AiFillSetting />
-        </Fab>
-      ) : null}
-
       <div onClick={() => dispatchFunction()}>
         <Fab
           sx={{
@@ -64,19 +42,8 @@ const CalendarFunction = ({
           <GrOverview />
         </Fab>
       </div>
-      {isAdmin === "true" ? (
-        <Fab
-          sx={{
-            width: 40,
-            height: 40,
-          }}
-          onClick={() => ondelete(eventId)}
-        >
-          <AiFillDelete />
-        </Fab>
-      ) : null}
     </Box>
   );
 };
 
-export default CalendarFunction;
+export default CalendarFunctionStudent;

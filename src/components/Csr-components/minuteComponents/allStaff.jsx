@@ -35,7 +35,9 @@ const AllStaff = () => {
     fetchCourses();
     dispatch(GetAllUsers());
     dispatch(ProfileModal({ bool: false }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  //console.log("users");
   const { users, errorMsg } = useSelector((strore) => strore.profiles);
   const { profileView, modalId } = useSelector((strore) => strore.functions);
   const [pageSize, setpageSize] = useState(5);
@@ -98,8 +100,9 @@ const AllStaff = () => {
         renderCell: (params) =>
           moment(params.row.updatedAt).format("YYYY-MM-DD HH:MM:SS"),
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     ],
-    [rowId]
+    []
   );
   return (
     <section>

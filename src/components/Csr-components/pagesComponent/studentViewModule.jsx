@@ -34,6 +34,7 @@ const StudentViewModules = ({ studentCourses, modules, paramsId, setId }) => {
       }
     };
     fetchQuestion();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trigger]);
 
   const Done = () => {
@@ -41,8 +42,8 @@ const StudentViewModules = ({ studentCourses, modules, paramsId, setId }) => {
   };
   const viewModule = (_id) => {
     setId1(_id);
-    const module = modules?.filter((i) => i._id === _id);
-    setSelectedModule(module);
+    const moduler = modules?.filter((i) => i._id === _id);
+    setSelectedModule(moduler);
   };
 
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import ModuleDisp from "@/components/Csr-components/pagesComponent/moduleDisp";
+import ModuleDisp from "../../../../../../components/Csr-components/pagesComponent/moduleDisp";
 
 const page = (req) => {
   // const paramId = req.params.id;

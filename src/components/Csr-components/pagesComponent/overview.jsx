@@ -25,9 +25,13 @@ const Overview = () => {
   const Student = loggedInUser?.map((i) => {
     return i.roles.includes("student");
   });
+  const Admin = loggedInUser?.map((i) => {
+    return i.roles.includes("Admin");
+  });
 
   const IsStudent = _.toString(Student);
-  // console.log(IsStudent);
+  const IsAdmin = _.toString(Admin);
+  //console.log(IsAdmin);
   // console.log(IsStudentBool);
   // console.log(loggedInUser);
 
@@ -62,7 +66,7 @@ const Overview = () => {
     // return () => {
     //   cancelToken.cancel();
     // };
-  }, []);
+  });
   //console.log(course);
   // console.log(TotalCourse);
 
@@ -72,22 +76,7 @@ const Overview = () => {
         <Loading />
       ) : (
         <div>
-          {IsStudent === "true" ? (
-            <section>
-              <div className="h-fit p-responsive3   border-x-metal min-w-innerlay">
-                <CourseCharts
-                  course={course}
-                  params={userParams}
-                  isStudent={IsStudent}
-                />
-              </div>
-              <div className="min-w-innerlay2 bg-red-700">
-                <Calendar params={userParams} isStudent={IsStudent} />
-                {/* <EventsChart params={userParams} isStudent={IsStudent} /> */}
-                {/* <RatedCourse params={userParams} isStudent={IsStudent} /> */}
-              </div>
-            </section>
-          ) : (
+          {IsAdmin === "true" ? (
             <section>
               <div className=" h-fit bg-white p-responsive3   border-x-metal min-w-innerlay">
                 <RolesCharts />
@@ -105,6 +94,25 @@ const Overview = () => {
             <EventsChart params={userParams} isStudent={IsStudent} />
             <RatedCourse params={userParams} isStudent={IsStudent} />
           </div> */}
+            </section>
+          ) : (
+            <section>
+              <div className="h-fit p-responsive3   border-x-metal min-w-innerlay">
+                <CourseCharts
+                  course={course}
+                  params={userParams}
+                  isStudent={IsStudent}
+                />
+              </div>
+              <div className="min-w-innerlay2 bg-red-700">
+                <Calendar
+                  params={userParams}
+                  isAdmin={IsAdmin}
+                  isStudent={IsStudent}
+                />
+                {/* <EventsChart params={userParams} isStudent={IsStudent} /> */}
+                {/* <RatedCourse params={userParams} isStudent={IsStudent} /> */}
+              </div>
             </section>
           )}
         </div>

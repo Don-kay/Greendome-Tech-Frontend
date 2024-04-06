@@ -30,7 +30,7 @@ const CourseDisp = () => {
   const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
   const classesId = loggedInUser?.map((i) => i.classesId);
   const assinged = classesId;
-  const singleAss = assinged.flat(1);
+  const singleAss = assinged?.flat(1);
 
   if (data?.length !== 0) {
     dispatch(setLoading(false));
@@ -84,12 +84,14 @@ const CourseDisp = () => {
 
     fetchCourses();
     fetchModule();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //const classesId = users.map((i) => i.classesId);
   useEffect(() => {
     const courseModules = modules?.filter((item) => item.classId === id);
     setCourseModules(courseModules);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const toggleMenu = (id) => {

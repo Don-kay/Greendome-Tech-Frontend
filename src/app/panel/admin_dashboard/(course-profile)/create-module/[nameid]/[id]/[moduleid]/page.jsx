@@ -1,5 +1,5 @@
 import React from "react";
-import CreateQuestion from "@/components/Csr-components/pagesComponent/createQuestion";
+import CreateQuestion from "../../../../../../../../components/Csr-components/pagesComponent/createQuestion";
 
 const Createquestion = (req) => {
   const courseId = req.params.id;

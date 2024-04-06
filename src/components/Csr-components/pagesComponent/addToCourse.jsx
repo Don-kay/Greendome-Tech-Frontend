@@ -7,6 +7,7 @@ import CourseHover from "../minuteComponents/courseHover";
 import CourseHover1 from "../minuteComponents/courseHover1";
 import Link from "next/link";
 import _ from "lodash";
+import Loading from "../layout_constructs/loading";
 import Image from "next/image";
 import Greendome from "../../asset/greendome.jpg";
 
@@ -28,7 +29,7 @@ const AllCourseDisp = ({ params }) => {
   const loggedInUser = users?.filter((i) => i.id === params);
   const classesId = loggedInUser?.map((i) => i.classesId);
   const assinged = classesId;
-  const singleAss = assinged.flat(1);
+  const singleAss = assinged?.flat(1);
   const [dispCourse, setDispCourse] = useState(false);
 
   const url = "/panel/admin_dashboard/view-module";
@@ -99,7 +100,8 @@ const AllCourseDisp = ({ params }) => {
     };
 
     fetch();
-  }, [id1, modalOpen]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id1]);
 
   const AddToCourse = async (_id) => {
     axios.defaults.withCredentials = true;
@@ -197,6 +199,7 @@ const AllCourseDisp = ({ params }) => {
       // console.log(dataHov);
       // console.log(singleCourse);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
   useEffect(() => {
     if (id1 !== "") {
@@ -226,52 +229,65 @@ const AllCourseDisp = ({ params }) => {
       // console.log(dataHov);
       // console.log(singleCourse);
     }
+
     // const timer = setTimeout(() => {
     //   setModalOpen1(false);
     // }, 1000);
     // clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id1]);
   // console.log(id);
   return (
     <main onClick={() => closedisplay()}>
       <div className=" relative flex justify-around item-center flex-row top-5">
-        <h1>Assign a Course</h1>{" "}
-        <div className=" cursor-pointer" onClick={() => setDispCourse(true)}>
-          add course
-        </div>
+        <h1>Assign a Course</h1>
+        <Link href={route}>
+          <button>back</button>
+        </Link>
+        {name !== undefined && (
+          <div className=" cursor-pointer" onClick={() => setDispCourse(true)}>
+            add course
+          </div>
+        )}
       </div>
 
       <section className=" flex item-center p-20 my-12 outline h-auto w-full justify-between  flex-row ">
         <div className=" p-10 overflow-y-scroll">
-          <Link href={route}>
-            <button>back</button>
-          </Link>
           <div>
-            <h2 className=" font-medium">{`${name}'s paid courses`}</h2>
-            {studentCourses?.length === 0 ? (
-              <div>no course registered</div>
+            {name === undefined ? (
+              <div>
+                <Loading />
+              </div>
             ) : (
               <div>
-                {studentCourses?.map((item, id) => {
-                  const { _id, name, Serial_key, description, author } = item;
-                  return (
-                    <div
-                      className=" flex justify-center cursor-pointer m-5 items-center flex-col"
-                      key={id}
-                      onClick={() => AddToCourse(_id)}
-                    >
-                      <div
-                        key={id}
-                        className=" flex justify-center gap-y-1  border-grey border-b-2 items-center flex-col "
-                        onMouseOver={() => CourseView(_id)}
-                      >
-                        <small>{Serial_key}</small>
-                        <h2 className=" font-medium">{name}</h2>
-                        <h4 className=" font-medium">{author}</h4>
-                      </div>
-                    </div>
-                  );
-                })}
+                <h2 className=" font-medium">{`${name}'s paid courses`}</h2>
+                {studentCourses?.length === 0 ? (
+                  <div>no course registered</div>
+                ) : (
+                  <div>
+                    {studentCourses?.map((item, id) => {
+                      const { _id, name, Serial_key, description, author } =
+                        item;
+                      return (
+                        <div
+                          className=" flex justify-center cursor-pointer m-5 items-center flex-col"
+                          key={id}
+                          onClick={() => AddToCourse(_id)}
+                        >
+                          <div
+                            key={id}
+                            className=" flex justify-center gap-y-1  border-grey border-b-2 items-center flex-col "
+                            onMouseOver={() => CourseView(_id)}
+                          >
+                            <small>{Serial_key}</small>
+                            <h2 className=" font-medium">{name}</h2>
+                            <h4 className=" font-medium">{author}</h4>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -294,7 +310,7 @@ const AllCourseDisp = ({ params }) => {
             onMouseLeave={() => setDispCourse(false)}
             className={
               dispCourse
-                ? " absolute flex justify-start px-5 py-1 m-1 z-20 top-24 right-10 border-width1px overflow-hidden border-grey  bg-white items-center flex-col "
+                ? " absolute flex justify-start px-5 py-1 m-1 z-20 top-56 right-28 h-fortyFive border-width1px overflow-y-scroll border-grey  bg-white items-center flex-col "
                 : " absolute justify-start px-5 py-1 m-1 top-24 right-68 border-width1px overflow-hidden border-grey  bg-white items-center h-0 hidden flex-col "
             }
           >
@@ -303,7 +319,7 @@ const AllCourseDisp = ({ params }) => {
                 item;
               const imageType =
                 image === undefined || image === "" ? "" : image;
-              const appliedCourse = singleAss.includes(_id);
+              const appliedCourse = singleAss?.includes(_id);
               return (
                 <div
                   className=" flex justify-center cursor-pointer m-6  border-grey border-b-2 items-center flex-row"

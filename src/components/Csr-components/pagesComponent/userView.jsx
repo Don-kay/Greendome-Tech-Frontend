@@ -5,7 +5,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import ConfirmationModal from "../minuteComponents/confirmationModal";
 import functionsSpace from "../../../features/functions/functions";
-import EditProfile from "./editProfile";
+import EditProfileuser from "./editProfileuser";
 import ViewUsers from "./viewUsers";
 import moment from "moment";
 import _ from "lodash";
@@ -123,6 +123,7 @@ const UserView = ({ userid }) => {
     // setDeleteHover(false);
     fetchCourse();
     fetchProfiles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const {
@@ -146,7 +147,7 @@ const UserView = ({ userid }) => {
   const assinged = classesId;
   // const singleAss = assinged.flat(1);
   const paidCourses = courses.filter((i) => assinged.includes(i._id));
-
+  //console.log(authorCourses);
   const contentDisplay = paidCourses?.map((item, idx) => {
     const { image, _id, name } = item;
     const imageType = image === undefined || image === "" ? "" : image;
@@ -267,7 +268,7 @@ const UserView = ({ userid }) => {
     selectedGroup?.length === 0 ? undefined : modalOpen.viewUsers;
   return (
     <main>
-      <EditProfile
+      <EditProfileuser
         onClosed={() => setModalOpen({ editProfile: false })}
         isOpen={modalOpen.editProfile}
         studentid={userid}

@@ -1,4 +1,4 @@
-import EditProfile from "@/components/Csr-components/pagesComponent/editProfile";
+import EditProfile from "../../../../components/Csr-components/pagesComponent/editProfile";
 
 export default function updateProfile(req) {
   const params = req.params.id;

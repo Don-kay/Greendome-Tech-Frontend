@@ -1,4 +1,4 @@
-import EditModule from "@/components/Csr-components/pagesComponent/editModule";
+import EditModule from "../../../../components/Csr-components/pagesComponent/editModule";
 
 export default function page(req) {
   const moduleparams = req.params.id;

@@ -76,6 +76,7 @@ function EditQuestion({
       className: moduleName,
     });
     setFile(imgs);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionParam]);
 
   // const id = _.toString(singleQuestion?.map((i) => i._id));

@@ -87,17 +87,17 @@ const Lectures = () => {
     // return () => {
     //   cancelToken.cancel();
     // };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const viewModules = (_id) => {
     setId(_id);
     const Course = studentCourses?.filter((i) => i._id === _id);
-    const module = modules?.filter((i) => i.classId === _id);
+    const moduler = modules?.filter((i) => i.classId === _id);
     // console.log(Course);
-    setSelectedModule(module);
+    setSelectedModule(moduler);
     setSelectedCourses(Course);
   };
-  useEffect(() => {}, []);
 
   //console.log(course);
   // console.log(TotalCourse);

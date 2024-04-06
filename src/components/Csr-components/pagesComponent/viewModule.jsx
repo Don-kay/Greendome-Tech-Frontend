@@ -83,6 +83,7 @@ const ViewModules = ({ paramsId, paramsName }) => {
   const [questions, setQuestions] = useState([]);
   const [idy, setIdy] = useState();
   const [deleteHover, setDeleteHover] = useState(false);
+  const [isLoaded, setIsloading] = useState(false);
   const [modalOpen, setModalOpen] = useState({
     module: false,
     course: false,
@@ -109,13 +110,14 @@ const ViewModules = ({ paramsId, paramsName }) => {
     setData([...modules, moduleProp]);
     setCount(modules.length + 1);
   };
-  if (courses.id !== "") {
-    dispatch(setLoading(false));
-  } else {
-    dispatch(setLoading(true));
-  }
+  // if (courses.id === "") {
+  //   dispatch(setLoading(true));
+  // } else {
+  //   dispatch(setLoading(false));
+  // }
 
   useEffect(() => {
+    setIsloading(true);
     const fetchCourse = async () => {
       try {
         const resp = await axios.get(
@@ -156,6 +158,7 @@ const ViewModules = ({ paramsId, paramsName }) => {
           createdAt,
           updatedAt,
         });
+        setIsloading(false);
       } catch (error) {
         return { msg: error?.response.data };
       }
@@ -200,7 +203,8 @@ const ViewModules = ({ paramsId, paramsName }) => {
     fetchCourse();
     fetchQuestion();
     fetchModule();
-  }, [trigger, selectedModule]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trigger]);
 
   // const Done = () => {
   //   router.push(moduleurl, {
@@ -213,11 +217,11 @@ const ViewModules = ({ paramsId, paramsName }) => {
   };
 
   const confirmDelete = async (id) => {
-    console.log(id);
+    //console.log(id);
     // let fetchCont = []
     const courseQuestions = questions.filter((i) => i.classId === id);
     const courseModules = modules.filter((i) => i.classId === id);
-    dispatch(setLoading(true));
+    setIsloading(true);
     try {
       await axios
         .all(
@@ -254,6 +258,7 @@ const ViewModules = ({ paramsId, paramsName }) => {
           })
         );
       //setResponse({ moduleMsg: data });
+      setIsloading(false);
     } catch (error) {
       return error;
     }
@@ -401,7 +406,7 @@ const ViewModules = ({ paramsId, paramsName }) => {
             <button>add module</button>
           </div>
         </Link> */}
-            {isLoading && (
+            {isLoaded && (
               <div className=" flex items-center  min-w-innerlay3 h-96 top-52 left-20 z-20 absolute ">
                 <Loading />
               </div>

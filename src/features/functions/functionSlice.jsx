@@ -12,6 +12,7 @@ const initialState = {
   triggers: false,
   triggers2: false,
   isdelete: false,
+  isStatus: "",
 };
 
 const functionSlice = createSlice({
@@ -52,6 +53,9 @@ const functionSlice = createSlice({
     ToggleTrigger: (state) => {
       state.triggers = !state.triggers;
     },
+    Status: (state, action) => {
+      state.isStatus = action.payload;
+    },
     ToggleTrigger2: (state) => {
       state.triggers2 = !state.triggers2;
     },
@@ -69,6 +73,7 @@ export const {
   HoverDelete,
   ToggleTrigger,
   ToggleTrigger2,
+  Status,
 } = functionSlice.actions;
 
 export default functionSlice.reducer;

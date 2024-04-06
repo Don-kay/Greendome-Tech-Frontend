@@ -146,8 +146,8 @@ function EditCourse({
           "http://localhost:8000/greendometech/ng/module/view-all-module",
           { withCredentials: true }
         );
-        const module = modresp.data.modules;
-        const CourseModules = module.filter(
+        const moduler = modresp.data.modules;
+        const CourseModules = moduler.filter(
           (i) => i.classId === singleCourse._id
         );
         setModules(CourseModules);
@@ -158,6 +158,7 @@ function EditCourse({
     } catch (error) {
       return { msg: error.response.data };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trigger]);
 
   // const id = _.toString(singleQuestion?.map((i) => i._id));

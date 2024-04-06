@@ -5,7 +5,7 @@
 // import { RxHamburgerMenu } from "react-icons/rx";
 
 import { useSelector, useDispatch } from "react-redux";
-
+import { useEffect, useState } from "react";
 import Image from "next/image";
 // import { useEffect } from "react";
 import Green from "../../../components/asset/greendome.jpg";
@@ -26,10 +26,19 @@ const style = {
 const DashboardLayout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
   const { users } = useSelector((state) => state.profiles);
+  const [loggedInUser, setLoggedInUser] = useState();
 
-  const loggedInUserId = user?.data.user.id;
+  useEffect(() => {
+    try {
+      const loggedInUserId = user?.data.user.id;
+      const User = users?.filter((i) => i.id === loggedInUserId);
+      setLoggedInUser(User);
+    } catch (error) {
+      return error;
+    }
 
-  const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const IsAdmin = loggedInUser?.map((i) => {
     return i.roles.includes("Admin");

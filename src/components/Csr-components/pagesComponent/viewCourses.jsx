@@ -34,12 +34,13 @@ import { useEffect, useState } from "react";
 const ViewCourses = () => {
   const dispatch = useDispatch();
   const [Courses, setCourses] = useState([]);
-  const { isLoading } = useSelector((strore) => strore.user);
+  const [loading, setLoading] = useState(false);
+  const { isLoading1 } = useSelector((strore) => strore.user);
   //console.log(Courses);
   const url = "/panel/admin_dashboard/view-module";
 
   useEffect(() => {
-    dispatch(setLoading(true));
+    setLoading(true);
     const fetchCourse = async () => {
       try {
         const course = await axios.get(
@@ -52,10 +53,8 @@ const ViewCourses = () => {
         const courses = course.data.course;
         //console.log(course);
         setCourses(courses);
-        if (course.status === 200) {
-          dispatch(setLoading(false));
-        } else {
-          dispatch(setLoading(true));
+        if (course?.status === 200) {
+          setLoading(false);
         }
       } catch (error) {
         return { msg: error?.response.data };
@@ -64,12 +63,13 @@ const ViewCourses = () => {
       //   console.log(cookie);
     };
     fetchCourse();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <main>
       <div>All course</div>
-      {isLoading && (
+      {loading && (
         <div className=" flex items-center  min-w-innerlay3 h-96 top-52 left-20 z-20 absolute ">
           <Loading />
         </div>

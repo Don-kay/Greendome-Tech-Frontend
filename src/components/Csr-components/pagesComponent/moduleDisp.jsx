@@ -4,7 +4,7 @@ import axios from "axios";
 import CreateModule from "./createModule";
 import { useSelector, useDispatch } from "react-redux";
 import UpdateDropDown from "../minuteComponents/updateDropDown";
-import { HoverModal } from "@/features/functions/functionSlice";
+import { HoverModal } from "../../../features/functions/functionSlice";
 import _ from "lodash";
 import Link from "next/link";
 
@@ -39,8 +39,8 @@ const ModuleDisp = ({ paramid }) => {
         );
 
         const res = resp.data.modules;
-        const module = res.filter((i) => i.classId === paramid);
-        console.log(module);
+        const moduler = res.filter((i) => i.classId === paramid);
+        console.log(moduler);
         setData(module);
       } catch (error) {
         return { msg: error.response.data };
@@ -66,7 +66,7 @@ const ModuleDisp = ({ paramid }) => {
     dispatch(HoverModal(false));
     fetchCourse();
     fetchModule();
-  }, []);
+  });
 
   const toggleMenu = ({ ...item }) => {
     // const param = { ...item };

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import functionsSpace from "@/features/functions/functions";
+import functionsSpace from "../../../features/functions/functions";
 import { AiFillSetting, AiFillDelete } from "react-icons/ai";
 import _ from "lodash";
 

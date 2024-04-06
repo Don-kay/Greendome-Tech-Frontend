@@ -6,7 +6,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { BsFillEnvelopeFill } from "react-icons/bs";
 import Dennis from "../../asset/dennis.jpg";
 import _ from "lodash";
-import { toggleSideBar } from "@/features/functions/functionSlice";
+import { toggleSideBar } from "../../../features/functions/functionSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 const TopMenu = ({ isAdmin, IsStudent }) => {

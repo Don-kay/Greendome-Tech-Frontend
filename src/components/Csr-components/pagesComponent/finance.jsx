@@ -1,14 +1,14 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetAllUsers, setTutors } from "@/features/profile/profileSlice";
-import ProfileActions from "@/features/profile/profileActions.jsx";
+import { GetAllUsers, setTutors } from "../../../features/profile/profileSlice";
+import ProfileActions from "../../../features/profile/profileActions.jsx";
 import FinanceSector from "../minuteComponents/financeSector.jsx";
 import { TotalTutorsProps } from "../minuteComponents/sudentPops.jsx";
 import _ from "lodash";
 import { Box, Typography } from "@mui/material";
-import { getPercentage } from "@/features/course/percentage/percentageSlice.jsx";
-import FormRow from "@/components/FormRow";
+import { getPercentage } from "../../../features/course/percentage/percentageSlice.jsx";
+import FormRow from "../../FormRow";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 
@@ -92,7 +92,7 @@ const Finance = () => {
     fetchUsers();
     fetchCourses();
     dispatch(GetAllUsers());
-  }, []);
+  });
   //classes
   const userClassDisp = Users.map((item, id) => {
     const userClasses = item.classesId;
@@ -183,7 +183,7 @@ const Finance = () => {
         renderCell: (params) => <ProfileActions {...{ params }} />,
       },
     ],
-    [rowId]
+    []
   );
 
   return (

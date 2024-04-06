@@ -26,6 +26,19 @@ const Tutors = () => {
   const [activeStudent, setactiveStudent] = useState([]);
   // console.log(users);
 
+  const loggedInUserId = user.data.user.id;
+  const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
+
+  const Admin = loggedInUser?.map((i) => {
+    return i.roles.includes("Admin");
+  });
+
+  const company = loggedInUser?.map((i) => {
+    return i.roles.includes("company");
+  });
+
+  const IsAdmin = _.toString(Admin);
+  const IsCompany = _.toString(company);
   useEffect(() => {
     dispatch(setLoading(true));
     const fetchUsers = async () => {
@@ -75,6 +88,7 @@ const Tutors = () => {
 
     fetchUsers();
     dispatch(GetAllUsers());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // console.log(users);
@@ -92,6 +106,7 @@ const Tutors = () => {
 
   useEffect(() => {
     dispatch(setTutors(tutor.length));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users]);
 
   const columns = useMemo(
@@ -149,13 +164,14 @@ const Tutors = () => {
         renderCell: (params) => (
           <TutorProfileActions
             {...{ params }}
+            isAdmin={IsAdmin}
             onOpen={() => setModalOpen(true)}
             studentId={(id) => handleModalId(id)}
           />
         ),
       },
-    ],
-    [rowId]
+    ], // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   return (
@@ -166,9 +182,12 @@ const Tutors = () => {
         onClosed={() => setModalOpen(false)}
         isOpen={modalOpen}
         studentid={tutorsId}
+        IsCompany={IsCompany}
+        loggedInUser={loggedInUserId}
+        setStudent={setTutor}
       />
       {isLoading && (
-        <div className=" flex items-center  min-w-innerlay3 h-96 -top-32 left-0 z-20 absolute ">
+        <div className=" flex items-center  min-w-innerlay3 h-80 top-32 left-0 z-20 absolute ">
           <Loading />
         </div>
       )}

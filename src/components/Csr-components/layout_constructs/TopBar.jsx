@@ -47,7 +47,7 @@ export const TopBar = ({ isAdmin, IsStudent }) => {
               <RxHamburgerMenu className=" text-greenGraded1 text-15  " />
             </div>
             <div>
-              {isAdmin === "true" && (
+              {IsAdmin === "true" && (
                 <Link href={"/panel/admin_dashboard"}>
                   <button className="block pr-5 relative top-0 ">
                     back to admin Dashboard

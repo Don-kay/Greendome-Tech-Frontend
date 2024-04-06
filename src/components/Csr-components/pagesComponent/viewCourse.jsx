@@ -4,6 +4,7 @@ import React from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import StudentView1 from "./studentView1";
+import functionsSpace from "../../../features/functions/functions";
 import { CourseconfirmationModal } from "../minuteComponents/confirmationModal";
 import CreateModule from "./createModule";
 import EditCourse from "./editCourse";
@@ -180,6 +181,7 @@ const ViewCourse = ({
     // setDeleteHover(false);
     fetchCourse();
     fetchProfiles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const customStyles = {
     content: {
@@ -232,7 +234,7 @@ const ViewCourse = ({
     // console.log(roles);
     const classesId = singleProfile?.map((i) => i.classesId);
     const assinged = classesId;
-    const singleAss = assinged.flat(1);
+    const singleAss = assinged?.flat(1);
     setSingleuser({
       id: _.toString(ids),
       email: _.toString(email),
@@ -264,8 +266,9 @@ const ViewCourse = ({
   // }, [trigger]);
 
   const AssignedTutors = assignedTutors?.map((item, idx) => {
-    const { image, id, username } = item;
+    const { image, id, username, roles } = item;
     const imageType = image === undefined || image === "" ? "" : image;
+    const Roles = functionsSpace(roles);
     return (
       <div className=" my-3" key={idx}>
         {/* <StudentView
@@ -278,6 +281,8 @@ const ViewCourse = ({
           title="Tutors"
           value1={username}
           sub1="name:"
+          value2={Roles}
+          sub2="role:"
         />
       </div>
     );
@@ -286,7 +291,7 @@ const ViewCourse = ({
     const { image, id, username } = item;
     const imageType = image === undefined || image === "" ? "" : image;
     return (
-      <div className=" flex items-center flex-col">
+      <div key={idx} className="">
         <InfoCard2
           imageType={imageType}
           title="Students"

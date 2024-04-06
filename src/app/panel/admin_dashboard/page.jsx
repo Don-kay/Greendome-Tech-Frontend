@@ -1,4 +1,5 @@
 "use client";
+import react, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Loading from "../../../components/Csr-components/layout_constructs/loading";
 import { setLoading } from "../../../features/user/userSlice";
@@ -8,16 +9,21 @@ const Login = () => {
   const { user, isLoading } = useSelector((state) => state.user);
   const { users } = useSelector((state) => state.profiles);
   const loggedInUserId = user?.data.user.id;
-
   const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
   const username = loggedInUser?.map((i) => {
     return i.username;
   });
-  // if (loggedInUser !== "" || loggedInUser !== undefined) {
-  //   dispatch(setLoading(false));
-  // } else {
-  //   dispatch(setLoading(true));
-  // }
+  useEffect(() => {
+    if (loggedInUser !== "" || loggedInUser !== undefined) {
+      dispatch(setLoading(false));
+    } else {
+      dispatch(setLoading(true));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //console.log("User.image");
+
   return (
     <main>
       {isLoading ? (

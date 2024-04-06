@@ -48,10 +48,10 @@ export default function Features() {
                 React Js
               </h2>
               <p className="text-lg text-center">
-                React is a library. It lets you put components together, but it
+                {` React is a library. It lets you put components together, but it
                 doesn’t prescribe how to do routing and data fetching. To build
                 an entire app with React, we recommend a full-stack React
-                framework like Next.js or Remix.
+                framework like Next.js or Remix.`}
               </p>
             </div>
 
@@ -60,11 +60,11 @@ export default function Features() {
               <FaNode className=" text-4xl font-medium" />
               <h4 className="text-4xl font-bold text-whiteHov mb-2">Node Js</h4>
               <p className="text-lg text-center">
-                As an asynchronous event-driven JavaScript runtime, Node.js is
+                {`As an asynchronous event-driven JavaScript runtime, Node.js is
                 designed to build scalable network applications. In the
                 following "hello world" example, many connections can be handled
                 concurrently. Upon each connection, the callback is fired, but
-                if there is no work to be done, Node.js will sleep.
+                if there is no work to be done, Node.js will sleep.`}
               </p>
             </div>
 
@@ -73,7 +73,7 @@ export default function Features() {
               <SiNextdotjs className=" text-4xl font-medium" />
               <h4 className="text-4xl font-bold text-whiteHov mb-2">Next Js</h4>
               <p className="text-lg text-center">
-                Next.js is a React framework for building full-stack web
+                {`Next.js is a React framework for building full-stack web
                 applications. You use React Components to build user interfaces,
                 and Next.js for additional features and optimizations. Under the
                 hood, Next.js also abstracts and automatically configures
@@ -81,7 +81,7 @@ export default function Features() {
                 This allows you to focus on building your application instead of
                 spending time with configuration. Whether you're an individual
                 developer or part of a larger team, Next.js can help you build
-                interactive, dynamic, and fast React applications.
+                interactive, dynamic, and fast React applications.`}
               </p>
             </div>
 
@@ -90,11 +90,11 @@ export default function Features() {
               <SiMongodb className=" text-4xl font-medium" />
               <h4 className="text-4xl font-bold text-whiteHov mb-2">MongoDB</h4>
               <p className="text-lg text-center">
-                MongoDB Atlas integrates operational and vector databases in a
+                {`  MongoDB Atlas integrates operational and vector databases in a
                 single, unified platform. Use vector representations of your
                 data to perform semantic search, build recommendation engines,
                 design Q&A systems, detect anomalies, or provide context for
-                GenAI apps.
+                GenAI apps.`}
               </p>
             </div>
 
@@ -103,13 +103,13 @@ export default function Features() {
               <SiExpress className=" text-4xl font-medium" />
               <h4 className="text-4xl font-bold text-whiteHov mb-2">Express</h4>
               <p className="text-lg text-center">
-                Express is a minimal and flexible Node.js web application
+                {`Express is a minimal and flexible Node.js web application
                 framework that provides a robust set of features for web and
                 mobile applications. With a myriad of HTTP utility methods and
                 middleware at your disposal, creating a robust API is quick and
                 easy. Express provides a thin layer of fundamental web
                 application features, without obscuring Node.js features that
-                you know and love.
+                you know and love.`}
               </p>
             </div>
 
@@ -120,9 +120,9 @@ export default function Features() {
                 Tailwind Css
               </h4>
               <p className="text-lg text-center">
-                A utility-first CSS framework packed with classes like flex,
+                {`A utility-first CSS framework packed with classes like flex,
                 pt-4, text-center and rotate-90 that can be composed to build
-                any design, directly in your markup.
+                any design, directly in your markup.`}
               </p>
             </div>
             <div className="relative flex flex-col items-center">
@@ -131,13 +131,13 @@ export default function Features() {
                 Socket.io
               </h4>
               <p className="text-lg text-center">
-                fallback to HTTP long-polling, in case the WebSocket connection
+                {` fallback to HTTP long-polling, in case the WebSocket connection
                 can't be established automatic reconnection, in case the
                 WebSocket connection gets closed acknowledgements, to send some
                 data and expect a response from the other side broadcast to all
                 or to a subset of connected clients scale up to multiple
                 instances of the server connection recovery, for short periods
-                of disconnection
+                of disconnection.`}
               </p>
             </div>
           </div>

@@ -182,7 +182,8 @@ const CreateQuestion = ({
     };
 
     fetchQuestion();
-  }, [moduleid]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // const { _id, title } = module;
   // const moduleid = _id;
@@ -296,7 +297,8 @@ const CreateQuestion = ({
     } catch (error) {
       return error?.response;
     }
-  }, [moduler, check, trigger]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [check]);
 
   useEffect(() => {
     if (errorMsg?.msg !== undefined) {
@@ -308,6 +310,7 @@ const CreateQuestion = ({
     }, 5000);
 
     return () => clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorMsg]);
   // useEffect(() => {
   //   if (file !== "" || file !== undefined) {

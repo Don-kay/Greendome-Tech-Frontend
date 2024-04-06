@@ -75,12 +75,14 @@ const RegisteredCourses = () => {
 
     fetchCourses();
     fetchModule();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //const classesId = users.map((i) => i.classesId);
   useEffect(() => {
     const courseModules = modules?.filter((item) => item.classId === id);
     setCourseModules(courseModules);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const toggleMenu = (id) => {

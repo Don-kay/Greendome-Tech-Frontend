@@ -89,6 +89,7 @@ const ModuleView = ({
 
   useEffect(() => {
     setModuleQuestion(questions?.filter((i) => i.moduleId === moduleid));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [moduleRetrieved]);
   // console.log(questions);
   // console.log(moduleQuestion);

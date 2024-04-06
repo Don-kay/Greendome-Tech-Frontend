@@ -37,10 +37,11 @@ const AllAttendees = () => {
     // fetchUsers();
     dispatch(GetAllUsers());
     dispatch(ProfileModal({ bool: false }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // console.log(users);
-  const [rowId, setRowId] = useState(null);
+  console.log("users");
+  const [rowId] = useState(null);
 
   const allAttendees = users?.map((item) => {
     return {
@@ -97,9 +98,9 @@ const AllAttendees = () => {
         width: 220,
         renderCell: (params) =>
           moment(params.row.updatedAt).format("YYYY-MM-DD HH:MM:SS"),
-      },
+      }, // eslint-disable-next-line react-hooks/exhaustive-deps
     ],
-    [rowId]
+    []
   );
   return (
     <section className="  ">

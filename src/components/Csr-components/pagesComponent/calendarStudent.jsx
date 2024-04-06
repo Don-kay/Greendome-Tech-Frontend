@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid/DataGrid";
 import ProfileActions from "../../../features/profile/profileActions";
-import CalendarFunction from "../../../features/calendar/CalendarFunction";
+import CalendarFunctionStudent from "../../../features/calendar/CalendarFunctionStudent";
 import SingleEventView from "../minuteComponents/SingleEventView";
 import { ProfileModal } from "../../../features/functions/functionSlice";
 import Greendome from "../../asset/greendome.jpg";
@@ -23,7 +23,7 @@ import Image from "next/image";
 import moment from "moment";
 import axios from "axios";
 
-const Calendar = ({ isStudent, isAdmin }) => {
+const CalendarStudent = ({ isStudent, isAdmin }) => {
   const [modalOpen, setModalOpen] = useState({
     addEvent: false,
     viewEvent: false,
@@ -52,6 +52,7 @@ const Calendar = ({ isStudent, isAdmin }) => {
   const Admin = loggedInUser?.map((i) => {
     return i.roles.includes("Admin");
   });
+
   //console.log(event);
   //console.log(` check ${singleEvent1}`);
   const IsStudent = _.toString(Student);
@@ -99,13 +100,6 @@ const Calendar = ({ isStudent, isAdmin }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateModalOpen]);
 
-  const updateEventHandler = (prop) => {
-    const singleEvent = event?.filter((item) => item._id === prop);
-    setSingleEvent(singleEvent[0]);
-    setUpdateModalOpen(true);
-    setParams(prop);
-  };
-
   // useEffect(() => {
   //   console.log(event);
   // }, [onEventAdded]);
@@ -122,24 +116,6 @@ const Calendar = ({ isStudent, isAdmin }) => {
     };
   });
   //console.log(EventList);
-
-  const deleteEventHandler = async (prop) => {
-    // const singleEvent = EventList.filter((item) => item.id !== prop);
-    const deltd = await axios.delete(
-      `http://localhost:8000/greendometech/ng/calendar/delete-events/${prop}`,
-      {
-        withCredentials: true,
-        credentials: "includes",
-      }
-    );
-    const resp = deltd.data.event;
-    const allEvents = deltd.data.events;
-    const deletedId = resp._id;
-    // console.log(deletedId);
-    setCount(allEvents.length);
-    setDeletedEvent(deletedId);
-    setEvent(allEvents);
-  };
 
   const columns = useMemo(
     () => [
@@ -183,50 +159,16 @@ const Calendar = ({ isStudent, isAdmin }) => {
         headerName: "Settings",
         width: 220,
         renderCell: (params) => (
-          <CalendarFunction
-            {...{ params }}
-            isStudent={IsStudent}
-            isAdmin={IsAdmin}
-            setEventview={setEventview}
-            isOpen={setModalOpen}
-            updateEventHandler={(prop) => updateEventHandler(prop)}
-            ondelete={(prop) => deleteEventHandler(prop)}
-          />
+          <CalendarFunctionStudent {...{ params }} isOpen={setModalOpen} />
         ),
-      },
-    ], // eslint-disable-next-line react-hooks/exhaustive-deps
-    [Admin]
+      }, // eslint-disable-next-line react-hooks/exhaustive-deps
+    ],
+    []
   );
   // console.log(event);
 
   return (
     <section className=" flex justify-center flex-col">
-      <div className=" flex justify-around items-center flex-row">
-        {/* <div>Calendar</div> */}
-        {IsAdmin ? (
-          <button
-            className="btn z-50 hover:bg-greenGraded"
-            onClick={() => setModalOpen({ addEvent: true })}
-          >
-            Add Event
-          </button>
-        ) : null}
-      </div>
-      <AddEventModal
-        isOpen={modalOpen.addEvent}
-        onClosed={() => setModalOpen({ addEvent: false })}
-        onEventAdded={(event1) => onEventAdded(event1)}
-      />
-      <UpdateEventModal
-        isOpen={updateModalOpen}
-        onClosed={() => setUpdateModalOpen(false)}
-        singleEvent={singleEvent}
-        params={params}
-        // update={forceUpdate}
-        events={event}
-        setEvent={setEvent}
-        // onEventAdded={(event1) => onEventAdded(event1)}
-      />
       <div className=" z-20">
         <FullCalendar
           // ref={calendarRef}
@@ -314,4 +256,4 @@ const Calendar = ({ isStudent, isAdmin }) => {
   );
 };
 
-export default Calendar;
+export default CalendarStudent;

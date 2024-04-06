@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import functionsSpace from "@/features/functions/functions";
+import functionsSpace from "../../../../../features/functions/functions";
 import { AiFillSetting, AiFillDelete } from "react-icons/ai";
 import _ from "lodash";
 // import { useRouter } from "next/navigation";

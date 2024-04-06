@@ -2,19 +2,19 @@
 import React, { useState, useRef, forwardRef, useEffect } from "react";
 import axios from "axios";
 import Select from "react-select";
-import { adminUpdateUsers } from "@/features/profile/profileSlice";
+import { adminUpdateUsers } from "../../../features/profile/profileSlice";
 import makeAnimated from "react-select/animated";
 import _ from "lodash";
-import { GetAllUsers } from "@/features/profile/profileSlice";
+import { GetAllUsers } from "../../../features/profile/profileSlice";
 import { useRouter } from "next/navigation";
-import customFetch from "@/utilities/axios";
+import customFetch from "../../..//utilities/axios";
 import Image from "next/image";
 import Modal from "react-modal";
-import { ToggleTrigger } from "@/features/functions/functionSlice";
+import { ToggleTrigger } from "../../../features/functions/functionSlice";
 import Greendome from "../../asset/greendome.jpg";
-import functionsSpace from "@/features/functions/functions";
-import FormRow from "@/components/FormRow";
-import { setActiveParams } from "@/features/profile/profileSlice";
+import functionsSpace from "../../../features/functions/functions";
+import FormRow from "../../FormRow";
+import { setActiveParams } from "../../../features/profile/profileSlice";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -60,6 +60,7 @@ function EditUserProfile({
     // }
 
     dispatch(GetAllUsers());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // const paramsId = params;
@@ -117,6 +118,7 @@ function EditUserProfile({
     setCertCont(flattenCert);
 
     onClosed();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [triggers2]);
 
   const customStyles = {
@@ -208,6 +210,7 @@ function EditUserProfile({
 
   useEffect(() => {
     dispatch(setActiveParams(studentid));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // console.log(typeof roles);
 

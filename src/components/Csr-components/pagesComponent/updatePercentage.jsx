@@ -53,45 +53,40 @@ const UpdatePercentage = () => {
   const showModal = (show = false, msg = "", type = "") => {
     setModal(show, msg, type);
   };
-  {
-    IsCompany &&
-      useEffect(() => {
-        if (allpercentage.length !== 0) {
-          const RatioAuthor = _.toString(allpercentage.map((i) => i.createdBy));
-          const authorObj = users?.filter((i) => i.id === RatioAuthor);
-          const author = authorObj?.map((i) => {
-            return i.roles;
-          });
-          setAuthor(author);
-        }
-      }, []);
-  }
 
-  {
-    IsCompany &&
-      useEffect(() => {
-        disPatch(getPercentage());
-        disPatch(resetUpdateMsg());
-        setprofitRatio(sensor ? { percent: 0 } : { percent: percentage });
-        setRatioId(_.toString(allpercentage.map((i) => i._id)));
-      }, [trigger]);
-  }
+  useEffect(() => {
+    if (allpercentage.length !== 0) {
+      const RatioAuthor = _.toString(allpercentage.map((i) => i.createdBy));
+      const authorObj = users?.filter((i) => i.id === RatioAuthor);
+      const author = authorObj?.map((i) => {
+        return i.roles;
+      });
+      setAuthor(author);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [users]);
 
-  {
-    IsCompany &&
-      useEffect(() => {
-        if (updateMsg !== undefined) {
-          showModal({ show: true });
-        }
-        const timeout = setTimeout(() => {
-          setSuccess(false);
-          showModal({ show: false });
-          disPatch(resetUpdateMsg());
-        }, 5000);
+  useEffect(() => {
+    disPatch(getPercentage());
+    disPatch(resetUpdateMsg());
+    setprofitRatio(sensor ? { percent: 0 } : { percent: percentage });
+    setRatioId(_.toString(allpercentage.map((i) => i._id)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trigger]);
 
-        return () => clearTimeout(timeout);
-      }, [updateMsg, success]);
-  }
+  useEffect(() => {
+    if (updateMsg !== undefined) {
+      showModal({ show: true });
+    }
+    const timeout = setTimeout(() => {
+      setSuccess(false);
+      showModal({ show: false });
+      disPatch(resetUpdateMsg());
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateMsg]);
 
   const handleDelete = async (id) => {
     const res = await axios.delete(

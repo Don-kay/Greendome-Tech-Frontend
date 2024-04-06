@@ -12,6 +12,7 @@ import { GetAllUsers } from "../../../../features/profile/profileSlice";
 import {
   toggleSubmenu,
   ToggleTrigger2,
+  Status,
 } from "../../../../features/functions/functionSlice";
 import { toggleSideBar } from "../../../../features/functions/functionSlice";
 import { SidebarEl, studentSidebarEl } from "../../../data/elements";
@@ -42,23 +43,25 @@ const style = {
 
 export const Sidebar = ({ mobileOrientation, IsAdmin, IsStudent }) => {
   const dispatch = useDispatch();
-  const { isSubmenuOpen, isSideBarOpen, triggers, triggers2 } = useSelector(
+  const { isSubmenuOpen, isSideBarOpen, triggers, isStatus } = useSelector(
     (state) => state.functions
   );
   const { user } = useSelector((strore) => strore.user);
   const { users } = useSelector((strore) => strore.profiles);
   const [modalOpen, setModalOpen] = useState(false);
+  const [tweaked, setTweaked] = useState(false);
   const [photo, setPhoto] = useState();
   const [trigger, setTrigger] = useState(false);
   const [Params, setParams] = useState();
   const { sidebarOpen } = useDashboardContext();
 
-  //console.log(triggers);
+  // console.log(isStatus);
+  // console.log(updateImgtweak);
 
   useEffect(() => {
-    //console.log(user);
+    dispatch(Status(""));
+    // console.log(performance.getEntriesByType("navigation")[0].type);
     setTrigger(true);
-    //console.log(users);
     dispatch(GetAllUsers());
     const loggedInUserId = user?.data.user.id;
     try {
@@ -68,17 +71,29 @@ export const Sidebar = ({ mobileOrientation, IsAdmin, IsStudent }) => {
       const Params = loggedInUserId;
       const User = loggedInUser[0];
       if (users !== undefined) {
-        setPhoto(User.image);
         setTrigger(false);
         setParams(Params);
+        if (isStatus === "") {
+          setPhoto(User.image);
+        } else {
+          null;
+        }
       }
     } catch (error) {
       return error.msg;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    //console.log(User.image);
+  useEffect(() => {
+    dispatch(Status(""));
+    dispatch(GetAllUsers());
+    if (isStatus === 200) {
+      setTrigger(true);
+    }
 
     const fetchUsers = async () => {
+      //setTrigger(true);
       try {
         const res = await customFetch.get("/auth/users", {
           withCredentials: true,
@@ -90,8 +105,11 @@ export const Sidebar = ({ mobileOrientation, IsAdmin, IsStudent }) => {
         const profile = users.filter((i) => i.id === Params);
         const profilePhoto = _.toString(profile.map((i) => i.image));
         //console.log(users);
-        if (triggers) {
+
+        if (isStatus === 200) {
           setPhoto(profilePhoto);
+        } else {
+          null;
         }
 
         if (profilePhoto !== "") {
@@ -105,9 +123,11 @@ export const Sidebar = ({ mobileOrientation, IsAdmin, IsStudent }) => {
       }
     };
 
-    // fetchUsers();
-  }, [triggers]);
+    fetchUsers();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [triggers]);
+  // console.log("User.image");
   const isStudent = _.toString(IsStudent);
   const isAdmin = _.toString(IsAdmin);
   return (
@@ -122,7 +142,10 @@ export const Sidebar = ({ mobileOrientation, IsAdmin, IsStudent }) => {
         ${sidebarOpen ? style.open : style.close} ${css.scrollbar}`
       }
     >
-      <EditProfile onClosed={() => setModalOpen(false)} isOpen={modalOpen} />
+      {/* <EditProfile
+        onClosed={() => setModalOpen(false)}
+        isOpen={modalOpen}
+      /> */}
       <div className={style.container}>
         <SidebarHeader trigger={trigger} profileImg={photo} />
         <SidebarItems

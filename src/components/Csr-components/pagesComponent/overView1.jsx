@@ -6,7 +6,7 @@ import RolesCharts from "../minuteComponents/rolesCharts";
 import CourseCharts from "../minuteComponents/courseCharts";
 import RevenueCharts from "../minuteComponents/revenueCharts";
 import StudentsSlice from "../minuteComponents/slicedRolecomp";
-import Calendar from "./calendar";
+import CalendarStudent from "./calendarStudent";
 import EventsChart from "../minuteComponents/eventsChart";
 import { GetAllCourse } from "../../../features/course/courseSlice";
 import RatedCourse from "../minuteComponents/ratedCourse";
@@ -82,19 +82,18 @@ const Overview1 = () => {
     // return () => {
     //   cancelToken.cancel();
     // };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   //console.log(course);
   // console.log(TotalCourse);
   return (
     <div>
-      {!IsStudent && (
-        <div>
-          <PageTitle>Dashboard</PageTitle>
+      {/* <div>
+        <PageTitle>Dashboard</PageTitle>
 
-          {/* <!-- Cards --> */}
-          <RolesCharts />
-        </div>
-      )}
+    
+        <RolesCharts />
+      </div> */}
 
       {/* <TableContainer>
         <Table>
@@ -159,22 +158,21 @@ const Overview1 = () => {
           isStudent={IsStudent}
         />
       </div>
-      {!IsStudent && (
-        <div>
+
+      {/* <div>
           <PageTitle>Revenue</PageTitle>
 
           <RevenueCharts course={course} />
 
           <StudentsSlice />
-        </div>
-      )}
+        </div> */}
 
       <div className="min-w-innerlay2 flex gap-y-10 flex-col relative top-7 bg-red-700">
         <div className=" text-center">
           <PageTitle>Calendar</PageTitle>
         </div>
 
-        <Calendar params={userParams} isStudent={IsStudent} />
+        <CalendarStudent params={userParams} isStudent={IsStudent} />
         {/* <EventsChart params={userParams} isStudent={IsStudent} /> */}
         {/* <RatedCourse params={userParams} isStudent={IsStudent} /> */}
       </div>

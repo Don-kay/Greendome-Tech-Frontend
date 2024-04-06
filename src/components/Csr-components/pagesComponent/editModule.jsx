@@ -138,14 +138,16 @@ function EditModule({
     } catch (error) {
       return { msg: error.response.data };
     }
-  }, [module, trigger1, moduleRetrieved]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   // console.log(module);
   // console.log(updatedModule);
   useEffect(() => {
     setLevelCont(_.toString(updatedModule.level));
     setFeatCont(_.toString(updatedModule.featured));
     setStatusCont(_.toString(updatedModule.status));
-  }, [updatedModule]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const customStyles = {
     content: {

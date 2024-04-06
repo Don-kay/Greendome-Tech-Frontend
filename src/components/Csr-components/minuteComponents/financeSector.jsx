@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetAllUsers, setTutors } from "@/features/profile/profileSlice";
-import ProfileActions from "@/features/profile/profileActions.jsx";
+import { GetAllUsers, setTutors } from "../../../features/profile/profileSlice";
+import ProfileActions from "../../../features/profile/profileActions.jsx";
 import { TotalTutorsProps } from "./sudentPops.jsx";
 import _ from "lodash";
 import { Box, Typography } from "@mui/material";
@@ -88,7 +88,7 @@ const FinanceSector = ({ percentage, Users, classes }) => {
     // fetchUsers();
     // fetchCourses();
     // dispatch(GetAllUsers());
-  }, []);
+  });
 
   // const paidCourses = userClass.map((i, id) =>
   //   i.map((c, idx) => {
@@ -191,7 +191,8 @@ const FinanceSector = ({ percentage, Users, classes }) => {
       });
     };
     UpdateProfit();
-  }, [Users, classes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [Users]);
 
   // console.log(tutorRoles);
   // console.log(TutorClasses);
@@ -216,32 +217,32 @@ const FinanceSector = ({ percentage, Users, classes }) => {
 
   // const studentId = studentObj.map((key) => key.id);
 
-  const columns = useMemo(
-    () => [
-      { field: "id", headerName: "Id", width: 220 },
-      { field: "username", headerName: "Username", width: 120 },
-      { field: "firstname", headerName: "Firstname", width: 170 },
-      { field: "lastname", headerName: "Lastname", width: 170 },
-      { field: "email", headerName: "Email", width: 200 },
-      {
-        field: "role",
-        headerName: "Role",
-        width: 200,
-        valueGetter: (params) => {
-          const role = params.row.roles;
-          return role;
-        },
-      },
-      { field: "createdAt", headerName: "Created At", width: 220 },
-      {
-        field: "actions",
-        headerName: "Actions",
-        width: 220,
-        renderCell: (params) => <ProfileActions {...{ params }} />,
-      },
-    ],
-    [rowId]
-  );
+  // const columns = useMemo(
+  //   () => [
+  //     { field: "id", headerName: "Id", width: 220 },
+  //     { field: "username", headerName: "Username", width: 120 },
+  //     { field: "firstname", headerName: "Firstname", width: 170 },
+  //     { field: "lastname", headerName: "Lastname", width: 170 },
+  //     { field: "email", headerName: "Email", width: 200 },
+  //     {
+  //       field: "role",
+  //       headerName: "Role",
+  //       width: 200,
+  //       valueGetter: (params) => {
+  //         const role = params.row.roles;
+  //         return role;
+  //       },
+  //     },
+  //     { field: "createdAt", headerName: "Created At", width: 220 },
+  //     {
+  //       field: "actions",
+  //       headerName: "Actions",
+  //       width: 220,
+  //       renderCell: (params) => <ProfileActions {...{ params }} />,
+  //     },
+  //   ],
+  //   [rowId]
+  // );
 
   return (
     <section className="panel relative top-10   h-screen bg-purple">

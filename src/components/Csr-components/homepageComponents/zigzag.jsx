@@ -17,7 +17,7 @@ export default function Zigzag() {
           {/* Section header */}
           <div className="max-w-3xl text-text mx-auto text-center pb-12 md:pb-16">
             <div className="inline-flex text-4xl text-whiteHov font-bold py-1 px-3 m-2 text-green-600 bg-green-200 rounded-full mb-4">
-              DAVID'S PORTFOLIO
+              {`DAVID'S PORTFOLIO`}
             </div>
             <h1 className=" text-4xl mb-4">PROJECTS</h1>
           </div>
@@ -44,11 +44,11 @@ export default function Zigzag() {
                   </div>
                   <h3 className="h3 text-lgl0 mb-3"></h3>
                   <p className=" mb-4">
-                    A school website built with React js. React is a library. It
+                    {` A school website built with React js. React is a library. It
                     lets you put components together, but it doesn’t prescribe
                     how to do routing and data fetching. To build an entire app
                     with React, we recommend a full-stack React framework like
-                    Next.js or Remix.
+                    Next.js or Remix.`}
                   </p>
                   <ul className="text-lg text-gray-400 -mb-2">
                     <li className="flex items-center mb-2">
@@ -112,10 +112,10 @@ export default function Zigzag() {
                   </div>
 
                   <p className=" mb-4">
-                    React is a library. It lets you put components together, but
+                    {` React is a library. It lets you put components together, but
                     it doesn’t prescribe how to do routing and data fetching. To
                     build an entire app with React, we recommend a full-stack
-                    React framework like Next.js or Remix.
+                    React framework like Next.js or Remix.`}
                   </p>
                   <ul className="text-lg text-text -mb-2">
                     <li className="flex items-center mb-2">

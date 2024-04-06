@@ -235,7 +235,8 @@ const CreateQuestion = ({
     } catch (error) {
       return console.log(error?.response);
     }
-  }, [moduler, check, trigger]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [moduler]);
 
   useEffect(() => {
     if (errorMsg?.msg !== undefined) {
@@ -247,6 +248,7 @@ const CreateQuestion = ({
     }, 5000);
 
     return () => clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorMsg]);
   // useEffect(() => {
   //   if (file !== "" || file !== undefined) {

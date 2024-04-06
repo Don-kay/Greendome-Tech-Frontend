@@ -27,29 +27,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import Students from "./students";
 
-function EditProfile({
-  params,
-  studentid,
-  IsCompany,
-  isOpen,
-  onClosed,
-  setUser,
-  setStudent,
-  loggedInUser,
-}) {
+function EditProfile({ params, studentid, isOpen, onClosed, setUser }) {
   // const router = useRouter();
   const dispatch = useDispatch();
   const router = useRouter();
   const { triggers2 } = useSelector((state) => state.functions);
   const { isLoading } = useSelector((strore) => strore.user);
-  const {
-    profileParams,
-    users,
-    updatedProfiles,
-    updatedStatus,
-    isUpdated,
-    updated,
-  } = useSelector((strore) => strore.profiles);
+  const { users } = useSelector((strore) => strore.profiles);
   //console.log(isLoading);
   // const [users, setUsers] = useState("");
 
@@ -93,7 +77,7 @@ function EditProfile({
 
   const flattenCert = certificate?.flat(1);
   const flattenRoles = roles?.flat(1);
-  // console.log(flattenRoles);
+  //console.log(flattenCert);
   const imgs = image === "undefined" || image === "" ? "" : image;
 
   const [roleCont, setRoleCont] = useState(flattenRoles?.sort());
@@ -255,168 +239,62 @@ function EditProfile({
     // console.log(roleDisplay);
     const imageType = file === undefined || file === "" ? "" : file;
     setLoading(true);
-    if (IsCompany) {
-      const res = await axios.put(
-        `http://localhost:8000/greendometech/ng/auth/users/update/${id}`,
-        {
-          firstname: firstname,
-          lastname: lastname,
-          biography: biography,
-          certificate: certCont,
-          mobilenumber: mobilenumber,
-          country: _.toString(countryZip),
-          roles: roleCont,
-          image: imageType,
-        },
-        {
-          withCredentials: true,
-          credentials: "include",
-        }
-      );
-      const user = res.data.user;
-      if (user.id !== "" || user.id !== undefined) {
-        setUser({
-          id: user.id,
-          email: user.email,
-          country: user.country,
-          mobilenumber: user.mobilenumber,
-          image: user.image,
-          roles: user.roles,
-          certificate: user.certificate,
-          classesId: user.classesId,
-          firstname: user.firstname,
-          lastname: user.lastname,
-          username: user.username,
-          biography: user.biography,
-          createdAt: user.createdAt,
-          updatedAt: user.updatedAt,
-        });
-
-        setStudent((prevState) => {
-          const newState = prevState.map((obj) => {
-            if (obj.id === user.id) {
-              return {
-                id: user.id,
-                email: user.email,
-                image: user.image,
-                roles: user.roles,
-                classesId: user.classesId,
-                firstname: user.firstname,
-                lastname: user.lastname,
-                username: user.username,
-                createdAt: user.createdAt,
-                updatedAt: user.updatedAt,
-              };
-            }
-            return obj;
-          });
-          return newState;
-        });
-        // setTrigg();
-        dispatch(GetAllUsers());
-
-        if (loggedInUser === id) {
-          dispatch(ToggleTrigger());
-          dispatch(Status(200));
-        } else {
-          null;
-        }
-
-        setLoading(false);
-        if (res.status === 200) {
-          onClosed();
-        } else {
-          null;
-        }
-        //setPhoto(user.image);
-        // window.location.reload();
-      } else {
-        setLoading(true);
+    const res = await axios.patch(
+      `http://localhost:8000/greendometech/ng/auth/users/update/${id}`,
+      {
+        firstname: firstname,
+        lastname: lastname,
+        biography: biography,
+        certificate: certCont,
+        mobilenumber: mobilenumber,
+        country: _.toString(countryZip),
+        roles: roleCont,
+        image: imageType,
+      },
+      {
+        withCredentials: true,
+        credentials: "include",
       }
+    );
+    const user = res.data.user;
+    //console.log(res);
+
+    if (user.id !== "" || user.id !== undefined) {
+      setUser({
+        id: user.id,
+        email: user.email,
+        country: user.country,
+        mobilenumber: user.mobilenumber,
+        image: user.image,
+        roles: user.roles,
+        certificate: user.certificate,
+        classesId: user.classesId,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        username: user.username,
+        biography: user.biography,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      });
+      // setTrigg();
+      // updatePhoto(user.image);
+      dispatch(GetAllUsers());
+      dispatch(ToggleTrigger());
+      dispatch(Status(200));
+      //setPhoto(user.image);
+      // window.location.reload();
+
+      setLoading(false);
+
+      if (res.status === 200) {
+        onClosed();
+      } else {
+        null;
+      }
+      //setPhoto(user.image);
+      // window.location.reload();
     } else {
       setLoading(true);
-      const res = await axios.patch(
-        `http://localhost:8000/greendometech/ng/auth/users/update/${id}`,
-        {
-          firstname: firstname,
-          lastname: lastname,
-          biography: biography,
-          certificate: certCont,
-          mobilenumber: mobilenumber,
-          country: _.toString(countryZip),
-          roles: roleCont,
-          image: imageType,
-        },
-        {
-          withCredentials: true,
-          credentials: "include",
-        }
-      );
-      const user = res.data.user;
-      //console.log(res);
-
-      if (user.id !== "" || user.id !== undefined) {
-        setUser({
-          id: user.id,
-          email: user.email,
-          country: user.country,
-          mobilenumber: user.mobilenumber,
-          image: user.image,
-          roles: user.roles,
-          certificate: user.certificate,
-          classesId: user.classesId,
-          firstname: user.firstname,
-          lastname: user.lastname,
-          username: user.username,
-          biography: user.biography,
-          createdAt: user.createdAt,
-          updatedAt: user.updatedAt,
-        });
-
-        setStudent((prevState) => {
-          const newState = prevState.map((obj) => {
-            if (obj.id === user.id) {
-              return {
-                id: user.id,
-                email: user.email,
-                image: user.image,
-                roles: user.roles,
-                classesId: user.classesId,
-                firstname: user.firstname,
-                lastname: user.lastname,
-                username: user.username,
-                createdAt: user.createdAt,
-                updatedAt: user.updatedAt,
-              };
-            }
-            return obj;
-          });
-          return newState;
-        });
-        // setTrigg();
-        // updatePhoto(user.image);
-        dispatch(GetAllUsers());
-        if (loggedInUser === id) {
-          dispatch(ToggleTrigger());
-          dispatch(Status(200));
-        } else {
-          null;
-        }
-        //setPhoto(user.image);
-        // window.location.reload();
-
-        setLoading(false);
-
-        if (res.status === 200) {
-          onClosed();
-        } else {
-          null;
-        }
-        //setPhoto(user.image);
-        // window.location.reload();
-      } else {
-        setLoading(true);
-      }
     }
 
     // dispatch(

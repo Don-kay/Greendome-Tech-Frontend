@@ -1,5 +1,5 @@
 import React from "react";
-import CreatePercentage from "@/components/Csr-components/pagesComponent/createPercentage";
+import CreatePercentage from "../../../../components/Csr-components/pagesComponent/createPercentage";
 
 const Createcourse = () => {
   return (

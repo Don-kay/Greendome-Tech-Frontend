@@ -48,6 +48,7 @@ const RoleView = () => {
       }
     };
     fetchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trigger]);
   const roleOptions = [
     { value: "1", label: "student" },

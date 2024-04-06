@@ -79,11 +79,13 @@ const StudentView1 = ({
   // here you would make another server request for new data
   useEffect(() => {
     setData(data.slice((page - 1) * resultsPerPage, page * resultsPerPage));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   useEffect(() => {
     dispatch(HoverModal(false));
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
 
   const customStyles = {
     content: {

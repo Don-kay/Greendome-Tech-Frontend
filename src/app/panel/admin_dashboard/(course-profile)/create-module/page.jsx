@@ -1,5 +1,5 @@
 import React from "react";
-import CourseDisp from "@/components/Csr-components/pagesComponent/courseDisp";
+import CourseDisp from "../../../../../components/Csr-components/pagesComponent/courseDisp";
 
 const page = () => {
   return (

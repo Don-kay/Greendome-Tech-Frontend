@@ -36,6 +36,7 @@ const AllStudent = () => {
     //   }
     // };
     dispatch(ProfileModal({ bool: false }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [rowId, setRowId] = useState(null);
@@ -98,8 +99,9 @@ const AllStudent = () => {
         renderCell: (params) =>
           moment(params.row.updatedAt).format("YYYY-MM-DD HH:MM:SS"),
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     ],
-    [rowId]
+    []
   );
   return (
     <section>

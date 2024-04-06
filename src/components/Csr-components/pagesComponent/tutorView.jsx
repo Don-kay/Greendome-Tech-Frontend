@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import ConfirmationModal from "../minuteComponents/confirmationModal";
-import functionsSpace from "@/features/functions/functions";
+import functionsSpace from "../../../features/functions/functions";
 import EditProfile from "./editProfile";
 import moment from "moment";
 import _ from "lodash";
@@ -14,7 +14,7 @@ import CreateQuestion from "./createQuestion";
 import EditModule from "./editModule";
 import UpdateDropDown from "../minuteComponents/updateDropDown";
 import Greendome from "../../asset/greendome.jpg";
-import { HoverModal } from "@/features/functions/functionSlice";
+import { HoverModal } from "../../../features/functions/functionSlice";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -131,7 +131,8 @@ const TutorView = ({ tutorid, isOpen, onClosed }) => {
     // setDeleteHover(false);
     fetchCourse();
     fetchProfiles();
-  }, [studentid]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tutorid]);
 
   const {
     id,
