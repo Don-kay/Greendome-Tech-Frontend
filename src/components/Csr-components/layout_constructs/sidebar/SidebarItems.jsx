@@ -17,6 +17,7 @@ const style = {
 export const SidebarItems = ({
   isStudent,
   isAdmin,
+  isAdminDashboard,
   studentViewData,
   params,
   viewData,
@@ -26,65 +27,8 @@ export const SidebarItems = ({
   return (
     <ul className="relative flex p gap-y-12 flex-col top-10 mt-6 md:pl-6">
       <li>
-        {isStudent
-          ? studentViewData.map(({ id, title, icon, pages, urls }) => {
-              let param = "";
-              let role = null;
-              if (id === 3) {
-                param = `/${params}`;
-              }
-              if (id === 8) {
-                role = `/${urls}`;
-              }
-              const titled = title === "Role Types";
-              return (
-                <Collapse titled={titled} key={id}>
-                  <div className="group transition-800 duration-1000 ">
-                    <div className="flex relative group-hover:left-3  ">
-                      <span>{icon}</span>
-                      {titled ? (
-                        <Link key={id} href={`${urls}/${param}`}>
-                          <span className="pl-3 tracking-wider font-extrabold group-hover:text-whiteHov  text-white">
-                            {title}
-                          </span>
-                        </Link>
-                      ) : (
-                        <span className="pl-3 tracking-wider group-hover:text-whiteHov  text-white">
-                          {title}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {pages?.map((item, idx) => {
-                    const { title, id, urls } = item;
-                    // let url = "";
-                    // if (id === 0) {
-                    //   url = "/thety";
-                    // }
-
-                    return (
-                      <div className="pl-5" key={idx}>
-                        <Link key={idx} href={`${urls}${param}`}>
-                          <span className={style.link}>
-                            <span
-                              className={
-                                urls === pathname
-                                  ? style.active
-                                  : style.inactive
-                              }
-                            >
-                              {title}
-                            </span>
-                          </span>
-                        </Link>
-                      </div>
-                    );
-                  })}
-                </Collapse>
-              );
-            })
-          : viewData.map(({ id, title, icon, pages, urls }) => {
+        {isAdminDashboard
+          ? viewData.map(({ id, title, icon, pages, urls }) => {
               let param = "";
               let role = null;
               if (id === 3) {
@@ -124,6 +68,63 @@ export const SidebarItems = ({
                         className="pl-5 group transition-800 duration-1000 "
                         key={idx}
                       >
+                        <Link key={idx} href={`${urls}${param}`}>
+                          <span className={style.link}>
+                            <span
+                              className={
+                                urls === pathname
+                                  ? style.active
+                                  : style.inactive
+                              }
+                            >
+                              {title}
+                            </span>
+                          </span>
+                        </Link>
+                      </div>
+                    );
+                  })}
+                </Collapse>
+              );
+            })
+          : studentViewData.map(({ id, title, icon, pages, urls }) => {
+              let param = "";
+              let role = null;
+              if (id === 3) {
+                param = `/${params}`;
+              }
+              if (id === 8) {
+                role = `/${urls}`;
+              }
+              const titled = title === "Role Types";
+              return (
+                <Collapse titled={titled} key={id}>
+                  <div className="group transition-800 duration-1000 ">
+                    <div className="flex relative group-hover:left-3  ">
+                      <span>{icon}</span>
+                      {titled ? (
+                        <Link key={id} href={`${urls}/${param}`}>
+                          <span className="pl-3 tracking-wider font-extrabold group-hover:text-whiteHov  text-white">
+                            {title}
+                          </span>
+                        </Link>
+                      ) : (
+                        <span className="pl-3 tracking-wider group-hover:text-whiteHov  text-white">
+                          {title}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {pages?.map((item, idx) => {
+                    const { title, id, urls } = item;
+                    // let url = "";
+                    // if (id === 0) {
+                    //   url = "/thety";
+                    // }
+
+                    return (
+                      <div className="pl-5" key={idx}>
                         <Link key={idx} href={`${urls}${param}`}>
                           <span className={style.link}>
                             <span

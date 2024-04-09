@@ -15,6 +15,8 @@ import moment from "moment";
 const AllStaff = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
+  const [trigger, setTrigger] = useState(false);
+  const [allAttendees, setAllattendees] = useState([]);
 
   const fetchCourses = async () => {
     try {
@@ -32,6 +34,29 @@ const AllStaff = () => {
     }
   };
   useEffect(() => {
+    try {
+      if (users === undefined || users?.length === 0) {
+        setTrigger(true);
+      } else {
+        const staffObj = users?.filter((item) => {
+          return item.roles.includes("Admin");
+        });
+        const allAttendee = staffObj?.map((item) => {
+          return {
+            id: item.id,
+            image: item.image,
+            username: item.username,
+            roles: _.toString(item.roles),
+          };
+
+          // item.roles, item.id;
+        });
+        setAllattendees(allAttendee);
+        setTrigger(false);
+      }
+    } catch (error) {
+      return error;
+    }
     fetchCourses();
     dispatch(GetAllUsers());
     dispatch(ProfileModal({ bool: false }));
@@ -42,20 +67,6 @@ const AllStaff = () => {
   const { profileView, modalId } = useSelector((strore) => strore.functions);
   const [pageSize, setpageSize] = useState(5);
   const [rowId, setRowId] = useState(null);
-
-  const staffObj = users?.filter((item) => {
-    return item.roles.includes("Admin");
-  });
-
-  const allAttendees = staffObj?.map((item) => {
-    return {
-      id: item.id,
-      image: item.image,
-      username: item.username,
-      roles: _.toString(item.roles),
-    };
-    // item.roles, item.id;
-  });
 
   const columns = useMemo(
     () => [
@@ -120,26 +131,30 @@ const AllStaff = () => {
         >
           view all Tutors
         </Typography>
-        {users.length !== 0 ? (
+        {trigger ? (
+          <div className=" flex justify-center items-center relative top-36  h-72 w-full ">
+            <h1 className=" text-align">no user available</h1>
+          </div>
+        ) : (
           <DataGrid
             columns={columns}
             rows={allAttendees}
+            className=" mt-5 p-8"
             getRowId={(row) => row.id}
             pagination={true}
             {...columns}
             initialState={{
               ...columns.initialState,
+
               pagination: { paginationModel: { pageSize: 5 } },
             }}
-            pageSizeOptions={[5, 10, 20]}
+            pageSizeOptions={[10, 20]}
             // paginationMode="server"
             getRowSpacing={(params) => ({
               top: params.isFirstVisible ? 0 : 5,
               bottom: params.isLastVisible ? 0 : 5,
             })}
           />
-        ) : (
-          <h1>no user available</h1>
         )}
       </Box>
       {profileView && (

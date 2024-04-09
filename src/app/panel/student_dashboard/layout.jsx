@@ -11,7 +11,7 @@ import { TopBar } from "../../../components/Csr-components/layout_constructs/Top
 import { Overlay } from "../Overlay";
 import Header1 from "../../../components/Csr-components/homepageComponents/header1";
 import Banner from "../../../components/Csr-components/homepageComponents/banner";
-import { Sidebar } from "../../../components/Csr-components/layout_constructs/sidebar/Sidebar";
+import { Sidebar } from "@/components/Csr-components/layout_constructs/sidebar/Sidebar";
 
 const style = {
   container: "bg-gray-100 h-screen overflow-hidden relative",
@@ -36,13 +36,18 @@ const StudentDashboardLayout = ({ children }) => {
   const IsAdmin = loggedInUser?.map((i) => {
     return i.roles.includes("Admin");
   });
-
+  // console.log(IsAdmin);
+  // console.log(IsStudent);
   return (
     <DashboardProvider>
       <div className={style.container}>
         <div className="flex items-start">
           <Overlay />
-          <Sidebar IsStudent={IsStudent} mobileOrientation="end" />
+          <Sidebar
+            IsStudent={IsStudent}
+            IsAdmin={IsAdmin}
+            mobileOrientation="end"
+          />
           <div className={style.mainContainer}>
             <div className="">
               <Header1 />

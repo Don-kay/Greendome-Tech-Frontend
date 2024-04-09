@@ -21,6 +21,7 @@ import { setLoading } from "../../../features/user/userSlice";
 const Logout = () => {
   const router = useRouter();
   const [err, setError] = useState("");
+  const [isloading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { users } = useSelector((strore) => strore.profiles);
   const { user, isLoading } = useSelector((strore) => strore.user);
@@ -30,7 +31,7 @@ const Logout = () => {
     router.back();
   };
   const logout = async () => {
-    dispatch(setLoading(true));
+    setLoading(true);
     try {
       const user1 = await axios.post(
         `http://localhost:8000/greendometech/ng/auth/logout/${loggedInUserId}`,
@@ -42,7 +43,7 @@ const Logout = () => {
       // console.log(data);
       if (data === "succesfully logged out" && status === 200) {
         router.push("/dome/login");
-        dispatch(setLoading(false));
+        setLoading(false);
       } else {
         return;
       }
@@ -55,7 +56,7 @@ const Logout = () => {
   // }, []);
   return (
     <main className=" bg-whiteOpaque">
-      {isLoading && (
+      {isloading && (
         <div className=" flex items-center w-screen h-full -top-10 left-20 z-20 absolute">
           <Loading />
         </div>

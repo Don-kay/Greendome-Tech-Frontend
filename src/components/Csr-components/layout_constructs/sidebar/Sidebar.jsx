@@ -20,6 +20,7 @@ import Dennis from "../../../asset/dennis.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import css from "../../../../app/panel/style.module.css";
 import { SidebarItems } from "./SidebarItems";
+import { usePathname } from "next/navigation";
 import { SidebarHeader } from "./SidebarHeader";
 import { useDashboardContext } from "../../../../app/panel/Provider";
 
@@ -36,9 +37,9 @@ const style = {
   container: " relative top-14 pb-32 lg:pb-6",
   open: "absolute w-8/12 z-40 sm:w-5/12",
   default:
-    "bg-green shadow h-screen overflow-y-auto top-0 lg:block lg:relative lg:w-64 lg:z-auto",
+    "bg-green shadow h-screen overflow-y-auto z-50 top-0 lg:block lg:relative lg:w-64 lg:z-auto",
   default1:
-    "bg-pink shadow h-screen overflow-y-auto top-0 lg:block lg:relative lg:w-64 lg:z-auto",
+    "bg-pink shadow h-screen overflow-y-auto z-50 top-0 lg:block lg:relative lg:w-64 lg:z-auto",
 };
 
 export const Sidebar = ({ mobileOrientation, IsAdmin, IsStudent }) => {
@@ -50,11 +51,15 @@ export const Sidebar = ({ mobileOrientation, IsAdmin, IsStudent }) => {
   const { users } = useSelector((strore) => strore.profiles);
   const [modalOpen, setModalOpen] = useState(false);
   const [tweaked, setTweaked] = useState(false);
+  const pathname = usePathname();
   const [photo, setPhoto] = useState();
   const [trigger, setTrigger] = useState(false);
   const [Params, setParams] = useState();
   const { sidebarOpen } = useDashboardContext();
 
+  const isAdminDashboard = pathname.startsWith("/panel/admin_dashboard/");
+  // console.log(isAdminDashboard);
+  // console.log(pathname);
   // console.log(isStatus);
   // console.log(updateImgtweak);
 
@@ -133,11 +138,11 @@ export const Sidebar = ({ mobileOrientation, IsAdmin, IsStudent }) => {
   return (
     <aside
       className={
-        IsStudent
-          ? `${style.default1} 
+        isAdminDashboard
+          ? `${style.default} 
         ${style.mobileOrientation[mobileOrientation]} 
         ${sidebarOpen ? style.open : style.close} ${css.scrollbar}`
-          : `${style.default} 
+          : `${style.default1} 
         ${style.mobileOrientation[mobileOrientation]} 
         ${sidebarOpen ? style.open : style.close} ${css.scrollbar}`
       }
@@ -152,6 +157,7 @@ export const Sidebar = ({ mobileOrientation, IsAdmin, IsStudent }) => {
           studentViewData={studentSidebarEl}
           viewData={SidebarEl}
           isStudent={isStudent}
+          isAdmindashboard={isAdminDashboard}
           isAdmin={isAdmin}
           params={Params}
         />

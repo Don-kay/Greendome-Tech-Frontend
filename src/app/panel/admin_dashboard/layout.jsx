@@ -43,12 +43,13 @@ const DashboardLayout = ({ children }) => {
   const IsAdmin = loggedInUser?.map((i) => {
     return i.roles.includes("Admin");
   });
+  // console.log(IsAdmin);
   return (
     <DashboardProvider>
       <div className={style.container}>
         <div className="flex items-start">
           <Overlay />
-          <Sidebar isAdmin={IsAdmin} mobileOrientation="end" />
+          <Sidebar IsAdmin={IsAdmin} mobileOrientation="end" />
           <div className={style.mainContainer}>
             <Header1 />
             <TopBar />

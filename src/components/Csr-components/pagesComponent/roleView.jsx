@@ -25,9 +25,11 @@ const RoleView = () => {
   const router = useRouter();
   // const { users } = useSelector((strore) => strore.profiles);
   const [roleCont, setRoleCont] = useState();
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState([]);
   const [rowId, setRowId] = useState(null);
   const [trigger, setTrigger] = useState(false);
+  const [user, setUser] = useState();
+  const [loadmini, setLoadmini] = useState(false);
   const [isId, setisId] = useState(null);
   const { isLoading } = useSelector((strore) => strore.user);
 
@@ -56,7 +58,7 @@ const RoleView = () => {
     { value: "3", label: "company" },
     { value: "4", label: "Admin" },
   ];
-  //console.log(roleCont);
+  //console.log(users);
   const handleSelected = (selectedOptions) => {
     const label = selectedOptions.map((i) => i.label);
     //console.log(label.sort());
@@ -73,7 +75,7 @@ const RoleView = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     if (rowId === isId) {
       try {
         const res = await customFetch.put(
@@ -85,9 +87,12 @@ const RoleView = () => {
             credentials: "includes",
           }
         );
+        //console.log(res.data.user);
         if (res.status === 200) {
-          console.log(res.status);
+          setUser(res.data.user);
+          //console.log(res.status);
           setTrigger(!trigger);
+          setLoading(false);
         }
       } catch (error) {
         return { msg: error };
@@ -96,7 +101,7 @@ const RoleView = () => {
       // dispatch(
       //   adminUpdateUsers({
       //     params: rowId,
-
+      //     roles: roleCont,
       //   })
       // );
 
@@ -166,7 +171,7 @@ const RoleView = () => {
           );
         })}
       </div>
-      <StudentsSlice trigger={trigger} />
+      <StudentsSlice updateduser={user} trigger={trigger} />
       {/* <div className="relative">
         <div className="absolute">
           <TotalStudentPops />

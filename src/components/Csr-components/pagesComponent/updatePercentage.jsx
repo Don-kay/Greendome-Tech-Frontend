@@ -32,6 +32,7 @@ const UpdatePercentage = () => {
   const [profitRatio, setprofitRatio] = useState(initialState);
   const [percentObj, setPercentObj] = useState(allpercentage);
   const [trigger, setTrigger] = useState(false);
+  const [triggerEffect, setTriggerEffect] = useState(false);
   const [sensor, setSensor] = useState(false);
   const [success, setSuccess] = useState(false);
   const [author, setAuthor] = useState();
@@ -49,63 +50,96 @@ const UpdatePercentage = () => {
   //console.log(role);
   const IsCompany = _.toString(role) === "true";
 
-  // console.log(IsCompany);
+  //console.log(allpercentage);
   const showModal = (show = false, msg = "", type = "") => {
     setModal(show, msg, type);
   };
 
   useEffect(() => {
-    if (allpercentage.length !== 0) {
+    if (allpercentage?.length !== 0 || allpercentage !== "") {
       const RatioAuthor = _.toString(allpercentage.map((i) => i.createdBy));
       const authorObj = users?.filter((i) => i.id === RatioAuthor);
       const author = authorObj?.map((i) => {
         return i.roles;
       });
       setAuthor(author);
+    } else {
+      null;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users]);
 
   useEffect(() => {
-    disPatch(getPercentage());
-    disPatch(resetUpdateMsg());
-    setprofitRatio(sensor ? { percent: 0 } : { percent: percentage });
-    setRatioId(_.toString(allpercentage.map((i) => i._id)));
+    try {
+      if (allpercentage !== "" || allpercentage?.length !== 0) {
+        setprofitRatio(sensor ? { percent: 0 } : { percent: percentage });
+      } else {
+        null;
+      }
+    } catch (error) {
+      return error;
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trigger]);
+  }, []);
+  useEffect(() => {
+    try {
+      if (allpercentage !== "" || allpercentage?.length !== 0) {
+        disPatch(getPercentage());
+        disPatch(resetUpdateMsg());
+        setRatioId(_.toString(allpercentage.map((i) => i._id)));
+      } else {
+        null;
+      }
+    } catch (error) {
+      return error;
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [triggerEffect]);
 
   useEffect(() => {
-    if (updateMsg !== undefined) {
+    if (updateMsg !== undefined || updateMsg !== false) {
       showModal({ show: true });
     }
     const timeout = setTimeout(() => {
       setSuccess(false);
       showModal({ show: false });
       disPatch(resetUpdateMsg());
-    }, 5000);
+    }, 3000);
 
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updateMsg]);
+  }, [updateMsg, triggerEffect]);
 
   const handleDelete = async (id) => {
-    const res = await axios.delete(
-      `http://localhost:8000/greendometech/ng/finance/company/delete-percentage/${id}`,
-      {
-        withCredentials: true,
+    try {
+      const res = await axios.delete(
+        `http://localhost:8000/greendometech/ng/finance/company/delete-percentage/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      const response = res.data.profitRatio;
+      const deletedId = response._id;
+      if (allpercentage !== "" || allpercentage?.length !== 0) {
+        const newRatioList = allpercentage.filter((i) => i._id !== deletedId);
+        setPercentObj(newRatioList);
+
+        if (newRatioList.length === 0) {
+          setprofitRatio({ percent: 0 });
+          setTrigger(true);
+          setTriggerEffect(!triggerEffect);
+          setSensor(true);
+        }
+      } else {
+        null;
       }
-    );
-    const response = res.data.profitRatio;
-    const deletedId = response._id;
-    const newRatioList = allpercentage.filter((i) => i._id !== deletedId);
-    console.log(response);
-
-    setPercentObj(newRatioList);
-
-    if (newRatioList.length === 0) {
-      setTrigger(true);
-      setSensor(true);
+    } catch (error) {
+      return error;
     }
+
+    //console.log(response);
 
     // if (newRatio === "") {
     //   setprofitRatio({ percent: 0 });
@@ -164,18 +198,24 @@ const UpdatePercentage = () => {
       );
       const resp = { data: res.data.profitRatio, stats: res.status };
       const updatedId = resp.data._id;
-      const newRatioList = percentObj.filter((i) => i._id !== updatedId);
-      //console.log(resp);
 
-      setPercentObj([...newRatioList, resp.data]);
-      setTrigger(false);
+      if (allpercentage !== "" || allpercentage?.length !== 0) {
+        const newRatioList = percentObj?.filter((i) => i._id !== updatedId);
 
-      if (updatedId !== "") {
-        setSensor(true);
-        setSuccess(true);
+        setPercentObj([...newRatioList, resp.data]);
+        setTrigger(false);
+        setTriggerEffect(!triggerEffect);
+        setprofitRatio({ percent: resp.data.percentage });
+
+        if (updatedId !== "") {
+          setSensor(true);
+          setSuccess(true);
+        }
+      } else {
+        null;
       }
     } catch (error) {
-      console.log("error");
+      //console.log("error");
       return error;
     }
     // disPatch(
@@ -223,32 +263,38 @@ const UpdatePercentage = () => {
             <div>
               <h1>no percentage set, please set percentage</h1>
               <Link href={"/panel/company/set-percentage"}>
-                <button>set percentage</button>
+                <button>go to set percentage</button>
               </Link>
             </div>
           ) : (
             <div>
-              {percentObj.map((i, idx) => {
-                const {
-                  percentage,
-                  createdBy,
-                  party_type,
-                  createdAt,
-                  updatedAt,
-                  _id,
-                } = i;
-                return (
-                  <div key={idx}>
-                    <h2>id: {_id}</h2>
-                    <h2>ratio: {percentage}</h2>
-                    <h2>creator: {createdBy}</h2>
-                    <h2>party_type: {party_type}</h2>
-                    <h2>createdAt: {createdAt}</h2>
-                    <h2>updatededAt: {updatedAt}</h2>
-                    <button onClick={() => handleDelete(_id)}>delete</button>
-                  </div>
-                );
-              })}
+              {percentObj !== "" || percentObj?.length !== 0 ? (
+                <div>
+                  {percentObj?.map((i, idx) => {
+                    const {
+                      percentage,
+                      createdBy,
+                      party_type,
+                      createdAt,
+                      updatedAt,
+                      _id,
+                    } = i;
+                    return (
+                      <div key={idx}>
+                        <h2>id: {_id}</h2>
+                        <h2>ratio: {percentage}</h2>
+                        <h2>creator: {createdBy}</h2>
+                        <h2>party_type: {party_type}</h2>
+                        <h2>createdAt: {createdAt}</h2>
+                        <h2>updatededAt: {updatedAt}</h2>
+                        <button onClick={() => handleDelete(_id)}>
+                          delete
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : null}
             </div>
           )}
         </div>

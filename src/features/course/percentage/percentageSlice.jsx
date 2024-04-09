@@ -61,7 +61,7 @@ const percentageSlice = createSlice({
     },
     [getPercentage.fulfilled]: (state, action) => {
       const { payload } = action;
-      console.log(payload);
+      //console.log(payload);
       state.allpercentage = payload;
       const data = _.toString(payload.map((i) => i.percentage));
       if (data === "") {
@@ -74,12 +74,12 @@ const percentageSlice = createSlice({
     },
     [getPercentage.rejected]: (state, action) => {
       const { payload } = action;
-      console.log(payload);
+      //console.log(payload);
       state.isLoading = true;
     },
     [createPercentage.pending]: (state, action) => {
       const { payload } = action;
-      console.log(payload);
+      //console.log(payload);
       state.isLoading = true;
     },
     [createPercentage.fulfilled]: (state, action) => {
@@ -91,13 +91,13 @@ const percentageSlice = createSlice({
     },
     [createPercentage.rejected]: (state, action) => {
       const { payload } = action;
-      console.log(payload);
+      //console.log(payload);
       state.isLoading = true;
       // state.errorMsg = payload;
     },
     [updatePercentage.pending]: (state, action) => {
       const { payload } = action;
-      console.log(payload);
+      //console.log(payload);
       state.isLoading = true;
     },
     [updatePercentage.fulfilled]: (state, action) => {
@@ -116,7 +116,7 @@ const percentageSlice = createSlice({
     },
     [updatePercentage.rejected]: (state, action) => {
       const { payload } = action;
-      console.log(payload);
+      //console.log(payload);
       state.isLoading = true;
       // state.errorMsg = payload;
     },

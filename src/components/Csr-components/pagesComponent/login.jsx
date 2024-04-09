@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../layout_constructs/loading";
 import { setLoading } from "../../../features/user/userSlice";
+import { getPercentage } from "@/features/course/percentage/percentageSlice";
 import {
   loginUserEmail,
   loginUsername,
@@ -48,6 +49,7 @@ const Loginpage = (session) => {
   const [data, setData] = useState({});
   const [err, setError] = useState("");
   const [displayerr, setdisplayError] = useState(false);
+  const [isloading, setLoading] = useState(false);
   const [isEmail, setisEmail] = useState(false);
   const dispatch = useDispatch();
   const { user, isLoading, role } = useSelector((strore) => strore.user);
@@ -127,7 +129,7 @@ const Loginpage = (session) => {
       toast.error("please fill out all details");
     }
     setError("");
-    dispatch(setLoading(true));
+    setLoading(true);
     const user1 = await axios
       .post(
         "http://localhost:8000/greendometech/ng/auth/login/username",
@@ -141,6 +143,7 @@ const Loginpage = (session) => {
         setdisplayError(true);
         setError(err.response);
       });
+    dispatch(getPercentage());
     // setData(user1);
 
     //console.log(user1);
@@ -208,7 +211,7 @@ const Loginpage = (session) => {
       toast.error("please fill out all details");
     }
     setError("");
-    dispatch(setLoading(true));
+    setLoading(true);
     const user1 = await axios
       .post(
         "http://localhost:8000/greendometech/ng/auth/login/email",
@@ -222,6 +225,7 @@ const Loginpage = (session) => {
         setdisplayError(true);
         setError(err.response);
       });
+    dispatch(getPercentage());
     // setData(user1);
 
     //console.log(user1);
@@ -276,7 +280,7 @@ const Loginpage = (session) => {
   // };
   return (
     <main className="  bg-whiteOpaque">
-      {isLoading && (
+      {isloading && (
         <div className=" w-full h-full z-20 absolute">
           <Loading />
         </div>

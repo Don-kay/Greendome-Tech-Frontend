@@ -20,6 +20,7 @@ import { Doughnut, Line } from "react-chartjs-2";
 import InfoCard from "../../Cards/InfoCard";
 import ChartCard from "../../Cards/ChartCard";
 import ChartLegend from "../../Cards/ChartLegend";
+import { usePathname } from "next/navigation";
 
 import PageTitle from "../../typography/PageTitle";
 import RoundIcon from "../../icon/RoundIcon";
@@ -41,13 +42,19 @@ const Overview1 = () => {
   // const { course } = useSelector((state) => state.course);
   const loggedInUserId = user.data.user.id;
   const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
-
+  const pathname = usePathname();
   const Student = loggedInUser?.map((i) => {
     return i.roles.includes("student");
   });
+  const Admin = loggedInUser?.map((i) => {
+    return i.roles.includes("Admin");
+  });
 
   const IsStudent = _.toString(Student);
-  // console.log(IsStudent);
+  const IsAdmin = _.toString(Admin);
+
+  const isAdminDashboard = pathname.startsWith("/panel/admin_dashboard/");
+  //console.log(isAdminDashboard);
   // console.log(IsStudentBool);
   // console.log(loggedInUser);
 
@@ -85,15 +92,13 @@ const Overview1 = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   //console.log(course);
-  // console.log(TotalCourse);
+  //console.log(IsAdmin);
   return (
     <div>
-      {/* <div>
+      <div>
         <PageTitle>Dashboard</PageTitle>
-
-    
-        <RolesCharts />
-      </div> */}
+        {isAdminDashboard && <RolesCharts />}
+      </div>
 
       {/* <TableContainer>
         <Table>

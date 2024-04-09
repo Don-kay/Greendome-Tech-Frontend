@@ -24,29 +24,31 @@ import TotalStudentPops, {
   ActiveStudentPops,
 } from "./sudentPops";
 
-const StudentsSlice = ({ trigger }) => {
+const StudentsSlice = ({ trigger, updateduser }) => {
   const dispatch = useDispatch();
   const { studentView, tutorView, adminView } = useSelector(
     (strore) => strore.functions
   );
   const { users, errorMsg } = useSelector((strore) => strore.profiles);
   const { user } = useSelector((strore) => strore.user);
-  const loggedInUserId = user.data.user.id;
-  const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
-
-  const Admin = loggedInUser?.map((i) => {
-    return i.roles.includes("Admin");
-  });
-
-  const IsAdmin = _.toString(Admin);
 
   const [rowId, setRowId] = useState(null);
+  // const [IsAdmin, setIsadmin] = useState("");
+  //const [studentObj, setStudentObj] = useState([]);
+  // const [tutorObj, setTutorObj] = useState([]);
+  // const [adminObj, setAdminObj] = useState([]);
+  const [newMembers, setNewMembers] = useState([]);
+  const [loggedInUser, setLoggedInUser] = useState([]);
+  // const [activeStudents, setActivestudents] = useState([]);
+  // const [students, setStudent] = useState([]);
+  // const [tutor, setTutor] = useState([]);
+  // const [admin, setAdmine] = useState([]);
   const [roleView, setRoleView] = useState({
     admin: "Admin",
     student: "student",
     tutor: "tutor",
   });
-  // console.log(users);
+  //console.log(user);
   // const fetchUsers = async () => {
   //   try {
   //     const profiles = await axios.get(
@@ -63,21 +65,59 @@ const StudentsSlice = ({ trigger }) => {
   //     return { msg: error.response.data };
   //   }
   // };
+
   useEffect(() => {
     dispatch(GetAllUsers());
+    try {
+      if (users === undefined || users?.length === 0) {
+        null;
+      } else {
+        const id =
+          updateduser === undefined || updateduser === ""
+            ? "12345"
+            : updateduser.id;
+        const loggedInUserId = user?.data.user.id;
+        const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
+        setLoggedInUser(loggedInUser);
+        const updatedMembers = users?.filter((i) => i.id !== id);
+
+        const newMembers =
+          updateduser === undefined || updateduser === ""
+            ? updatedMembers
+            : [...updatedMembers, updateduser];
+        // console.log(updatedMembers);
+        // console.log(newMembers);
+        setNewMembers(newMembers);
+      }
+    } catch (error) {
+      return error;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trigger]);
 
-  const studentObj = users?.filter((item) => {
-    return item.roles.includes("student");
+  // const studentId = studentObj.map((key) => key.id);
+  // console.log(studentId);
+
+  //console.log(newMembers);
+
+  const Admin = loggedInUser?.map((i) => {
+    return i.roles.includes("Admin");
   });
-  const tutorObj = users?.filter((item) => {
+
+  const IsAdmin = _.toString(Admin);
+  const studentObj = newMembers?.filter((item) => {
+    return item?.roles.includes("student");
+  });
+  //console.log(studentObj);
+
+  const tutorObj = newMembers?.filter((item) => {
     return item.roles.includes("tutor");
   });
-  const adminObj = users?.filter((item) => {
+  const adminObj = newMembers?.filter((item) => {
     return item.roles.includes("Admin");
   });
-  const activeStudents = users?.filter((item) => {
+
+  const activeStudents = newMembers?.filter((item) => {
     return (
       item.roles.includes("student") &&
       (item.classesId.length !== 0 || item.classesId === undefined)
@@ -123,8 +163,6 @@ const StudentsSlice = ({ trigger }) => {
     };
     // item.roles, item.id;
   });
-  // const studentId = studentObj.map((key) => key.id);
-  // console.log(studentId);
 
   useEffect(() => {
     dispatch(setStudents(students?.length));

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/globals.css";
 import Hero from "../components/Csr-components/homepageComponents/hero";
 import Features from "../components/Csr-components/homepageComponents/features";
@@ -23,14 +23,30 @@ import { useSelector, useDispatch } from "react-redux";
 export default function Page() {
   const { user } = useSelector((state) => state.user);
   const { users } = useSelector((strore) => strore.profiles);
-  const loggedInUserId = user?.data.user.id;
+  const [userRole, setUserRole] = useState("");
 
-  const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
+  useEffect(() => {
+    try {
+      if (user === "" || users?.length === 0) {
+        null;
+      } else {
+        const loggedInUserId = user?.data.user.id;
 
-  const role = loggedInUser?.map((i) => {
-    return i.roles;
-  });
-  const userRole = role[0];
+        const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
+
+        const role = loggedInUser?.map((i) => {
+          return i.roles;
+        });
+        const userRoler = role[0];
+        setUserRole(userRoler);
+      }
+    } catch (error) {
+      return error;
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // useEffect(() => {
   //   // console.log(window);
   //   if (typeof window !== undefined) {
@@ -78,22 +94,30 @@ export default function Page() {
   let isTutor = false;
   let isStudent = false;
 
-  if (areEqual(userRole, Company)) {
-    isCompany = true;
-  } else if (areEqual(userRole, Student)) {
-    isStudent = true;
-  } else if (areEqual(userRole, Admin)) {
-    isAdmin = true;
-  } else if (areEqual(userRole, AdminTutor)) {
-    isAdmin = true;
-  } else if (areEqual(userRole, AdminTutorStudent)) {
-    isAdmin = true;
-  } else if (areEqual(userRole, AdminStudent)) {
-    isAdmin = true;
-  } else if (areEqual(userRole, Tutor)) {
-    isTutor = true;
-  } else if (areEqual(userRole, TutorStudent)) {
-    isTutor = true;
+  try {
+    if (userRole === "" || userRole !== undefined) {
+      if (areEqual(userRole, Company)) {
+        isCompany = true;
+      } else if (areEqual(userRole, Student)) {
+        isStudent = true;
+      } else if (areEqual(userRole, Admin)) {
+        isAdmin = true;
+      } else if (areEqual(userRole, AdminTutor)) {
+        isAdmin = true;
+      } else if (areEqual(userRole, AdminTutorStudent)) {
+        isAdmin = true;
+      } else if (areEqual(userRole, AdminStudent)) {
+        isAdmin = true;
+      } else if (areEqual(userRole, Tutor)) {
+        isTutor = true;
+      } else if (areEqual(userRole, TutorStudent)) {
+        isTutor = true;
+      }
+    } else {
+      null;
+    }
+  } catch (error) {
+    return error;
   }
 
   // console.log(isCompany);

@@ -53,7 +53,7 @@ export const updateAdminThunk = async (user, thunkApi) => {
     const res = await customFetch.put(
       `/auth/users/update/${param}`,
 
-      user,
+      roles,
       {
         withCredentials: true,
         credentials: "include",

@@ -16,10 +16,11 @@ import SingleProfileView from "./SingleProfileView";
 
 const AllStudent = () => {
   const dispatch = useDispatch();
-  const [trigger, setTrigger] = useState(false);
   // const [users, setUsers] = useState();
   const { users, errorMsg } = useSelector((strore) => strore.profiles);
   const { profileView, modalId } = useSelector((strore) => strore.functions);
+  const [trigger, setTrigger] = useState(false);
+  const [allAttendees, setAllattendees] = useState([]);
 
   useEffect(() => {
     // const fetchUsers = async () => {
@@ -35,26 +36,37 @@ const AllStudent = () => {
     //     return { msg: error };
     //   }
     // };
+
+    try {
+      if (users === undefined || users?.length === 0) {
+        setTrigger(true);
+      } else {
+        const studentObj = users?.filter((item) => {
+          return item.roles.includes("student");
+        });
+
+        const allAttendee = studentObj?.map((item) => {
+          return {
+            id: item.id,
+            username: item.username,
+            firstname: item.firstname,
+            roles: _.toString(item.roles),
+            image: item.image,
+          };
+
+          // item.roles, item.id;
+        });
+        setAllattendees(allAttendee);
+        setTrigger(false);
+      }
+    } catch (error) {
+      return error;
+    }
     dispatch(ProfileModal({ bool: false }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [rowId, setRowId] = useState(null);
-
-  const studentObj = users?.filter((item) => {
-    return item.roles.includes("student");
-  });
-
-  const allStudents = studentObj?.map((item) => {
-    return {
-      id: item.id,
-      username: item.username,
-      firstname: item.firstname,
-      roles: _.toString(item.roles),
-      image: item.image,
-    };
-    // item.roles, item.id;
-  });
 
   const columns = useMemo(
     () => [
@@ -119,26 +131,30 @@ const AllStudent = () => {
         >
           view all Students
         </Typography>
-        {users.length !== 0 ? (
+        {trigger ? (
+          <div className=" flex justify-center items-center relative top-36  h-72 w-full ">
+            <h1 className=" text-align">no user available</h1>
+          </div>
+        ) : (
           <DataGrid
             columns={columns}
-            rows={allStudents}
+            rows={allAttendees}
+            className=" mt-5 p-8"
             getRowId={(row) => row.id}
             pagination={true}
             {...columns}
             initialState={{
               ...columns.initialState,
+
               pagination: { paginationModel: { pageSize: 5 } },
             }}
-            pageSizeOptions={[5, 10, 20]}
+            pageSizeOptions={[10, 20]}
             // paginationMode="server"
             getRowSpacing={(params) => ({
               top: params.isFirstVisible ? 0 : 5,
               bottom: params.isLastVisible ? 0 : 5,
             })}
           />
-        ) : (
-          <h1>no user available</h1>
         )}
       </Box>
       {profileView && (
