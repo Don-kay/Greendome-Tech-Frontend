@@ -1,9 +1,9 @@
-import customFetch from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 // import { cookies } from "next/headers";
 
 export const getPercentageThunk = async (_, thunkApi) => {
   try {
-    const res = await customFetch.get("/finance/company/view-percentage", {
+    const res = await Fetch.get("/finance/company/view-percentage", {
       withCredentials: true,
       credentials: "includes",
     });
@@ -20,7 +20,7 @@ export const CreatepercentageThunk = async (percentage, thunkApi) => {
   console.log(percentage);
 
   try {
-    const res = await customFetch.post(
+    const res = await Fetch.post(
       `finance/company/create-percentage-ratio`,
       {
         percentage: percentage,
@@ -44,12 +44,12 @@ export const updatePercentageThunk = async (percent, thunkApi) => {
   const param = percent.params;
   const percentage = percent.percentage;
   const party_type = percent.party_type;
-  console.log(percentage);
-  console.log(param);
-  console.log(party_type);
+  // console.log(percentage);
+  // console.log(param);
+  // console.log(party_type);
 
   try {
-    const res = await customFetch.put(
+    const res = await Fetch.put(
       `/finance/company/update-percentage/${param}`,
       {
         percentage: percentage,

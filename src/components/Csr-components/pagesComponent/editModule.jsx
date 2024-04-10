@@ -4,6 +4,8 @@ import axios from "axios";
 import Select from "react-select";
 import { Input, HelperText, Label, Textarea } from "@roketid/windmill-react-ui";
 import makeAnimated from "react-select/animated";
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import Image from "next/image";
 import Modal from "react-modal";
 import _, { stubString } from "lodash";
@@ -55,7 +57,8 @@ function EditModule({
   const [img, setImg] = useState(false);
   const [file, setFile] = useState();
   const [checked, setChecked] = useState(false);
-
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   const statusOptions = [
     { value: "1", label: "visible" },
     { value: "2", label: "not visible" },
@@ -91,7 +94,7 @@ function EditModule({
     setFile(img);
     // dispatch(GetAllUsers());
     try {
-      const fetch = async () => {
+      const fetcher = async () => {
         // const modresp = await axios.get(
         //   `http://localhost:8000/greendometech/ng/module/view-module/${moduleParam}`,
         //   { withCredentials: true }
@@ -119,13 +122,10 @@ function EditModule({
         //console.log(module);
         //  setModules(CourseModules);
 
-        const course = await axios.get(
-          `http://localhost:8000/greendometech/ng/course/admin/${courseId}`,
-          {
-            withCredentials: true,
-            credentials: "includes",
-          }
-        );
+        const course = await Fetch.get(`/course/admin/${courseId}`, {
+          withCredentials: true,
+          credentials: "includes",
+        });
         const resp = { data: course.data.course };
         // console.log(resp.data);
         if (resp.data !== undefined) {
@@ -134,7 +134,7 @@ function EditModule({
         setCourse(resp.data);
       };
 
-      fetch();
+      fetcher();
     } catch (error) {
       return { msg: error.response.data };
     }
@@ -260,8 +260,8 @@ function EditModule({
     const fileType = file === undefined || file === "" ? "" : file;
 
     // const myCode = parseFloat(code);
-    const res = await axios.patch(
-      `http://localhost:8000/greendometech/ng/module/admin-update-module/${id}`,
+    const res = await Fetch.patch(
+      `/module/admin-update-module/${id}`,
       {
         title: title,
         description: description,

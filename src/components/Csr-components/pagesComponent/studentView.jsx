@@ -12,6 +12,10 @@ import Image from "next/image";
 import Loading from "../layout_constructs/loading";
 // { setLoading } from "../../../features/user/userSlice";
 import Modal from "react-modal";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
+import { Fetch } from "../../../utilities/axios";
 import EditQuestion from "./editQuestion2";
 import CreateQuestion from "./createQuestion";
 import EditModule from "./editModule";
@@ -42,6 +46,7 @@ const StudentView = ({
   isOpen,
   onClosed,
   IsCompany,
+  selectedUser,
   loggedInUser,
   setStudent,
   userID,
@@ -54,6 +59,8 @@ const StudentView = ({
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const { ishover } = useSelector((strore) => strore.functions);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   //console.log(studentid);
   const customStyles = {
@@ -73,15 +80,14 @@ const StudentView = ({
 
   useEffect(() => {
     dispatch(HoverModal(false));
+    //console.log(selectedUser);
     setLoading(true);
+
     const fetchCourse = async () => {
       try {
-        const course = await axios.get(
-          "http://localhost:8000/greendometech/ng/course/admin/view-all-course",
-          {
-            withCredentials: true,
-          }
-        );
+        const course = await Fetch.get("/course/admin/view-all-course", {
+          withCredentials: true,
+        });
 
         const courses = course.data.course;
         setCourses(courses);
@@ -93,12 +99,9 @@ const StudentView = ({
     };
     const fetchProfiles = async () => {
       try {
-        const profiles = await axios.get(
-          `http://localhost:8000/greendometech/ng/auth/users/${studentid}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const profiles = await Fetch.get(`/auth/users/${studentid}`, {
+          withCredentials: true,
+        });
 
         const users = profiles.data.user;
         const {
@@ -120,8 +123,9 @@ const StudentView = ({
         const img = image === undefined || image === "" ? "" : image;
         if (users !== undefined || users !== "") {
           setLoading(false);
+          console.log(false);
         }
-
+        console.log(true);
         setUsers({
           id: _id,
           email,
@@ -262,6 +266,9 @@ const StudentView = ({
       <button onClick={() => onClosed()}>back</button>
       <section className=" flex justify-center items-center flex-col ">
         <div>{`questions set to ${username}`}</div>
+        {/* <div className=" flex items-center  min-w-innerlay3 h-96 top-32 left-0 z-20 absolute ">
+          <Loading />
+        </div> */}
         {isLoading && (
           <div className=" flex items-center  min-w-innerlay3 h-96 top-32 left-0 z-20 absolute ">
             <Loading />

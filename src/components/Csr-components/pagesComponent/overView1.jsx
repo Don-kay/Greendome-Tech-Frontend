@@ -1,7 +1,8 @@
 "use client";
 
 import react, { useState, useEffect } from "react";
-
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import RolesCharts from "../minuteComponents/rolesCharts";
 import CourseCharts from "../minuteComponents/courseCharts";
 import RevenueCharts from "../minuteComponents/revenueCharts";
@@ -43,6 +44,9 @@ const Overview1 = () => {
   const loggedInUserId = user.data.user.id;
   const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
   const pathname = usePathname();
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
+
   const Student = loggedInUser?.map((i) => {
     return i.roles.includes("student");
   });
@@ -53,7 +57,7 @@ const Overview1 = () => {
   const IsStudent = _.toString(Student);
   const IsAdmin = _.toString(Admin);
 
-  const isAdminDashboard = pathname.startsWith("/panel/admin_dashboard/");
+  const isAdminDashboard = pathname.startsWith("/panel/admin_dashboard");
   //console.log(isAdminDashboard);
   // console.log(IsStudentBool);
   // console.log(loggedInUser);
@@ -68,9 +72,7 @@ const Overview1 = () => {
   const getAllcourses = async () => {
     axios.defaults.withCredentials = true;
     try {
-      const profiles = await axios.get(
-        "http://localhost:8000/greendometech/ng/course/admin/view-all-course"
-      );
+      const profiles = await Fetch.get("/course/admin/view-all-course");
       // console.log(profiles);
       const resp = { data: profiles.data.course, stats: profiles.status };
       setCourses(resp.data);
@@ -178,21 +180,32 @@ const Overview1 = () => {
         </div>
 
         <CalendarStudent params={userParams} isStudent={IsStudent} />
+        {isAdminDashboard && (
+          <div className=" relative top-36">
+            <StudentsSlice />
+          </div>
+        )}
+
         {/* <EventsChart params={userParams} isStudent={IsStudent} /> */}
         {/* <RatedCourse params={userParams} isStudent={IsStudent} /> */}
       </div>
-      <PageTitle>Charts</PageTitle>
-      <div className="grid gap-6 mb-8 md:grid-cols-2">
-        <ChartCard title="Revenue">
-          {/* <Doughnut {...doughnutOptions} /> */}
-          <ChartLegend legends={doughnutLegends} />
-        </ChartCard>
-        <ChartCard title="Traffic">
-          {/* <Line {...lineOptions} /> */}
-          <ChartLegend legends={lineLegends} />
-        </ChartCard>
-        student overall rating component
-      </div>
+      {isAdminDashboard && (
+        <div className=" relative top-36">
+          {" "}
+          <PageTitle>Charts</PageTitle>
+          <div className="grid gap-6 mb-8 md:grid-cols-2">
+            <ChartCard title="Revenue">
+              {/* <Doughnut {...doughnutOptions} /> */}
+              <ChartLegend legends={doughnutLegends} />
+            </ChartCard>
+            <ChartCard title="Traffic">
+              {/* <Line {...lineOptions} /> */}
+              <ChartLegend legends={lineLegends} />
+            </ChartCard>
+            student overall rating component
+          </div>
+        </div>
+      )}
     </div>
   );
 };

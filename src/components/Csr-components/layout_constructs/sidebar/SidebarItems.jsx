@@ -23,7 +23,7 @@ export const SidebarItems = ({
   viewData,
 }) => {
   const pathname = usePathname();
-  //console.log(pathname);
+  //console.log(isAdminDashboard);
   return (
     <ul className="relative flex p gap-y-12 flex-col top-10 mt-6 md:pl-6">
       <li>

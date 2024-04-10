@@ -7,7 +7,8 @@ import makeAnimated from "react-select/animated";
 import _ from "lodash";
 import { GetAllUsers } from "../../../features/profile/profileSlice";
 import { useRouter } from "next/navigation";
-import customFetch from "../../..//utilities/axios";
+import customFetch, { customFetchProduction } from "../../..//utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import Image from "next/image";
 import Modal from "react-modal";
 import { ToggleTrigger } from "../../../features/functions/functionSlice";
@@ -38,6 +39,8 @@ function EditUserProfile({
     isUpdated,
     updated,
   } = useSelector((strore) => strore.profiles);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   // console.log(params);
   // const [users, setUsers] = useState("");
 
@@ -240,8 +243,8 @@ function EditUserProfile({
     // console.log(roleDisplay);
     const imageType = file === undefined || file === "" ? "" : file;
 
-    const res = await axios.patch(
-      `http://localhost:8000/greendometech/ng/auth/users/update/${id}`,
+    const res = await Fetch.patch(
+      `/auth/users/update/${id}`,
       {
         firstname: firstname,
         lastname: lastname,

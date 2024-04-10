@@ -39,7 +39,7 @@ export default function Header({ isCompany, isAdmin }) {
               </li>
               <li>
                 <Link
-                  href="/dome/register"
+                  href="/dome/login"
                   className="font-medium hover:bg-greenGraded1 hover:text-whiteHov px-4 py-3 flex items-center transition duration-150 ease-in-out"
                 >
                   Sign in
@@ -47,7 +47,7 @@ export default function Header({ isCompany, isAdmin }) {
               </li>
               <li>
                 <Link
-                  href="/dome/login"
+                  href="/dome/register"
                   className="font-medium hover:bg-greenGraded1 hover:text-whiteHov px-4 py-3 flex items-center transition duration-150 ease-in-out"
                 >
                   Sign up

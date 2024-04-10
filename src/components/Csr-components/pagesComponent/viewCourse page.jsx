@@ -1,6 +1,10 @@
 "use client";
 import React from "react";
 import axios from "axios";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
+import { Fetch } from "../../../utilities/axios";
 import { useSelector, useDispatch } from "react-redux";
 import { CourseconfirmationModal } from "../minuteComponents/confirmationModal";
 import CreateModule from "./createModule";
@@ -34,6 +38,8 @@ const ViewCoursePage = ({
   const url = "/panel/edit-question";
   const createurl = "/panel/admin_dashboard/create-module";
   const router = useRouter();
+  const fetch =
+    process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   //  useEffect(() => {
   //    dispatch(GetAllUsers());
@@ -93,12 +99,9 @@ const ViewCoursePage = ({
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const course = await axios.get(
-          `http://localhost:8000/greendometech/ng/course/admin/${courseId}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const course = await Fetch.get(`/course/admin/${courseId}`, {
+          withCredentials: true,
+        });
         const courses = course.data.course;
         setSingleCourse(courses);
       } catch (error) {

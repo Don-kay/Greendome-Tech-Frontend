@@ -14,12 +14,16 @@ import Loading from "../layout_constructs/loading";
 import TotalStudentPops, {
   ActiveStudentPops,
 } from "../minuteComponents/sudentPops.jsx";
-import { setLoading } from "../../../features/user/userSlice";
+// import { setLoading } from "../../../features/user/userSlice";
 import _ from "lodash";
 import Greendome from "../../asset/greendome.jpg";
 import Image from "next/image";
 import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
+import { Fetch } from "../../../utilities/axios";
 import axios from "axios";
 import moment from "moment";
 
@@ -28,11 +32,15 @@ const Students = () => {
   const [student, setStudent] = useState([]);
   const [studentId, setStudentId] = useState();
   const [activeStudent, setactiveStudent] = useState([]);
+  //const [selectedUser, setSelectedUser] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const { users } = useSelector((strore) => strore.profiles);
   const [rowId, setRowId] = useState(null);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
-  const { user, isLoading } = useSelector((strore) => strore.user);
+  const { user } = useSelector((strore) => strore.user);
   const loggedInUserId = user.data.user.id;
   const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
 
@@ -47,24 +55,26 @@ const Students = () => {
   const IsCompany = _.toString(company);
   //console.log(student);
 
+  // useEffect(() => {
+  //   setLoading(true);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   useEffect(() => {
-    dispatch(setLoading(true));
+    // console.log("student");
     const fetchUsers = async () => {
       try {
-        const profiles = await axios.get(
-          "http://localhost:8000/greendometech/ng/auth/users",
-          {
-            withCredentials: true,
-            credentials: "include",
-          }
-        );
+        const profiles = await Fetch.get("/auth/users", {
+          withCredentials: true,
+          credentials: "include",
+        });
         const resp = { data: profiles.data, stats: profiles.status };
-        //console.log(resp.stats);
+
         const data = resp.data.user;
         if (resp.stats === 200) {
-          dispatch(setLoading(false));
+          //console.log(resp);
+          setLoading(false);
         } else {
-          dispatch(setLoading(true));
+          setLoading(true);
         }
 
         const studentObj = data.filter((item) => {
@@ -120,6 +130,8 @@ const Students = () => {
   // const studentId = studentObj.map((key) => key.id);
 
   const handleModalId = (id) => {
+    // const selectedUser = users?.filter((i) => i.id === id);
+    // setSelectedUser(selectedUser);
     setStudentId(id);
     //setModalOpen(true);
   };
@@ -191,6 +203,7 @@ const Students = () => {
           <ProfileActions
             isAdmin={IsAdmin}
             {...{ params }}
+            // selectedUsser={selectedUser}
             onOpen={() => setModalOpen(true)}
             studentId={(id) => handleModalId(id)}
           />

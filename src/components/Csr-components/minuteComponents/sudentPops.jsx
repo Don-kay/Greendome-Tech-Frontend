@@ -10,6 +10,7 @@ export default function TotalStudentPops() {
     (strore) => strore.profiles
   );
   const Reader = <GiRead />;
+  // console.log(totalStudents);
 
   return (
     <section>

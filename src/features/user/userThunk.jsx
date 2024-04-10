@@ -1,11 +1,12 @@
 import customFetch from "../../utilities/axios";
+import { Fetch } from "../../utilities/axios";
 
 // import { useSignIn } from "react-auth-kit";
 
 export const registerUserThunk = async (url, user, thunkApi) => {
-  console.log(user);
+  //console.log(user);
   try {
-    const resp = await customFetch.post(url, user);
+    const resp = await Fetch.post(url, user);
     const response = { data: resp.data, stats: resp.status };
     return response.data;
   } catch (error) {
@@ -16,7 +17,7 @@ export const registerUserThunk = async (url, user, thunkApi) => {
 };
 export const loginUserThunk = async (url, user, thunkApi) => {
   try {
-    const resp = await customFetch.post(url, user, {
+    const resp = await Fetch.post(url, user, {
       withCredentials: true,
       credentials: "include",
     });

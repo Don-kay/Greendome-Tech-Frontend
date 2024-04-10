@@ -73,7 +73,7 @@ const profileSlice = createSlice({
       const { payload } = action;
       // console.log(action);
       state.isLoading = true;
-      // console.log(payload);
+      //console.log(payload);
       state.users = payload?.data.user;
       state.totalUsers = payload?.data.count;
       state.status = payload?.stats;
@@ -90,7 +90,7 @@ const profileSlice = createSlice({
     [adminUpdateUsers.fulfilled]: (state, action) => {
       const { payload } = action;
       state.isLoading = false;
-      console.log(payload);
+      // console.log(payload);
       state.msg = payload?.msg;
       state.updatedStatus = payload?.stats;
     },

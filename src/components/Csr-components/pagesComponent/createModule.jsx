@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Loading from "../layout_constructs/loading";
 import { setLoading } from "../../../features/user/userSlice";
 import customFetch from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import makeAnimated from "react-select/animated";
 import Select from "react-select";
 import Modal from "react-modal";
@@ -14,6 +15,7 @@ import { Input, HelperText, Label, Textarea } from "@roketid/windmill-react-ui";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import TextARea from "../../TextArea";
+import { customFetchProduction } from "../../../utilities/axios";
 import { resetErrorMsg } from "../../../features/course/module/moduleSlice";
 import { resetModule } from "../../../features/course/module/moduleSlice";
 import Greendome from "../../asset/greendome.jpg";
@@ -67,6 +69,8 @@ const CreateModule = ({
   const [module, setObjModule] = useState();
   const [moduleid, setModuleid] = useState();
   const url = "/panel/admin_dashboard/create-module";
+  // const feFch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   const disPatch = useDispatch();
   const router = useRouter();
@@ -262,8 +266,8 @@ const CreateModule = ({
     const fileType = file === undefined ? "" : file;
 
     try {
-      const res = await customFetch.post(
-        `module/create-module/${paramName}/${courseid}`,
+      const res = await Fetch.post(
+        `/module/create-module/${paramName}/${courseid}`,
         {
           title: title,
           description: description,

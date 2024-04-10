@@ -6,7 +6,8 @@ import Select from "react-select";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import FormRow from "../../FormRow";
-import customFetch from "../../..//utilities/axios";
+import customFetch, { customFetchProduction } from "../../..//utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import { useRouter } from "next/navigation";
 import {
   getPercentage,
@@ -27,6 +28,8 @@ const CreatePercentage = () => {
   const [trigger, setTrigger] = useState(false);
   const disPatch = useDispatch();
   const router = useRouter();
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   useEffect(() => {
     disPatch(getPercentage());
@@ -54,7 +57,7 @@ const CreatePercentage = () => {
     }
     // disPatch(createPercentage(profitRatio.percent));
     try {
-      const res = await customFetch.post(
+      const res = await Fetch.post(
         `finance/company/create-percentage-ratio`,
         {
           percentage: profitRatio.percent,
@@ -66,12 +69,9 @@ const CreatePercentage = () => {
       );
       const resp1 = { data: res.data.profitRatio, stats: res.status };
 
-      const resp = await axios.get(
-        `http://localhost:8000/greendometech/ng/finance/company/view-percentage`,
-        {
-          withCredentials: true,
-        }
-      );
+      const resp = await Fetch.get(`/finance/company/view-percentage`, {
+        withCredentials: true,
+      });
 
       //console.log(resp.data);
       setTrigger(true);

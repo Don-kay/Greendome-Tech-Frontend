@@ -1,17 +1,14 @@
 import customFetch from "../../utilities/axios";
+import { Fetch } from "../../utilities/fetch";
 
 export const AllCoursesThunk = async (axios, thunkApi) => {
   const token = axios.token;
   console.log(token);
   try {
-    const res = await customFetch.get(
-      "/course/admin/view-all-course",
-      axios.token,
-      {
-        withCredentials: true,
-        credentials: "includes",
-      }
-    );
+    const res = await Fetch.get("/course/admin/view-all-course", axios.token, {
+      withCredentials: true,
+      credentials: "includes",
+    });
     const resp = { data: res.data, stats: res.status };
     return resp;
   } catch (error) {
@@ -24,7 +21,7 @@ export const AllCoursesThunk = async (axios, thunkApi) => {
 export const CreateCoursesThunk = async (course, thunkApi) => {
   // console.log(course);
   try {
-    const res = await customFetch.post("course/create-course", course, {
+    const res = await Fetch.post("course/create-course", course, {
       withCredentials: true,
       credentials: "includes",
     });

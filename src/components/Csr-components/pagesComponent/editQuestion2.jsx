@@ -7,6 +7,8 @@ import Loading from "../layout_constructs/loading";
 import { setLoading } from "../../../features/user/userSlice";
 import Image from "next/image";
 import { Input, HelperText, Label, Textarea } from "@roketid/windmill-react-ui";
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import { getQuestions } from "../../../features/course/module/moduleSlice";
 import { useRouter } from "next/navigation";
 import FormRow from "../../FormRow";
@@ -36,6 +38,8 @@ function EditQuestion({
   const [loader, setLoader] = useState(false);
   // const { allQuestions } = useSelector((strore) => strore.module);
   const [questionCont, setQuestionCont] = useState([]);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   // console.log(moduleParam);
   // console.log(moduleName);
   // console.log(courseName);
@@ -143,8 +147,8 @@ function EditQuestion({
     }
     setLoader(true);
 
-    const res = await axios.put(
-      `http://localhost:8000/greendometech/ng/module/assessment/questions/update/${questionParam}/${moduleParam}`,
+    const res = await Fetch.put(
+      `/module/assessment/questions/update/${questionParam}/${moduleParam}`,
       {
         question: questions,
         option1: a,

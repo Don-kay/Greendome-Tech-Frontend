@@ -5,7 +5,10 @@ import { GetAllUsers } from "../../../features/profile/profileSlice";
 import makeAnimated from "react-select/animated";
 import StudentsSlice from "../minuteComponents/slicedRolecomp.jsx";
 import functionsSpace from "../../../features/functions/functions.jsx";
-import customFetch from "../../../utilities/axios.js";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
+import { Fetch } from "../../../utilities/axios";
 import Select from "react-select";
 import Image from "next/image";
 import { useRouter } from "next/navigation.js";
@@ -31,13 +34,15 @@ const RoleView = () => {
   const [user, setUser] = useState();
   const [loadmini, setLoadmini] = useState(false);
   const [isId, setisId] = useState(null);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   const { isLoading } = useSelector((strore) => strore.user);
 
   useEffect(() => {
     dispatch(setLoading(true));
     const fetchUsers = async () => {
       try {
-        const res = await customFetch.get("/auth/users", {
+        const res = await Fetch.get("/auth/users", {
           withCredentials: true,
           credentials: "includes",
         });
@@ -78,7 +83,7 @@ const RoleView = () => {
     setLoading(true);
     if (rowId === isId) {
       try {
-        const res = await customFetch.put(
+        const res = await Fetch.put(
           `/auth/users/update/${rowId}`,
           { roles: roleCont },
 

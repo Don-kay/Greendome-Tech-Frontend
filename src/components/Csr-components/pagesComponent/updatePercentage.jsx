@@ -5,7 +5,6 @@ import makeAnimated from "react-select/animated";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import customFetch from "../../../utilities/axios";
 import FormRow from "../../../components/FormRow";
 import Link from "next/link";
 import moment from "moment";
@@ -17,6 +16,10 @@ import {
   resetUpdateMsg,
   UpdateMsg,
 } from "../../../features/course/percentage/percentageSlice.jsx";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
+import { Fetch } from "../../../utilities/axios";
 
 const initialState = {
   percent: "",
@@ -38,6 +41,8 @@ const UpdatePercentage = () => {
   const [author, setAuthor] = useState();
   const [ratioId, setRatioId] = useState("");
   const [modal, setModal] = useState({ show: false, msg: "", type: "" });
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   const disPatch = useDispatch();
 
   const loggedInUserId = user?.data.user.id;
@@ -114,8 +119,8 @@ const UpdatePercentage = () => {
 
   const handleDelete = async (id) => {
     try {
-      const res = await axios.delete(
-        `http://localhost:8000/greendometech/ng/finance/company/delete-percentage/${id}`,
+      const res = await Fetch.delete(
+        `/finance/company/delete-percentage/${id}`,
         {
           withCredentials: true,
         }
@@ -180,7 +185,7 @@ const UpdatePercentage = () => {
       // setTrigger(true);
     }
     try {
-      const res = await customFetch.put(
+      const res = await Fetch.put(
         `/finance/company/update-percentage/${ratioId}`,
         {
           percentage: profitRatio.percent,

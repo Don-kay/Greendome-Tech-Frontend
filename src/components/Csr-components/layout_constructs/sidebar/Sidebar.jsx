@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import _ from "lodash";
 import { setLoading } from "../../../../features/user/userSlice";
-import customFetch from "../../../../utilities/axios";
+import { Fetch } from "../../../../utilities/axios";
 import { AiFillSetting } from "react-icons/ai";
 import { BiCalendar } from "react-icons/bi";
 import EditProfile from "../../pagesComponent/editProfile";
@@ -56,8 +56,10 @@ export const Sidebar = ({ mobileOrientation, IsAdmin, IsStudent }) => {
   const [trigger, setTrigger] = useState(false);
   const [Params, setParams] = useState();
   const { sidebarOpen } = useDashboardContext();
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
-  const isAdminDashboard = pathname.startsWith("/panel/admin_dashboard/");
+  const isAdminDashboard = pathname.startsWith("/panel/admin_dashboard");
   // console.log(isAdminDashboard);
   // console.log(pathname);
   // console.log(isStatus);
@@ -100,7 +102,7 @@ export const Sidebar = ({ mobileOrientation, IsAdmin, IsStudent }) => {
     const fetchUsers = async () => {
       //setTrigger(true);
       try {
-        const res = await customFetch.get("/auth/users", {
+        const res = await Fetch.get("/auth/users", {
           withCredentials: true,
           credentials: "include",
         });
@@ -157,7 +159,7 @@ export const Sidebar = ({ mobileOrientation, IsAdmin, IsStudent }) => {
           studentViewData={studentSidebarEl}
           viewData={SidebarEl}
           isStudent={isStudent}
-          isAdmindashboard={isAdminDashboard}
+          isAdminDashboard={isAdminDashboard}
           isAdmin={isAdmin}
           params={Params}
         />

@@ -19,6 +19,10 @@ import Greendome from "../../asset/greendome.jpg";
 import PageTitle from "../../typography/PageTitle";
 import InfoCard2 from "../../Cards/InfoCard 2";
 import Image from "next/image";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
+import { Fetch } from "../../../utilities/axios";
 import { useEffect, useState } from "react";
 
 // async function fetchCourse() {
@@ -97,18 +101,17 @@ const ViewCourse = ({
   const moduleurl = "/panel/admin_dashboard/view-module";
   const url = "/panel/edit-question";
   const createurl = "/panel/admin_dashboard/create-module";
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   const router = useRouter();
 
   const Done = () => {};
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const course = await axios.get(
-          "http://localhost:8000/greendometech/ng/course/admin/view-all-course",
-          {
-            withCredentials: true,
-          }
-        );
+        const course = await Fetch.get("/course/admin/view-all-course", {
+          withCredentials: true,
+        });
 
         const courses = course.data.course;
         //console.log(courses);
@@ -121,12 +124,9 @@ const ViewCourse = ({
     };
     const fetchProfiles = async () => {
       try {
-        const profiles = await axios.get(
-          `http://localhost:8000/greendometech/ng/auth/users`,
-          {
-            withCredentials: true,
-          }
-        );
+        const profiles = await Fetch.get(`/auth/users`, {
+          withCredentials: true,
+        });
         //console.log(profiles);
         const users = profiles.data.user;
         setUsers(users);

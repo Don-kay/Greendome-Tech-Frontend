@@ -19,6 +19,11 @@ import { HoverModal } from "../../../features/functions/functionSlice";
 import InfoCard2 from "../../Cards/InfoCard 2";
 import Link from "next/link";
 import { AiFillSetting, AiFillDelete } from "react-icons/ai";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
+import { Fetch } from "../../../utilities/axios";
+
 import { useRouter } from "next/navigation";
 
 const initialState = {
@@ -50,17 +55,16 @@ const UserView = ({ userid }) => {
   });
   const { ishover } = useSelector((strore) => strore.functions);
   const { users } = useSelector((state) => state.profiles);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   useEffect(() => {
     dispatch(HoverModal(false));
     const fetchCourse = async () => {
       try {
-        const course = await axios.get(
-          "http://localhost:8000/greendometech/ng/course/admin/view-all-course",
-          {
-            withCredentials: true,
-          }
-        );
+        const course = await Fetch.get("/course/admin/view-all-course", {
+          withCredentials: true,
+        });
         const courses = course.data.course;
         setCourses(courses);
       } catch (error) {
@@ -71,12 +75,9 @@ const UserView = ({ userid }) => {
     };
     const fetchProfiles = async () => {
       try {
-        const profiles = await axios.get(
-          `http://localhost:8000/greendometech/ng/auth/users/${userid}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const profiles = await Fetch.get(`/auth/users/${userid}`, {
+          withCredentials: true,
+        });
 
         const users = profiles.data.user;
         const {

@@ -3,6 +3,7 @@ import react, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Loading from "../../../components/Csr-components/layout_constructs/loading";
 import { setLoading } from "../../../features/user/userSlice";
+import { GetAllUsers } from "../../../features/profile/profileSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,9 @@ const Login = () => {
   const username = loggedInUser?.map((i) => {
     return i.username;
   });
+  console.log(users);
   useEffect(() => {
+    dispatch(GetAllUsers());
     if (loggedInUser !== "" || loggedInUser !== undefined) {
       dispatch(setLoading(false));
     } else {
@@ -21,8 +24,6 @@ const Login = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  //console.log("User.image");
 
   return (
     <main>

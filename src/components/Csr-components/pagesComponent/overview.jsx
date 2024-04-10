@@ -2,10 +2,13 @@
 import React, { useEffect, useState } from "react";
 import Loading from "../layout_constructs/loading";
 import RolesCharts from "../minuteComponents/rolesCharts";
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import CourseCharts from "../minuteComponents/courseCharts";
 import RevenueCharts from "../minuteComponents/revenueCharts";
 import StudentsSlice from "../minuteComponents/slicedRolecomp";
 import Calendar from "./calendar";
+
 import EventsChart from "../minuteComponents/eventsChart";
 import { GetAllCourse } from "../../../features/course/courseSlice";
 import RatedCourse from "../minuteComponents/ratedCourse";
@@ -21,6 +24,8 @@ const Overview = () => {
   // const { course } = useSelector((state) => state.course);
   const loggedInUserId = user.data.user.id;
   const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   const Student = loggedInUser?.map((i) => {
     return i.roles.includes("student");
@@ -45,9 +50,7 @@ const Overview = () => {
   const getAllcourses = async () => {
     axios.defaults.withCredentials = true;
     try {
-      const profiles = await axios.get(
-        "http://localhost:8000/greendometech/ng/course/admin/view-all-course"
-      );
+      const profiles = await Fetch.get("/course/admin/view-all-course");
       // console.log(profiles);
       const resp = { data: profiles.data.course, stats: profiles.status };
       setCourses(resp.data);

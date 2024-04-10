@@ -9,7 +9,8 @@ import _ from "lodash";
 import Loading from "../layout_constructs/loading";
 import { GetAllUsers } from "../../../features/profile/profileSlice";
 import { useRouter } from "next/navigation";
-import customFetch from "../../../utilities/axios";
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import Image from "next/image";
 import Modal from "react-modal";
 import {
@@ -42,6 +43,7 @@ function EditProfile({
   const router = useRouter();
   const { triggers2 } = useSelector((state) => state.functions);
   const { isLoading } = useSelector((strore) => strore.user);
+
   const {
     profileParams,
     users,
@@ -102,6 +104,8 @@ function EditProfile({
   const [loading, setLoading] = useState(false);
   const [img, setImg] = useState(false);
   const [countryZip, setCountryZip] = useState([]);
+  const fetch =
+    process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   const roleOptions = [
     { value: "1", label: "student" },
@@ -256,8 +260,8 @@ function EditProfile({
     const imageType = file === undefined || file === "" ? "" : file;
     setLoading(true);
     if (IsCompany) {
-      const res = await axios.put(
-        `http://localhost:8000/greendometech/ng/auth/users/update/${id}`,
+      const res = await Fetch.put(
+        `/auth/users/update/${id}`,
         {
           firstname: firstname,
           lastname: lastname,
@@ -335,8 +339,8 @@ function EditProfile({
       }
     } else {
       setLoading(true);
-      const res = await axios.patch(
-        `http://localhost:8000/greendometech/ng/auth/users/update/${id}`,
+      const res = await Fetch.patch(
+        `/auth/users/update/${id}`,
         {
           firstname: firstname,
           lastname: lastname,

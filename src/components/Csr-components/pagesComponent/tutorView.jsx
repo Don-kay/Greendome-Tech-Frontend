@@ -11,6 +11,10 @@ import Image from "next/image";
 import Modal from "react-modal";
 import EditQuestion from "./editQuestion2";
 import CreateQuestion from "./createQuestion";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
+import { Fetch } from "../../../utilities/axios";
 import EditModule from "./editModule";
 import UpdateDropDown from "../minuteComponents/updateDropDown";
 import Greendome from "../../asset/greendome.jpg";
@@ -41,6 +45,8 @@ const TutorView = ({ tutorid, isOpen, onClosed }) => {
   const [courses, setCourses] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const { ishover } = useSelector((strore) => strore.functions);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   //console.log(studentid);
   const customStyles = {
@@ -62,12 +68,9 @@ const TutorView = ({ tutorid, isOpen, onClosed }) => {
     dispatch(HoverModal(false));
     const fetchCourse = async () => {
       try {
-        const course = await axios.get(
-          "http://localhost:8000/greendometech/ng/course/admin/view-all-course",
-          {
-            withCredentials: true,
-          }
-        );
+        const course = await Fetch.get("/course/admin/view-all-course", {
+          withCredentials: true,
+        });
 
         const courses = course.data.course;
         setCourses(courses);
@@ -79,12 +82,9 @@ const TutorView = ({ tutorid, isOpen, onClosed }) => {
     };
     const fetchProfiles = async () => {
       try {
-        const profiles = await axios.get(
-          `http://localhost:8000/greendometech/ng/auth/users/${studentid}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const profiles = await Fetch.get(`/auth/users/${studentid}`, {
+          withCredentials: true,
+        });
 
         const users = profiles.data.user;
         const {

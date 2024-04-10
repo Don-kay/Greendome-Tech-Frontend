@@ -5,6 +5,7 @@ import { GetAllUsers, setTutors } from "../../../features/profile/profileSlice";
 import ProfileActions from "../../../features/profile/profileActions.jsx";
 import FinanceSector from "../minuteComponents/financeSector.jsx";
 import { TotalTutorsProps } from "../minuteComponents/sudentPops.jsx";
+import customFetch, { customFetchProduction } from "@/utilities/axios";
 import _ from "lodash";
 import { Box, Typography } from "@mui/material";
 import { getPercentage } from "../../../features/course/percentage/percentageSlice.jsx";
@@ -20,16 +21,15 @@ const Finance = () => {
   const { users } = useSelector((strore) => strore.profiles);
   const [rowId, setRowId] = useState(null);
   // console.log(users);
+  const fetch =
+    process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const profiles = await axios.get(
-          "http://localhost:8000/greendometech/ng/auth/users",
-          {
-            withCredentials: true,
-            credentials: "include",
-          }
-        );
+        const profiles = await fetch.get("/auth/users", {
+          withCredentials: true,
+          credentials: "include",
+        });
         const resp = { data: profiles.data, stats: profiles.status };
         //  console.log(resp.data.user);
         const data = resp.data.user;
@@ -55,13 +55,10 @@ const Finance = () => {
     };
     const fetchCourses = async () => {
       try {
-        const course = await axios.get(
-          "http://localhost:8000/greendometech/ng/course/admin/view-all-course",
-          {
-            withCredentials: true,
-            credentials: "include",
-          }
-        );
+        const course = await fetch.get("/course/admin/view-all-course", {
+          withCredentials: true,
+          credentials: "include",
+        });
         const resp = { data: course.data, stats: course.status };
         //  console.log(resp.data.user);
         const data = resp.data;

@@ -18,6 +18,11 @@ import { useSelector, useDispatch } from "react-redux";
 import FormRow from "../../../components/FormRow";
 import TextARea from "../../TextArea";
 import _ from "lodash";
+import {
+  customFetchProduction,
+  customSitebase,
+} from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 
 const initialStates = {
   name: "",
@@ -37,6 +42,14 @@ const CreateCourse = () => {
   const [error, setError] = useState(false);
   const { isLoading } = useSelector((strore) => strore.user);
   const disPatch = useDispatch();
+  const moduleUrl =
+    process.env.NODE_ENV === "production"
+      ? `${customFetchProduction}/module/view-all-module`
+      : "http://localhost:8000/greendometech/ng/module/view-all-module";
+  const pushUrl =
+    process.env.NODE_ENV === "production"
+      ? `${customSitebase}/panel/admin_dashboard/view-module`
+      : `/panel/admin_dashboard/view-module`;
 
   //console.log("stats");
   // console.log(course);

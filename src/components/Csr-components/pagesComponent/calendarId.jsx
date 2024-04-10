@@ -7,6 +7,8 @@ import React, {
   useCallback,
 } from "react";
 import PageTitle from "../../typography/PageTitle";
+import customFetch, { customFetchProduction } from "@/utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import AddEventModal from "../minuteComponents/addEventModal";
@@ -44,6 +46,8 @@ const CalendarId = ({ isStudent }) => {
   // const { course } = useSelector((state) => state.course);
   const loggedInUserId = user.data.user.id;
   const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   const Student = loggedInUser?.map((i) => {
     return i.roles.includes("student");
@@ -63,9 +67,9 @@ const CalendarId = ({ isStudent }) => {
   useEffect(() => {
     dispatch(ProfileModal({ bool: false }));
     try {
-      const fetch = async () => {
-        const response = await axios.get(
-          "http://localhost:8000/greendometech/ng/calendar/get-events",
+      const fetcher = async () => {
+        const response = await Fetch.get(
+          `/calendar/get-events`,
           // setEvent(response.data),
           {
             withCredentials: true,
@@ -77,7 +81,7 @@ const CalendarId = ({ isStudent }) => {
         setEvent(data.event);
         setCount(data.count);
       };
-      fetch();
+      fetcher();
     } catch (error) {
       return;
     }
@@ -103,13 +107,10 @@ const CalendarId = ({ isStudent }) => {
 
   const deleteEventHandler = async (prop) => {
     // const singleEvent = EventList.filter((item) => item.id !== prop);
-    const deltd = await axios.delete(
-      `http://localhost:8000/greendometech/ng/calendar/delete-events/${prop}`,
-      {
-        withCredentials: true,
-        credentials: "includes",
-      }
-    );
+    const deltd = await Fetch.delete(`/calendar/delete-events/${prop}`, {
+      withCredentials: true,
+      credentials: "includes",
+    });
     const resp = deltd.data.event;
     const allEvents = deltd.data.events;
     const deletedId = resp._id;

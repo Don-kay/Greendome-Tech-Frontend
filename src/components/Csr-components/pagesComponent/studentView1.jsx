@@ -30,6 +30,9 @@ import Greendome from "../../asset/greendome.jpg";
 import { HoverModal } from "../../../features/functions/functionSlice";
 import PageTitle from "../../typography/PageTitle";
 import InfoCard2 from "../../Cards/InfoCard 2";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -50,6 +53,8 @@ const StudentView1 = ({
 
   const [modalOpen, setModalOpen] = useState(false);
   const { ishover } = useSelector((strore) => strore.functions);
+  const fetch =
+    process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   const { user } = useSelector((strore) => strore.user);
   const { users } = useSelector((strore) => strore.profiles);
   const loggedInUserId = user.data.user.id;

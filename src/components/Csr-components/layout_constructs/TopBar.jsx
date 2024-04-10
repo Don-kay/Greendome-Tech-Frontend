@@ -2,6 +2,7 @@ import { useDashboardContext } from "../../../app/panel/Provider";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BsFillEnvelopeFill } from "react-icons/bs";
 import Image from "next/image";
+import { customSitebase } from "@/utilities/axios";
 import Dennis from "../../asset/dennis.jpg";
 import Link from "next/link";
 

@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { GetAllUsers } from "../../../features/profile/profileSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { Fetch } from "../../../utilities/axios";
 import CourseHover from "../minuteComponents/courseHover";
 import CourseHover1 from "../minuteComponents/courseHover1";
 import Link from "next/link";
@@ -35,24 +36,23 @@ const AllCourseDisp = ({ params }) => {
   const url = "/panel/admin_dashboard/view-module";
   const route = "/panel/admin_dashboard/all-students";
   // console.log(params);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   const container = useRef(null);
 
   useEffect(() => {
     dispatch(GetAllUsers());
 
-    const fetch = async () => {
+    const fetcher = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:8000/greendometech/ng/auth/users",
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await Fetch.get("/auth/users", {
+          withCredentials: true,
+        });
         const userResp = res.data.user;
         //console.log(userResp);
-        const resp = await axios.get(
-          "http://localhost:8000/greendometech/ng/course/admin/view-all-course",
+        const resp = await Fetch.get(
+          "/course/admin/view-all-course",
 
           {
             withCredentials: true,
@@ -78,36 +78,23 @@ const AllCourseDisp = ({ params }) => {
         );
         //console.log(studentsCourses);
         setName(_.toString(studentName));
-        // console.log(studentClas);
-        // console.log(studentClasses);
-        // setStudentClass(userClasses)
-        // console.log(studentsCourses);
         setStudentCourses(studentsCourses);
 
-        // const allAttendees = s.map((item) => {
-        //   return {
-        //     id: item.id,
-        //     email: item.email,
-        //     username: item.username,
-        //     firstname: item.firstname,
-        //     roles: _.toString(item.roles),
-        //     lastname: item.lastname,
-        //   }});
         setCourse(Courses);
       } catch (error) {
         return { msg: error.response.data };
       }
     };
 
-    fetch();
+    fetcher();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id1]);
 
   const AddToCourse = async (_id) => {
     axios.defaults.withCredentials = true;
     try {
-      const resp = await axios.put(
-        `http://localhost:8000/greendometech/ng/course/myclasses/assign-students/${params}/classes/${_id}`,
+      const resp = await Fetch.put(
+        `/course/myclasses/assign-students/${params}/classes/${_id}`,
         {
           method: "PUT",
           withCredentials: true,
@@ -129,8 +116,8 @@ const AllCourseDisp = ({ params }) => {
   const RemoveCourse = async (id) => {
     axios.defaults.withCredentials = true;
     try {
-      const resp = await axios.put(
-        `http://localhost:8000/greendometech/ng/course/myclasses/unassign-students/${params}/classes/${id}`,
+      const resp = await Fetch.put(
+        `/course/myclasses/unassign-students/${params}/classes/${id}`,
         {
           method: "PUT",
           withCredentials: true,

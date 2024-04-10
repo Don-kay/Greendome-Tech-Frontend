@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { HoverModal } from "../../../features/functions/functionSlice";
 import PageTitle from "../../typography/PageTitle";
 import moment from "moment";
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import Image from "next/image";
 import Greendome from "../../asset/greendome.jpg";
 import ViewCourse from "./viewCourse";
@@ -31,17 +33,16 @@ const RegisteredCourses = () => {
   const classesId = loggedInUser?.map((i) => i.classesId);
   const assinged = classesId;
   const singleAss = assinged?.flat(1);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   useEffect(() => {
     dispatch(GetAllUsers());
     const fetchCourses = async () => {
       try {
-        const resp = await axios.get(
-          "http://localhost:8000/greendometech/ng/course/admin/view-all-course",
-          {
-            withCredentials: true,
-          }
-        );
+        const resp = await Fetch.get("/course/admin/view-all-course", {
+          withCredentials: true,
+        });
 
         const Courses = resp.data.course;
         // console.log(Courses);
@@ -55,12 +56,9 @@ const RegisteredCourses = () => {
     };
     const fetchModule = async () => {
       try {
-        const resp = await axios.get(
-          "http://localhost:8000/greendometech/ng/module/view-all-module",
-          {
-            withCredentials: true,
-          }
-        );
+        const resp = await Fetch.get("/module/view-all-module", {
+          withCredentials: true,
+        });
 
         const res = resp.data.modules;
         // console.log(res);

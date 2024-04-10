@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Loading from "../layout_constructs/loading";
 import { setLoading } from "../../../features/user/userSlice";
 import { getPercentage } from "@/features/course/percentage/percentageSlice";
+import { GetAllUsers } from "@/features/profile/profileSlice";
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import {
   loginUserEmail,
   loginUsername,
@@ -52,6 +55,8 @@ const Loginpage = (session) => {
   const [isloading, setLoading] = useState(false);
   const [isEmail, setisEmail] = useState(false);
   const dispatch = useDispatch();
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   const { user, isLoading, role } = useSelector((strore) => strore.user);
   // const token = user?.token;
   // const roles = userRole?.roles;
@@ -127,23 +132,23 @@ const Loginpage = (session) => {
     const { password, username } = values;
     if (!password || !username) {
       toast.error("please fill out all details");
+      setLoading(false);
     }
     setError("");
     setLoading(true);
-    const user1 = await axios
-      .post(
-        "http://localhost:8000/greendometech/ng/auth/login/username",
-        {
-          username: username,
-          password: password,
-        },
-        { withCredentials: true }
-      )
-      .catch((err) => {
-        setdisplayError(true);
-        setError(err.response);
-      });
+    const user1 = await Fetch.post(
+      "/auth/login/username",
+      {
+        username: username,
+        password: password,
+      },
+      { withCredentials: true }
+    ).catch((err) => {
+      setdisplayError(true);
+      setError(err.response);
+    });
     dispatch(getPercentage());
+    dispatch(GetAllUsers());
     // setData(user1);
 
     //console.log(user1);
@@ -212,19 +217,17 @@ const Loginpage = (session) => {
     }
     setError("");
     setLoading(true);
-    const user1 = await axios
-      .post(
-        "http://localhost:8000/greendometech/ng/auth/login/email",
-        {
-          email: email,
-          password: password,
-        },
-        { withCredentials: true }
-      )
-      .catch((err) => {
-        setdisplayError(true);
-        setError(err.response);
-      });
+    const user1 = await Fetch.post(
+      "/auth/login/email",
+      {
+        email: email,
+        password: password,
+      },
+      { withCredentials: true }
+    ).catch((err) => {
+      setdisplayError(true);
+      setError(err.response);
+    });
     dispatch(getPercentage());
     // setData(user1);
 

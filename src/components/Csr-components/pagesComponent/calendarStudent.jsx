@@ -9,6 +9,8 @@ import React, {
 import PageTitle from "../../typography/PageTitle";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import customFetch, { customFetchProduction } from "@/utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import AddEventModal from "../minuteComponents/addEventModal";
 import UpdateEventModal from "../minuteComponents/updateEventModal";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,6 +55,9 @@ const CalendarStudent = ({ isStudent, isAdmin }) => {
     return i.roles.includes("Admin");
   });
 
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
+
   //console.log(event);
   //console.log(` check ${singleEvent1}`);
   const IsStudent = _.toString(Student);
@@ -67,9 +72,9 @@ const CalendarStudent = ({ isStudent, isAdmin }) => {
   useEffect(() => {
     dispatch(ProfileModal({ bool: false }));
     try {
-      const fetch = async () => {
-        const response = await axios.get(
-          "http://localhost:8000/greendometech/ng/calendar/get-events",
+      const fetcher = async () => {
+        const response = await Fetch.get(
+          `/calendar/get-events`,
           // setEvent(response.data),
           {
             withCredentials: true,
@@ -93,7 +98,7 @@ const CalendarStudent = ({ isStudent, isAdmin }) => {
         setEvent(data.event);
         setCount(data.count);
       };
-      fetch();
+      fetcher();
     } catch (error) {
       return;
     }

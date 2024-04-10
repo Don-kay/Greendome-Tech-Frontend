@@ -22,6 +22,8 @@ import Greendome from "../../asset/greendome.jpg";
 import Image from "next/image";
 import moment from "moment";
 import axios from "axios";
+import customFetch, { customFetchProduction } from "@/utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 
 const Calendar = ({ isStudent, isAdmin }) => {
   const [modalOpen, setModalOpen] = useState({
@@ -30,6 +32,7 @@ const Calendar = ({ isStudent, isAdmin }) => {
   });
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const [singleEvent, setSingleEvent] = useState("");
+  const [singleEvent1, setSingleEvent1] = useState("");
   const [deletedEvent, setDeletedEvent] = useState("");
   const [params, setParams] = useState("");
   const [eventView, setEventview] = useState(false);
@@ -39,12 +42,14 @@ const Calendar = ({ isStudent, isAdmin }) => {
 
   const [event, setEvent] = useState([]);
   const [count, setCount] = useState();
-  const [singleEvent1, setSingleEvent1] = useState();
   const { user } = useSelector((strore) => strore.user);
   const { users } = useSelector((state) => state.profiles);
   // const { course } = useSelector((state) => state.course);
   const loggedInUserId = user.data.user.id;
   const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
+
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   const Student = loggedInUser?.map((i) => {
     return i.roles.includes("student");
@@ -53,7 +58,6 @@ const Calendar = ({ isStudent, isAdmin }) => {
     return i.roles.includes("Admin");
   });
   //console.log(event);
-  //console.log(` check ${singleEvent1}`);
   const IsStudent = _.toString(Student);
   const IsAdmin = _.toString(Admin);
 
@@ -66,9 +70,9 @@ const Calendar = ({ isStudent, isAdmin }) => {
   useEffect(() => {
     dispatch(ProfileModal({ bool: false }));
     try {
-      const fetch = async () => {
-        const response = await axios.get(
-          "http://localhost:8000/greendometech/ng/calendar/get-events",
+      const fetcher = async () => {
+        const response = await Fetch.get(
+          `/calendar/get-events`,
           // setEvent(response.data),
           {
             withCredentials: true,
@@ -92,7 +96,7 @@ const Calendar = ({ isStudent, isAdmin }) => {
         setEvent(data.event);
         setCount(data.count);
       };
-      fetch();
+      fetcher();
     } catch (error) {
       return;
     }
@@ -125,13 +129,10 @@ const Calendar = ({ isStudent, isAdmin }) => {
 
   const deleteEventHandler = async (prop) => {
     // const singleEvent = EventList.filter((item) => item.id !== prop);
-    const deltd = await axios.delete(
-      `http://localhost:8000/greendometech/ng/calendar/delete-events/${prop}`,
-      {
-        withCredentials: true,
-        credentials: "includes",
-      }
-    );
+    const deltd = await Fetch.delete(`/calendar/delete-events/${prop}`, {
+      withCredentials: true,
+      credentials: "includes",
+    });
     const resp = deltd.data.event;
     const allEvents = deltd.data.events;
     const deletedId = resp._id;

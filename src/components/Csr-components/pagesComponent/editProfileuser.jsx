@@ -9,7 +9,8 @@ import _ from "lodash";
 import Loading from "../layout_constructs/loading";
 import { GetAllUsers } from "../../../features/profile/profileSlice";
 import { useRouter } from "next/navigation";
-import customFetch from "../../../utilities/axios";
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import Image from "next/image";
 import Modal from "react-modal";
 import {
@@ -34,6 +35,8 @@ function EditProfile({ params, studentid, isOpen, onClosed, setUser }) {
   const { triggers2 } = useSelector((state) => state.functions);
   const { isLoading } = useSelector((strore) => strore.user);
   const { users } = useSelector((strore) => strore.profiles);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   //console.log(isLoading);
   // const [users, setUsers] = useState("");
 
@@ -239,8 +242,8 @@ function EditProfile({ params, studentid, isOpen, onClosed, setUser }) {
     // console.log(roleDisplay);
     const imageType = file === undefined || file === "" ? "" : file;
     setLoading(true);
-    const res = await axios.patch(
-      `http://localhost:8000/greendometech/ng/auth/users/update/${id}`,
+    const res = await Fetch.patch(
+      `/auth/users/update/${id}`,
       {
         firstname: firstname,
         lastname: lastname,

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Image from "next/image";
 import {
   GetAllUsers,
   setStudents,
@@ -14,6 +15,7 @@ import {
   displayStudents,
 } from "../../../features/functions/functionSlice";
 import ProfileActions from "../../../features/profile/profileActions.jsx";
+import Greendome from "../../asset/greendome.jpg";
 import _ from "lodash";
 import { Box, Typography } from "@mui/material";
 import PageTitle from "../../typography/PageTitle";
@@ -127,6 +129,7 @@ const StudentsSlice = ({ trigger, updateduser }) => {
   const students = studentObj?.map((item) => {
     return {
       id: item.id,
+      image: item.image,
       email: item.email,
       username: item.username,
       firstname: item.firstname,
@@ -140,6 +143,7 @@ const StudentsSlice = ({ trigger, updateduser }) => {
   const tutor = tutorObj?.map((item) => {
     return {
       id: item.id,
+      image: item.image,
       email: item.email,
       username: item.username,
       firstname: item.firstname,
@@ -153,6 +157,7 @@ const StudentsSlice = ({ trigger, updateduser }) => {
   const admin = adminObj?.map((item) => {
     return {
       id: item.id,
+      image: item.image,
       email: item.email,
       username: item.username,
       firstname: item.firstname,
@@ -179,6 +184,24 @@ const StudentsSlice = ({ trigger, updateduser }) => {
 
   const columns = useMemo(
     () => [
+      {
+        field: "image",
+        headerName: "Image",
+        width: 220,
+        renderCell: (params) =>
+          params.row.image === "" || params.row.image === undefined ? (
+            <Image width={200} height={200} src={Greendome} alt="image" />
+          ) : (
+            <Image
+              width={100}
+              height={100}
+              src={params.row.image}
+              alt="image"
+            />
+          ),
+        sortable: false,
+        filterable: false,
+      },
       { field: "id", headerName: "Id", width: 220 },
       { field: "username", headerName: "Username", width: 120 },
       { field: "firstname", headerName: "Firstname", width: 170 },
@@ -194,14 +217,14 @@ const StudentsSlice = ({ trigger, updateduser }) => {
         },
       },
       { field: "createdAt", headerName: "Created At", width: 220 },
-      {
-        field: "actions",
-        headerName: "Actions",
-        width: 220,
-        renderCell: (params) => (
-          <ProfileActions isAdmin={IsAdmin} {...{ params }} />
-        ),
-      },
+      // {
+      //   field: "actions",
+      //   headerName: "Actions",
+      //   width: 220,
+      //   renderCell: (params) => (
+      //     <ProfileActions isAdmin={IsAdmin} {...{ params }} />
+      //   ),
+      // },
     ], // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );

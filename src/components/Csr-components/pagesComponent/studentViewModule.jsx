@@ -6,11 +6,17 @@ import Greendome from "../../asset/greendome.jpg";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import ModuleDetail from "./moduleDetails ";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
+import { Fetch } from "../../../utilities/axios";
 
 const StudentViewModules = ({ studentCourses, modules, paramsId, setId }) => {
   const [trigger, setTrigger] = useState(false);
   const [question, setQuestion] = useState([]);
   const [selectedModule, setSelectedModule] = useState();
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   const [id, setId1] = useState("");
   // const url = "/panel/admin_dashboard/view-module";
   // const createurl = "/panel/admin_dashboard/create-module";
@@ -18,8 +24,8 @@ const StudentViewModules = ({ studentCourses, modules, paramsId, setId }) => {
   useEffect(() => {
     const fetchQuestion = async () => {
       try {
-        const question = await axios.get(
-          `http://localhost:8000/greendometech/ng/module/assessment/admin/all-questions/${paramsId}`,
+        const question = await Fetch.get(
+          `/module/assessment/admin/all-questions/${paramsId}`,
           {
             withCredentials: true,
           }

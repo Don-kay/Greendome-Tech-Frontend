@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from "react";
 
 import axios from "axios";
-import customFetch from "../../../utilities/axios";
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import Image from "next/image";
 import Select from "react-select";
 import { toast } from "react-toastify";
@@ -69,6 +70,8 @@ const CreateQuestion = ({
     (strore) => strore.module
   );
   const router = useRouter();
+  const fetch =
+    process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   const disPatch = useDispatch();
   //console.log(paramname);
 
@@ -117,8 +120,8 @@ const CreateQuestion = ({
 
   const deleteQuestion = async (_id) => {
     try {
-      const question = await axios.delete(
-        `http://localhost:8000/greendometech/ng/module/assessment/admin/delete-question/${_id}/${moduleid}`,
+      const question = await Fetch.delete(
+        `/module/assessment/admin/delete-question/${_id}/${moduleid}`,
         {
           withCredentials: true,
         }
@@ -152,8 +155,8 @@ const CreateQuestion = ({
     try {
       const fetchModule = async () => {
         try {
-          const resp = await axios.get(
-            `http://localhost:8000/greendometech/ng/module/admin/view-module/${moduleid}`,
+          const resp = await Fetch.get(
+            `/module/admin/view-module/${moduleid}`,
             {
               withCredentials: true,
             }
@@ -326,10 +329,10 @@ const CreateQuestion = ({
       return;
     }
     const fileType = file === undefined ? "" : file;
-    console.log(question);
+    //console.log(question);
 
     try {
-      const res = await customFetch.post(
+      const res = await Fetch.post(
         `module/assessment/create_question/${moduleid}/${courseId}`,
         {
           question: question,

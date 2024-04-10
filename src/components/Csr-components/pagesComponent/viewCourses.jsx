@@ -8,6 +8,10 @@ import _ from "lodash";
 import Link from "next/link";
 import Greendome from "../../asset/greendome.jpg";
 import Image from "next/image";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
+import { Fetch } from "../../../utilities/axios";
 import { useEffect, useState } from "react";
 
 // async function fetchCourse() {
@@ -36,6 +40,8 @@ const ViewCourses = () => {
   const [Courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
   const { isLoading1 } = useSelector((strore) => strore.user);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   //console.log(Courses);
   const url = "/panel/admin_dashboard/view-module";
 
@@ -43,12 +49,9 @@ const ViewCourses = () => {
     setLoading(true);
     const fetchCourse = async () => {
       try {
-        const course = await axios.get(
-          "http://localhost:8000/greendometech/ng/course/admin/view-all-course",
-          {
-            withCredentials: true,
-          }
-        );
+        const course = await Fetch.get("/course/admin/view-all-course", {
+          withCredentials: true,
+        });
 
         const courses = course.data.course;
         //console.log(course);

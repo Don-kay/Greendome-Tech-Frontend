@@ -1,4 +1,5 @@
 import customFetch from "../../utilities/axios";
+import { Fetch } from "../../utilities/axios";
 
 export const getAllUsersThunk = async (_, thunkApi) => {
   //   const { page, search, searchStatus, searchType, sort } =
@@ -9,7 +10,7 @@ export const getAllUsersThunk = async (_, thunkApi) => {
   //     url = url + `&search=${search}`;
   //   }
   try {
-    const res = await customFetch.get("/auth/users", {
+    const res = await Fetch.get("/auth/users", {
       withCredentials: true,
       credentials: "include",
     });
@@ -50,7 +51,7 @@ export const updateAdminThunk = async (user, thunkApi) => {
   // console.log(user);
 
   try {
-    const res = await customFetch.put(
+    const res = await Fetch.put(
       `/auth/users/update/${param}`,
 
       roles,

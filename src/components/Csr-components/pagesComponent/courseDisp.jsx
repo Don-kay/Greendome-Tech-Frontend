@@ -12,6 +12,8 @@ import Greendome from "../../asset/greendome.jpg";
 import ViewCourse from "./viewCourse";
 import { GetAllUsers } from "../../../features/profile/profileSlice";
 import _ from "lodash";
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 
 const CourseDisp = () => {
   const dispatch = useDispatch();
@@ -31,6 +33,8 @@ const CourseDisp = () => {
   const classesId = loggedInUser?.map((i) => i.classesId);
   const assinged = classesId;
   const singleAss = assinged?.flat(1);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   if (data?.length !== 0) {
     dispatch(setLoading(false));
@@ -43,12 +47,9 @@ const CourseDisp = () => {
     dispatch(GetAllUsers());
     const fetchCourses = async () => {
       try {
-        const resp = await axios.get(
-          "http://localhost:8000/greendometech/ng/course/admin/view-all-course",
-          {
-            withCredentials: true,
-          }
-        );
+        const resp = await Fetch.get(`/course/admin/view-all-course`, {
+          withCredentials: true,
+        });
 
         const Courses = resp.data.course;
         // if (resp.status === 200) {
@@ -64,12 +65,9 @@ const CourseDisp = () => {
     };
     const fetchModule = async () => {
       try {
-        const resp = await axios.get(
-          "http://localhost:8000/greendometech/ng/module/view-all-module",
-          {
-            withCredentials: true,
-          }
-        );
+        const resp = await Fetch.get(`/module/view-all-module`, {
+          withCredentials: true,
+        });
 
         const res = resp.data.modules;
         // console.log(res);

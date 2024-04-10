@@ -8,6 +8,7 @@ import TextARea from "../../TextArea";
 import PageTitle from "../../typography/PageTitle";
 import Loading from "../layout_constructs/loading";
 import FormRow from "../../FormRow";
+import { Fetch } from "../../../utilities/axios";
 import _ from "lodash";
 
 const UpdateEventModal = ({
@@ -30,6 +31,8 @@ const UpdateEventModal = ({
   const [file, setFile] = useState("");
   const [img, setImg] = useState(false);
   const [loading, setLoading] = useState(false);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   const image = !eImage ? "" : eImage;
   //console.log(singleEvent);
@@ -99,8 +102,8 @@ const UpdateEventModal = ({
     const image = file;
     setLoading(true);
 
-    const resp = await axios.patch(
-      `http://localhost:8000/greendometech/ng/calendar/update-events/${params}`,
+    const resp = await Fetch.patch(
+      `/calendar/update-events/${params}`,
       {
         title,
         start,

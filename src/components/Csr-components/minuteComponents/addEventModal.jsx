@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import Datetime from "react-datetime";
 import axios from "axios";
 import { Textarea } from "@roketid/windmill-react-ui";
+import { Fetch } from "../../../utilities/axios";
 import TextARea from "../../TextArea";
 import FormRow from "../../FormRow";
 import Image from "next/image";
@@ -18,7 +19,8 @@ const AddEventModal = ({ isOpen, onClosed, onEventAdded }) => {
   const [nuEnd, setNuend] = useState(new Date());
   const [file, setFile] = useState();
   const [img, setImg] = useState(false);
-
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   // console.log(start);
   // console.log(end);
 
@@ -78,8 +80,8 @@ const AddEventModal = ({ isOpen, onClosed, onEventAdded }) => {
     // console.log(schedule);
     // console.log(typeof start);
     try {
-      const resp = await axios.post(
-        "http://localhost:8000/greendometech/ng/calendar/create-event",
+      const resp = await Fetch.post(
+        "/calendar/create-event",
         {
           title,
           start,

@@ -4,7 +4,7 @@ import React, { useState, useRef, useReducer, useEffect, useMemo } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import AddEventModal from "../minuteComponents/addEventModal";
-
+import { Fetch } from "../../../utilities/axios";
 import UpdateEventModal from "../minuteComponents/updateEventModal";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Typography } from "@mui/material";
@@ -25,6 +25,8 @@ const AllEvent = () => {
     addEvent: false,
     viewEvent: false,
   });
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   const [event, setEvent] = useState([]);
   const { profileView, modalId } = useSelector((strore) => strore.functions);
   const dispatch = useDispatch();
@@ -40,9 +42,9 @@ const AllEvent = () => {
   useEffect(() => {
     dispatch(ProfileModal({ bool: false }));
     try {
-      const fetch = async () => {
-        const response = await axios.get(
-          "http://localhost:8000/greendometech/ng/calendar/get-events",
+      const fetcher = async () => {
+        const response = await Fetch.get(
+          "/calendar/get-events",
           // setEvent(response.data),
           {
             withCredentials: true,
@@ -54,7 +56,8 @@ const AllEvent = () => {
         setEvent(data.event);
         setCount(data.count);
       };
-      fetch();
+
+      fetcher();
     } catch (error) {
       return;
     }

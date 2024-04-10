@@ -2,13 +2,14 @@
 import React from "react";
 import { Box, Fab } from "@mui/material";
 import Link from "next/link";
+import { customSitebase } from "@/utilities/axios";
 import { GrOverview } from "react-icons/gr";
 import { AiFillSetting, AiFillDelete, AiFillFileAdd } from "react-icons/ai";
 
 const MenuDropDown = ({ id, name }) => {
   const url = "/panel/admin_dashboard/create-module";
-  console.log(id);
-  console.log(name);
+  // console.log(id);
+  // console.log(name);
   const updateRoute = "/panel/admin-update-course";
   // console.log(studentId);
   return (

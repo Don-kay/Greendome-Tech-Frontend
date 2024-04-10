@@ -1,9 +1,9 @@
-import customFetch from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 // import { cookies } from "next/headers";
 
 export const AllModulesThunk = async (_, thunkApi) => {
   try {
-    const res = await customFetch.get("/classes/admin/view-all-classes", {
+    const res = await Fetch.get("/classes/admin/view-all-classes", {
       withCredentials: true,
       credentials: "includes",
     });
@@ -17,7 +17,7 @@ export const AllModulesThunk = async (_, thunkApi) => {
   }
 };
 export const CreateModulesThunk = async (modules, thunkApi) => {
-  console.log(modules);
+  //console.log(modules);
   const {
     title,
     description,
@@ -31,7 +31,7 @@ export const CreateModulesThunk = async (modules, thunkApi) => {
     paramName,
   } = modules;
   try {
-    const res = await customFetch.post(
+    const res = await Fetch.post(
       `module/create-module/${paramName}/${paramId}`,
       {
         title: title,
@@ -64,7 +64,7 @@ export const getQuestionThunk = async (question, thunkApi) => {
   console.log(question);
   const { questionId } = question;
   try {
-    const res = await customFetch.get(
+    const res = await Fetch.get(
       `module/assessment/all-questions/${questionId}`,
       {
         withCredentials: true,
@@ -85,7 +85,7 @@ export const CreateQuestionThunk = async (questions, thunkApi) => {
   const { question, moduleId, option1, option2, option3, option4, answer } =
     questions;
   try {
-    const res = await customFetch.post(
+    const res = await Fetch.post(
       `module/assessment/create_question/${moduleId}`,
       {
         question: question,

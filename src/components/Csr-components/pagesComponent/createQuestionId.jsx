@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from "react";
 
 import axios from "axios";
-import customFetch from "../../../utilities/axios";
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import Image from "next/image";
 import Select from "react-select";
 import Loading from "../layout_constructs/loading";
@@ -81,6 +82,8 @@ const CreateQuestion = ({
     (strore) => strore.module
   );
   const router = useRouter();
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   const disPatch = useDispatch();
   //console.log(paramname);
 
@@ -135,8 +138,8 @@ const CreateQuestion = ({
 
   const deleteQuestion = async (_id) => {
     try {
-      const question = await axios.delete(
-        `http://localhost:8000/greendometech/ng/module/assessment/admin/delete-question/${_id}/${moduleid}`,
+      const question = await Fetch.delete(
+        `/module/assessment/admin/delete-question/${_id}/${moduleid}`,
         {
           withCredentials: true,
         }
@@ -165,8 +168,8 @@ const CreateQuestion = ({
   useEffect(() => {
     const fetchQuestion = async () => {
       try {
-        const question = await axios.get(
-          `http://localhost:8000/greendometech/ng/module/assessment/all-questions/${moduleid}`,
+        const question = await Fetch.get(
+          `/module/assessment/all-questions/${moduleid}`,
           {
             withCredentials: true,
           }
@@ -196,8 +199,8 @@ const CreateQuestion = ({
     try {
       const fetchModule = async () => {
         try {
-          const resp = await axios.get(
-            `http://localhost:8000/greendometech/ng/module/admin/course/view-module/${courseId}`,
+          const resp = await cetch.get(
+            `/module/admin/course/view-module/${courseId}`,
             {
               withCredentials: true,
             }
@@ -387,16 +390,18 @@ const CreateQuestion = ({
     const { question, a, b, c, d, answer } = questioner;
     if (!question || !a || !b || !c || !d || !answer) {
       toast.error("please fill out all details");
+      setLoader(false);
       return;
     } else {
       setError(true);
+      setLoader(true);
     }
-    setLoader(true);
+
     const fileType = file === undefined ? "" : file;
     //console.log(question);
 
     try {
-      const res = await customFetch.post(
+      const res = await Fetch.post(
         `module/assessment/create_question/${moduleid}/${courseId}`,
         {
           question: question,

@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { cookies } from "next/headers";
+import { Fetch } from "../../../utilities/axios";
 import Link from "next/link";
 import functionsSpace from "../../../features/functions/functions";
 import { AiFillSetting, AiFillDelete } from "react-icons/ai";
@@ -9,17 +10,15 @@ import _ from "lodash";
 async function fetchCourses() {
   const cookiesStore = cookies();
   const cookie = cookiesStore.get("myToken")?.value;
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   try {
-    const resp = await axios.get(
-      "http://localhost:8000/greendometech/ng/classes/admin/view-all-classes",
-      {
-        headers: {
-          Cookie: "myToken=" + cookie,
-        },
-      }
-    );
-
+    const resp = await Fetch.get("/classes/admin/view-all-classes", {
+      headers: {
+        Cookie: "myToken=" + cookie,
+      },
+    });
     const Courses = resp.data;
     return Courses;
   } catch (error) {

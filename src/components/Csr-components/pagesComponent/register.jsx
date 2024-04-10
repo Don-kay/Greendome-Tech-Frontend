@@ -8,6 +8,8 @@ import { registerUser } from "../../../features/user/userSlice";
 import { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import Greendome from "../../asset/greendome.jpg";
 import { useRouter } from "next/navigation";
 import { Label, Input, Button } from "@roketid/windmill-react-ui";
@@ -38,6 +40,8 @@ const Registerpage = () => {
   const [img, setImg] = useState(false);
   const { userAuth, isLoading } = useSelector((store) => store.user);
   const dispatch = useDispatch();
+  const fetch =
+    process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   const roles = isTutor ? "tutor" : "student";
 
@@ -129,30 +133,28 @@ const Registerpage = () => {
       return;
     }
 
-    console.log(countryZip);
+    //console.log(countryZip);
 
-    const user1 = await axios
-      .post(
-        "http://localhost:8000/greendometech/ng/auth/register",
-        {
-          firstname: firstname,
-          lastname: lastname,
-          email: email,
-          username: username,
-          mobilenumber: mobilenumber,
-          password: password,
-          image: file,
-          biography: biography,
-          country: _.toString(countryZip),
-          certificate: certCont,
-          roles: roles,
-        },
-        { withCredentials: true }
-      )
-      .catch((err) => {
-        console.log(err.response);
-        setError(err.response);
-      });
+    const user1 = await Fetch.post(
+      "/auth/register",
+      {
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        username: username,
+        mobilenumber: mobilenumber,
+        password: password,
+        image: file,
+        biography: biography,
+        country: _.toString(countryZip),
+        certificate: certCont,
+        roles: roles,
+      },
+      { withCredentials: true }
+    ).catch((err) => {
+      //console.log(err.response);
+      setError(err.response);
+    });
     dispatch(
       registerUser({
         firstname: firstname,

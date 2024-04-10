@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import customFetch from "../../../utilities/axios";
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import { useSelector, useDispatch } from "react-redux";
 import ConfirmationModal from "../minuteComponents/confirmationModal";
 import _ from "lodash";
@@ -79,6 +80,9 @@ const ModuleView = ({
     editQuestion: false,
     editModule: false,
   });
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
+
   const { ishover } = useSelector((strore) => strore.functions);
 
   const [response, setResponse] = useState({ moduleMsg: "", questionMsg: "" });
@@ -130,19 +134,16 @@ const ModuleView = ({
           moduleQuestion.map((i) => {
             moduleQuestion.length === 0
               ? null
-              : axios.delete(
-                  `http://localhost:8000/greendometech/ng/module/assessment/admin/delete-question/${i._id}/${id}`,
+              : Fetch.delete(
+                  `/module/assessment/admin/delete-question/${i._id}/${id}`,
                   {
                     withCredentials: true,
                   }
                 );
           }),
-          axios.delete(
-            `http://localhost:8000/greendometech/ng/module/admin-delete-module/${id}`,
-            {
-              withCredentials: true,
-            }
-          )
+          Fetch.delete(`/module/admin-delete-module/${id}`, {
+            withCredentials: true,
+          })
         )
         .then(
           axios.spread(function (questions, module) {
@@ -202,8 +203,8 @@ const ModuleView = ({
   const deleteQuestion = async (_id) => {
     setTrigger(true);
     try {
-      const question = await axios.delete(
-        `http://localhost:8000/greendometech/ng/module/assessment/admin/delete-question/${_id}/${moduleid}`,
+      const question = await Fetch.delete(
+        `/module/assessment/admin/delete-question/${_id}/${moduleid}`,
         {
           withCredentials: true,
         }
@@ -296,16 +297,18 @@ const ModuleView = ({
     const { question, a, b, c, d, answer } = questioner;
     if (!question || !a || !b || !c || !d || !answer) {
       toast.error("please fill out all details");
+      setLoader(false);
       return;
     } else {
       setError(true);
+      setLoader(true);
     }
-    setLoader(true);
+
     const fileType = file === undefined ? "" : file;
     //console.log(question);
 
     try {
-      const res = await customFetch.post(
+      const res = await Fetch.post(
         `module/assessment/create_question/${moduleid}/${courseid}`,
         {
           question: question,

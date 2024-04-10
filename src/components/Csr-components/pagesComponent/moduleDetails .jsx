@@ -7,6 +7,7 @@ import { CourseconfirmationModal } from "../minuteComponents/confirmationModal";
 import CreateModule from "./createModule";
 import EditCourse from "./editCourse";
 import _ from "lodash";
+import customFetch, { customFetchProduction } from "@/utilities/axios";
 import UpdateDropDown from "../minuteComponents/updateDropDown";
 import { HoverModal } from "../../../features/functions/functionSlice";
 import { resetModule } from "../../../features/course/module/moduleSlice";
@@ -19,6 +20,8 @@ import { useEffect, useState } from "react";
 const ModuleDetail = ({ module, setId }) => {
   const [trigger, setTrigger] = useState(false);
   const [question, setQuestion] = useState([]);
+  const fetch =
+    process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   // const url = "/panel/admin_dashboard/view-module";
   // const createurl = "/panel/admin_dashboard/create-module";
   //console.log(module);

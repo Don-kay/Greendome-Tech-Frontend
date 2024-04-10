@@ -5,6 +5,10 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import AddEventModal from "../minuteComponents/addEventModal";
 import UpdateEventModal from "../minuteComponents/updateEventModal";
 import { useDispatch, useSelector } from "react-redux";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
+import { Fetch } from "../../../utilities/axios";
 import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid/DataGrid";
 import ProfileActions from "../../../features/profile/profileActions";
@@ -28,6 +32,8 @@ const StudentCalendar = () => {
   const [eventView, setEventview] = useState(false);
   const { user } = useSelector((strore) => strore.user);
   const { users } = useSelector((state) => state.profiles);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   // const { course } = useSelector((state) => state.course);
   const loggedInUserId = user.data.user.id;
   const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
@@ -48,9 +54,9 @@ const StudentCalendar = () => {
   useEffect(() => {
     dispatch(ProfileModal({ bool: false }));
     try {
-      const fetch = async () => {
-        const response = await axios.get(
-          "http://localhost:8000/greendometech/ng/calendar/get-events",
+      const fetcher = async () => {
+        const response = await Fetch.get(
+          "/calendar/get-events",
           // setEvent(response.data),
           {
             withCredentials: true,
@@ -62,7 +68,7 @@ const StudentCalendar = () => {
         setEvent(data.event);
         setCount(data.count);
       };
-      fetch();
+      fetcher();
     } catch (error) {
       return;
     }

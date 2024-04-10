@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, forwardRef, useEffect } from "react";
-
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import Loading from "../layout_constructs/loading";
 import { setLoading } from "../../../features/user/userSlice";
 import axios from "axios";
@@ -29,6 +30,8 @@ function EditCourse({
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
   const { users } = useSelector((strore) => strore.profiles);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   // console.log(moduleParam);
   // console.log(moduleName);
@@ -89,8 +92,8 @@ function EditCourse({
     return { username: i.username, id: i.id, image: i.image };
   });
   const assignTuTor = async (id) => {
-    const assignedTutor = await axios.put(
-      `http://localhost:8000/greendometech/ng/course/admin-assign-tutor/${courseParam}`,
+    const assignedTutor = await Fetch.put(
+      `/course/admin-assign-tutor/${courseParam}`,
       {
         assigned_tutor: id,
       },
@@ -117,13 +120,10 @@ function EditCourse({
     dispatch(GetAllUsers());
     try {
       const fetch = async () => {
-        const course = await axios.get(
-          `http://localhost:8000/greendometech/ng/course/admin/${courseParam}`,
-          {
-            withCredentials: true,
-            credentials: "includes",
-          }
-        );
+        const course = await Fetch.get(`/course/admin/${courseParam}`, {
+          withCredentials: true,
+          credentials: "includes",
+        });
         const resp = { data: course.data.course };
         const singleCourse = resp.data;
         // console.log(resp.data);
@@ -142,10 +142,9 @@ function EditCourse({
         });
         setFile(singleCourse.image);
 
-        const modresp = await axios.get(
-          "http://localhost:8000/greendometech/ng/module/view-all-module",
-          { withCredentials: true }
-        );
+        const modresp = await Fetch.get("/module/view-all-module", {
+          withCredentials: true,
+        });
         const moduler = modresp.data.modules;
         const CourseModules = moduler.filter(
           (i) => i.classId === singleCourse._id
@@ -168,8 +167,8 @@ function EditCourse({
   // console.log(updatedCourse.image);
 
   const handleSelected = async () => {
-    const assignedTutor = await axios.put(
-      `http://localhost:8000/greendometech/ng/course/admin-assign-tutor/${courseParam}`,
+    const assignedTutor = await Fetch.put(
+      `/course/admin-assign-tutor/${courseParam}`,
       {
         assigned_tutor: tutor,
       },
@@ -185,8 +184,8 @@ function EditCourse({
     // console.log(TutorObj);
   };
   const handleUnassign = async (id) => {
-    const assignedTutor = await axios.put(
-      `http://localhost:8000/greendometech/ng/course/admin-unassign-tutor/${courseParam}`,
+    const assignedTutor = await Fetch.put(
+      `/course/admin-unassign-tutor/${courseParam}`,
       {
         assigned_tutor: id,
       },
@@ -285,8 +284,8 @@ function EditCourse({
     // console.log(courseParam);
     const { description, fee, name } = updatedCourse;
 
-    const resp = await axios.patch(
-      `http://localhost:8000/greendometech/ng/course/admin/update/${courseParam}`,
+    const resp = await Fetch.patch(
+      `/course/admin/update/${courseParam}`,
       {
         description: description,
         fee: fee,

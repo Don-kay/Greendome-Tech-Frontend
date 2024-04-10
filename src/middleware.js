@@ -77,13 +77,20 @@ export default function middleware(req, res) {
   let isTutor = false;
 
   //console.log(jwt === undefined);
+  const env = process.env.NODE_ENV;
+
   if (
-    (jwt === undefined && isNotLoginRoute(pathname)) ||
+    (jwt === undefined && isNotLoginRoute(pathname) && env == "development") ||
     (decodedToken.exp * 1000 < currentDate.getTime() &&
       isNotLoginRoute(pathname))
   ) {
-    return NextResponse.redirect("http://localhost:3000/dome/login");
+    return NextResponse.redirect(
+      env === "development"
+        ? "http://localhost:3000/dome/login"
+        : "https://greendometech.netlify.app/dome/login"
+    );
   }
+
   const user = decodedToken.roles;
   // console.log(isPanel);
   if (areEqual(user, Company)) {
@@ -111,7 +118,11 @@ export default function middleware(req, res) {
     isLoginRoute(pathname) &&
     isPanel
   ) {
-    return NextResponse.redirect("http://localhost:3000/panel/admin_dashboard");
+    return NextResponse.redirect(
+      env === "development"
+        ? "http://localhost:3000/panel/admin_dashboard"
+        : "https://greendometech.netlify.app/panel/admin_dashboard"
+    );
   }
   if (
     decodedToken.exp * 1000 > currentDate.getTime() &&
@@ -119,7 +130,9 @@ export default function middleware(req, res) {
     isStudent
   ) {
     return NextResponse.redirect(
-      "http://localhost:3000/panel/student_dashboard"
+      env === "development"
+        ? "http://localhost:3000/panel/student_dashboard"
+        : "https://greendometech.netlify.app/panel/student_dashboard"
     );
   }
 
@@ -128,11 +141,17 @@ export default function middleware(req, res) {
   // }
   if (PanelRoute(pathname) && !isPanel) {
     return NextResponse.redirect(
-      "http://localhost:3000/panel/student_dashboard"
+      env === "development"
+        ? "http://localhost:3000/panel/admin_dashboard"
+        : "https://greendometech.netlify.app/panel/admin_dashboard"
     );
   }
   if (PanelRoute(pathname) && isTutor) {
-    return NextResponse.redirect("http://localhost:3000/panel/tutor_dashboard");
+    return NextResponse.redirect(
+      env === "development"
+        ? "http://localhost:3000/panel/tutor_dashboard"
+        : "https://greendometech.netlify.app/panel/tutor_dashboard"
+    );
   }
   if (isProfileRoute(pathname) && isPanel) {
     return console.log(jwt);

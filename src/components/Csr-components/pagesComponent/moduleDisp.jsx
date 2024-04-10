@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CreateModule from "./createModule";
 import { useSelector, useDispatch } from "react-redux";
+import customFetch, { customFetchProduction } from "../../../utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import UpdateDropDown from "../minuteComponents/updateDropDown";
 import { HoverModal } from "../../../features/functions/functionSlice";
 import _ from "lodash";
@@ -15,6 +17,8 @@ const ModuleDisp = ({ paramid }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [course, setCourse] = useState({ id: "", name: "" });
   const { ishover } = useSelector((strore) => strore.functions);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   const url = "/panel/admin_dashboard/create-module";
 
@@ -24,23 +28,20 @@ const ModuleDisp = ({ paramid }) => {
   };
   const paramID = course.id;
   const paramName = course.name;
-  console.log(paramid);
+  //console.log(paramid);
   // console.log(paramID);
   // console.log(paramName);
 
   useEffect(() => {
     const fetchModule = async () => {
       try {
-        const resp = await axios.get(
-          "http://localhost:8000/greendometech/ng/module/view-all-module",
-          {
-            withCredentials: true,
-          }
-        );
+        const resp = await Fetch.get("/module/view-all-module", {
+          withCredentials: true,
+        });
 
         const res = resp.data.modules;
         const moduler = res.filter((i) => i.classId === paramid);
-        console.log(moduler);
+        // console.log(moduler);
         setData(module);
       } catch (error) {
         return { msg: error.response.data };
@@ -48,12 +49,9 @@ const ModuleDisp = ({ paramid }) => {
     };
     const fetchCourse = async () => {
       try {
-        const resp = await axios.get(
-          `http://localhost:8000/greendometech/ng/course/admin/${paramid}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const resp = await Fetch.get(`/course/admin/${paramid}`, {
+          withCredentials: true,
+        });
 
         const res = resp.data.course;
         // const course = res.filter((i) => i._id === paramid);

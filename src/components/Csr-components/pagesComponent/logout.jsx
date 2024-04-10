@@ -16,6 +16,8 @@ import { BsTwitterX } from "react-icons/bs";
 import Greendome from "../../asset/greendome.jpg";
 import PageTitle from "../../typography/PageTitle";
 import Loading from "../layout_constructs/loading";
+import customFetch, { customFetchProduction } from "@/utilities/axios";
+import { Fetch } from "../../../utilities/axios";
 import { setLoading } from "../../../features/user/userSlice";
 
 const Logout = () => {
@@ -26,6 +28,8 @@ const Logout = () => {
   const { users } = useSelector((strore) => strore.profiles);
   const { user, isLoading } = useSelector((strore) => strore.user);
   const loggedInUserId = user.data.user.id;
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   const abort = () => {
     router.back();
@@ -33,10 +37,9 @@ const Logout = () => {
   const logout = async () => {
     setLoading(true);
     try {
-      const user1 = await axios.post(
-        `http://localhost:8000/greendometech/ng/auth/logout/${loggedInUserId}`,
-        { withCredentials: true }
-      );
+      const user1 = await Fetch.post(`/auth/logout/${loggedInUserId}`, {
+        withCredentials: true,
+      });
       const status = user1?.status;
       const data = user1?.data.data.msg;
       // console.log(status);

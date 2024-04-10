@@ -9,6 +9,10 @@ import { setLoading } from "../../../features/user/userSlice";
 import Greendome from "../../asset/greendome.jpg";
 import Image from "next/image";
 import StudentView from "./studentView.jsx";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
+import { Fetch } from "../../../utilities/axios";
 import _ from "lodash";
 import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -24,6 +28,9 @@ const Tutors = () => {
   const [rowId, setRowId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [activeStudent, setactiveStudent] = useState([]);
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
+
   // console.log(users);
 
   const loggedInUserId = user.data.user.id;
@@ -43,13 +50,10 @@ const Tutors = () => {
     dispatch(setLoading(true));
     const fetchUsers = async () => {
       try {
-        const profiles = await axios.get(
-          "http://localhost:8000/greendometech/ng/auth/users",
-          {
-            withCredentials: true,
-            credentials: "include",
-          }
-        );
+        const profiles = await Fetch.get("/auth/users", {
+          withCredentials: true,
+          credentials: "include",
+        });
         const resp = { data: profiles.data, stats: profiles.status };
         //  console.log(resp.data.user);
         if (resp.stats === 200) {

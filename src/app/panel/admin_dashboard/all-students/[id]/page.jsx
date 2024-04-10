@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { cookies } from "next/headers";
+import { Fetch } from "../../../../../utilities/axios";
 import Link from "next/link";
 import functionsSpace from "../../../../../features/functions/functions";
 import { AiFillSetting, AiFillDelete } from "react-icons/ai";
@@ -13,16 +14,15 @@ import _ from "lodash";
 async function fetchCourse() {
   const cookieStore = cookies();
   const cookie = cookieStore.get("myToken")?.value;
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   try {
-    const course = await axios.get(
-      "http://localhost:8000/greendometech/ng/course/admin/view-all-course",
-      {
-        headers: {
-          Cookie: "myToken=" + cookie,
-        },
-      }
-    );
+    const course = await Fetch.get("/course/admin/view-all-course", {
+      headers: {
+        Cookie: "myToken=" + cookie,
+      },
+    });
     return { course: course.data };
   } catch (error) {
     return { msg: error.response.data };
@@ -33,16 +33,15 @@ async function fetchCourse() {
 async function fetchProfiles() {
   const cookieStore = cookies();
   const cookie = cookieStore.get("myToken")?.value;
+  const fetch =
+    process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   try {
-    const profiles = await axios.get(
-      "http://localhost:8000/greendometech/ng/auth/users",
-      {
-        headers: {
-          Cookie: "myToken=" + cookie,
-        },
-      }
-    );
+    const profiles = await fetch.get("/auth/users", {
+      headers: {
+        Cookie: "myToken=" + cookie,
+      },
+    });
     return { profiles: profiles.data };
   } catch (error) {
     return { msg: error.response.data };

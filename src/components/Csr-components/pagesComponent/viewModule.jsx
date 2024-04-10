@@ -15,6 +15,10 @@ import { useRouter } from "next/navigation";
 import Loading from "../layout_constructs/loading";
 import { setLoading } from "../../../features/user/userSlice";
 import Link from "next/link";
+import customFetch, {
+  customFetchProduction,
+} from "../../../utilities/axios.js";
+import { Fetch } from "../../../utilities/axios";
 import moment from "moment";
 import Greendome from "../../asset/greendome.jpg";
 import InfoCard2 from "../../Cards/InfoCard 2";
@@ -89,6 +93,8 @@ const ViewModules = ({ paramsId, paramsName }) => {
     course: false,
     viewModule: false,
   });
+  // const fetch =
+  //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   const [retrieve, setRetrieve] = useState("");
   const [moduleRetrieved, setModuleRetrieved] = useState(false);
   const { ishover } = useSelector((strore) => strore.functions);
@@ -120,12 +126,9 @@ const ViewModules = ({ paramsId, paramsName }) => {
     setIsloading(true);
     const fetchCourse = async () => {
       try {
-        const resp = await axios.get(
-          `http://localhost:8000/greendometech/ng/course/admin/${paramsId}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const resp = await Fetch.get(`/course/admin/${paramsId}`, {
+          withCredentials: true,
+        });
 
         const res = resp.data.course;
         const {
@@ -165,8 +168,8 @@ const ViewModules = ({ paramsId, paramsName }) => {
     };
     const fetchModule = async () => {
       try {
-        const resp = await axios.get(
-          `http://localhost:8000/greendometech/ng/module/admin/course/view-module/${paramsId}`,
+        const resp = await Fetch.get(
+          `/module/admin/course/view-module/${paramsId}`,
           {
             withCredentials: true,
           }
@@ -184,8 +187,8 @@ const ViewModules = ({ paramsId, paramsName }) => {
     };
     const fetchQuestion = async () => {
       try {
-        const question = await axios.get(
-          `http://localhost:8000/greendometech/ng/module/assessment/admin/all-questions/${paramsId}`,
+        const question = await Fetch.get(
+          `/module/assessment/admin/all-questions/${paramsId}`,
           {
             withCredentials: true,
           }
@@ -228,8 +231,8 @@ const ViewModules = ({ paramsId, paramsName }) => {
           courseQuestions.map((i) =>
             courseQuestions.length === 0
               ? null
-              : axios.delete(
-                  `http://localhost:8000/greendometech/ng/module/assessment/admin/questions/delete/${i._id}/${id}`,
+              : Fetch.delete(
+                  `/module/assessment/admin/questions/delete/${i._id}/${id}`,
                   {
                     withCredentials: true,
                   }
@@ -238,19 +241,13 @@ const ViewModules = ({ paramsId, paramsName }) => {
           courseModules.map((i) =>
             courseModules.length === 0
               ? null
-              : axios.delete(
-                  `http://localhost:8000/greendometech/ng/module/admin-delete-module/${i._id}/${id}`,
-                  {
-                    withCredentials: true,
-                  }
-                )
+              : Fetch.delete(`/module/admin-delete-module/${i._id}/${id}`, {
+                  withCredentials: true,
+                })
           ),
-          axios.delete(
-            `http://localhost:8000/greendometech/ng/course/admin/delete/${id}`,
-            {
-              withCredentials: true,
-            }
-          )
+          Fetch.delete(`/course/admin/delete/${id}`, {
+            withCredentials: true,
+          })
         )
         .then(
           axios.spread(function (question, module, course) {
