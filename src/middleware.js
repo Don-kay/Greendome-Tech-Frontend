@@ -82,7 +82,7 @@ export default function middleware(req, res) {
   if (
     (jwt === undefined && isNotLoginRoute(pathname)) ||
     (decodedToken.exp * 1000 < currentDate.getTime() &&
-      isNotLoginRoute(pathname) & (env === "development"))
+      isNotLoginRoute(pathname))
   ) {
     return NextResponse.redirect(
       env === "development"
