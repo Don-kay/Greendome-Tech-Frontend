@@ -5,7 +5,7 @@ import { GetAllUsers, setTutors } from "../../../features/profile/profileSlice";
 import TutorProfileActions from "../../../features/profile/tutorprofileActions";
 import { TotalTutorsProps } from "../minuteComponents/sudentPops.jsx";
 import Loading from "../layout_constructs/loading";
-import { setLoading } from "../../../features/user/userSlice";
+// import { setLoading } from "../../../features/user/userSlice";
 import Greendome from "../../asset/greendome.jpg";
 import Image from "next/image";
 import StudentView from "./studentView.jsx";
@@ -13,6 +13,7 @@ import customFetch, {
   customFetchProduction,
 } from "../../../utilities/axios.js";
 import { Fetch } from "../../../utilities/axios";
+import { usePathname } from "next/navigation";
 import _ from "lodash";
 import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -24,7 +25,10 @@ const Tutors = () => {
   const [tutor, setTutor] = useState([]);
   const [tutorsId, setTutorsId] = useState();
   const { users } = useSelector((strore) => strore.profiles);
-  const { user, isLoading } = useSelector((strore) => strore.user);
+  const { user } = useSelector((strore) => strore.user);
+  const [selectedUser, setSelectedUser] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const pathname = usePathname();
   const [rowId, setRowId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [activeStudent, setactiveStudent] = useState([]);
@@ -32,6 +36,7 @@ const Tutors = () => {
   //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
 
   // console.log(users);
+  const isAdminDashboard = pathname.startsWith("/panel/admin_dashboard");
 
   const loggedInUserId = user.data.user.id;
   const loggedInUser = users?.filter((i) => i.id === loggedInUserId);
@@ -47,7 +52,7 @@ const Tutors = () => {
   const IsAdmin = _.toString(Admin);
   const IsCompany = _.toString(company);
   useEffect(() => {
-    dispatch(setLoading(true));
+    setLoading(true);
     const fetchUsers = async () => {
       try {
         const profiles = await Fetch.get("/auth/users", {
@@ -57,9 +62,7 @@ const Tutors = () => {
         const resp = { data: profiles.data, stats: profiles.status };
         //  console.log(resp.data.user);
         if (resp.stats === 200) {
-          dispatch(setLoading(false));
-        } else {
-          dispatch(setLoading(true));
+          setLoading(false);
         }
 
         const data = resp.data.user;
@@ -102,6 +105,8 @@ const Tutors = () => {
   // console.log(studentObj);
 
   const handleModalId = (id) => {
+    const selectedUser = users?.filter((i) => i.id === id);
+    setSelectedUser(selectedUser);
     setTutorsId(id);
     setModalOpen(true);
   };
@@ -189,6 +194,8 @@ const Tutors = () => {
         IsCompany={IsCompany}
         loggedInUser={loggedInUserId}
         setStudent={setTutor}
+        selectedUser={selectedUser}
+        isAdminpath={isAdminDashboard}
       />
       {isLoading && (
         <div className=" flex items-center  min-w-innerlay3 h-80 top-32 left-0 z-20 absolute ">

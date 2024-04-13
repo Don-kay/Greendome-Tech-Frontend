@@ -80,9 +80,10 @@ const StudentView = ({
 
   useEffect(() => {
     dispatch(HoverModal(false));
-    //console.log(selectedUser);
-    setLoading(true);
+    // console.log(selectedUser);
 
+    // setLoading(true);
+    //  const user = selectedUser.flat(1)
     const fetchCourse = async () => {
       try {
         const course = await Fetch.get("/course/admin/view-all-course", {
@@ -97,61 +98,100 @@ const StudentView = ({
 
       //   console.log(cookie);
     };
-    const fetchProfiles = async () => {
-      try {
-        const profiles = await Fetch.get(`/auth/users/${studentid}`, {
-          withCredentials: true,
-        });
+    if (selectedUser.length !== 0) {
+      //console.log(selectedUser[0]);
+      const users = selectedUser[0];
+      const {
+        _id,
+        email,
+        country,
+        mobilenumber,
+        image,
+        roles,
+        certificate,
+        classesId,
+        firstname,
+        lastname,
+        username,
+        biography,
+        createdAt,
+        updatedAt,
+      } = users;
+      const img = image === undefined || image === "" ? "" : image;
+      setUsers({
+        id: _id,
+        email,
+        country,
+        mobilenumber,
+        image: img,
+        roles,
+        certificate,
+        classesId,
+        firstname,
+        lastname,
+        username,
+        biography,
+        createdAt,
+        updatedAt,
+      });
+    } else {
+      null;
+    }
+    // const fetchProfiles = async () => {
+    //   try {
+    //     const profiles = await Fetch.get(`/auth/users/${studentid}`, {
+    //       withCredentials: true,
+    //     });
 
-        const users = profiles.data.user;
-        const {
-          _id,
-          email,
-          country,
-          mobilenumber,
-          image,
-          roles,
-          certificate,
-          classesId,
-          firstname,
-          lastname,
-          username,
-          biography,
-          createdAt,
-          updatedAt,
-        } = users;
-        const img = image === undefined || image === "" ? "" : image;
-        if (users !== undefined || users !== "") {
-          setLoading(false);
-          console.log(false);
-        }
-        console.log(true);
-        setUsers({
-          id: _id,
-          email,
-          country,
-          mobilenumber,
-          image: img,
-          roles,
-          certificate,
-          classesId,
-          firstname,
-          lastname,
-          username,
-          biography,
-          createdAt,
-          updatedAt,
-        });
-      } catch (error) {
-        return { msg: error?.response };
-      }
+    //     const users = profiles.data.user;
+    //     const {
+    //       _id,
+    //       email,
+    //       country,
+    //       mobilenumber,
+    //       image,
+    //       roles,
+    //       certificate,
+    //       classesId,
+    //       firstname,
+    //       lastname,
+    //       username,
+    //       biography,
+    //       createdAt,
+    //       updatedAt,
+    //     } = users;
+    //     const img = image === undefined || image === "" ? "" : image;
+    //     if (users !== undefined || users !== "") {
+    //       setLoading(false);
+    //       console.log(false);
+    //     }
+    //     console.log(true);
+    //     setUsers({
+    //       id: _id,
+    //       email,
+    //       country,
+    //       mobilenumber,
+    //       image: img,
+    //       roles,
+    //       certificate,
+    //       classesId,
+    //       firstname,
+    //       lastname,
+    //       username,
+    //       biography,
+    //       createdAt,
+    //       updatedAt,
+    //     });
+    //   } catch (error) {
+    //     return { msg: error?.response };
+    //   }
 
-      //   console.log(cookie);
-    };
+    //   //   console.log(cookie);
+    // };
 
     // setDeleteHover(false);
     fetchCourse();
-    fetchProfiles();
+    // fetchProfiles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [studentid]);
 
@@ -269,11 +309,11 @@ const StudentView = ({
         {/* <div className=" flex items-center  min-w-innerlay3 h-96 top-32 left-0 z-20 absolute ">
           <Loading />
         </div> */}
-        {isLoading && (
+        {/* {isLoading && (
           <div className=" flex items-center  min-w-innerlay3 h-96 top-32 left-0 z-20 absolute ">
             <Loading />
           </div>
-        )}
+        )} */}
         <div className="">
           <div>
             <div className=" flex item-center px-16 justify-between w-full bg-greenGraded flex-row ">

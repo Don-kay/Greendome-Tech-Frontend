@@ -80,9 +80,9 @@ export default function middleware(req, res) {
   const env = process.env.NODE_ENV;
 
   if (
-    (jwt === undefined && isNotLoginRoute(pathname) && env == "development") ||
+    (jwt === undefined && isNotLoginRoute(pathname)) ||
     (decodedToken.exp * 1000 < currentDate.getTime() &&
-      isNotLoginRoute(pathname))
+      isNotLoginRoute(pathname) & (env === "development"))
   ) {
     return NextResponse.redirect(
       env === "development"

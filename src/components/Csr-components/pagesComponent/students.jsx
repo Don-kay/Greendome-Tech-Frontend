@@ -20,6 +20,7 @@ import Greendome from "../../asset/greendome.jpg";
 import Image from "next/image";
 import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { usePathname } from "next/navigation";
 import customFetch, {
   customFetchProduction,
 } from "../../../utilities/axios.js";
@@ -32,13 +33,17 @@ const Students = () => {
   const [student, setStudent] = useState([]);
   const [studentId, setStudentId] = useState();
   const [activeStudent, setactiveStudent] = useState([]);
-  //const [selectedUser, setSelectedUser] = useState([]);
+  const [selectedUser, setSelectedUser] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const pathname = usePathname();
   const { users } = useSelector((strore) => strore.profiles);
   const [rowId, setRowId] = useState(null);
   // const fetch =
   //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
+  const isAdminDashboard = pathname.startsWith("/panel/admin_dashboard");
+  // console.log(isAdminDashboard);
+  // console.log(pathname);
 
   const { user } = useSelector((strore) => strore.user);
   const loggedInUserId = user.data.user.id;
@@ -56,11 +61,12 @@ const Students = () => {
   //console.log(student);
 
   // useEffect(() => {
-  //   setLoading(true);
+  //setLoading(true);
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
   useEffect(() => {
     // console.log("student");
+    setLoading(true);
     const fetchUsers = async () => {
       try {
         const profiles = await Fetch.get("/auth/users", {
@@ -73,8 +79,6 @@ const Students = () => {
         if (resp.stats === 200) {
           //console.log(resp);
           setLoading(false);
-        } else {
-          setLoading(true);
         }
 
         const studentObj = data.filter((item) => {
@@ -130,8 +134,9 @@ const Students = () => {
   // const studentId = studentObj.map((key) => key.id);
 
   const handleModalId = (id) => {
-    // const selectedUser = users?.filter((i) => i.id === id);
-    // setSelectedUser(selectedUser);
+    const selectedUser = users?.filter((i) => i.id === id);
+    setSelectedUser(selectedUser);
+    //console.log(selectedUser);
     setStudentId(id);
     //setModalOpen(true);
   };
@@ -203,7 +208,7 @@ const Students = () => {
           <ProfileActions
             isAdmin={IsAdmin}
             {...{ params }}
-            // selectedUsser={selectedUser}
+            isAdminpath={isAdminDashboard}
             onOpen={() => setModalOpen(true)}
             studentId={(id) => handleModalId(id)}
           />
@@ -223,6 +228,7 @@ const Students = () => {
         IsCompany={IsCompany}
         loggedInUser={loggedInUserId}
         setStudent={setStudent}
+        selectedUser={selectedUser}
       />
       {/* <button onClick={() => view}>view all users</button> */}
       {isLoading && (

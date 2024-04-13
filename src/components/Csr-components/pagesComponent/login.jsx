@@ -133,9 +133,11 @@ const Loginpage = (session) => {
     if (!password || !username) {
       toast.error("please fill out all details");
       setLoading(false);
+    } else {
+      setLoading(true);
     }
     setError("");
-    setLoading(true);
+
     const user1 = await Fetch.post(
       "/auth/login/username",
       {
@@ -145,15 +147,23 @@ const Loginpage = (session) => {
       { withCredentials: true }
     ).catch((err) => {
       setdisplayError(true);
+      setLoading(false);
       setError(err.response);
     });
-    dispatch(getPercentage());
-    dispatch(GetAllUsers());
+
     // setData(user1);
 
     //console.log(user1);
     const userRole = user1?.data.user?.roles;
     const stats = user1?.status;
+
+    if (stats === 200) {
+      dispatch(getPercentage());
+      dispatch(GetAllUsers());
+      setLoading(false);
+    } else {
+      null;
+    }
     // if (stats !== 200) {
     //   dispatch(setLoading(true));
     // } else {
@@ -214,9 +224,12 @@ const Loginpage = (session) => {
     const { email, password } = values;
     if (!email || !password) {
       toast.error("please fill out all details");
+      setLoading(false);
+    } else {
+      setLoading(true);
     }
     setError("");
-    setLoading(true);
+
     const user1 = await Fetch.post(
       "/auth/login/email",
       {
@@ -226,11 +239,19 @@ const Loginpage = (session) => {
       { withCredentials: true }
     ).catch((err) => {
       setdisplayError(true);
+      setLoading(false);
       setError(err.response);
     });
-    dispatch(getPercentage());
     // setData(user1);
+    const stats = user1?.status;
 
+    if (stats === 200) {
+      dispatch(getPercentage());
+      dispatch(GetAllUsers());
+      setLoading(false);
+    } else {
+      null;
+    }
     //console.log(user1);
     const userRole = user1?.data.user?.roles;
     const error = data.data;

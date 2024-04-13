@@ -5,7 +5,13 @@ import Link from "next/link";
 import { GrOverview } from "react-icons/gr";
 import { AiFillSetting, AiFillDelete, AiFillFileAdd } from "react-icons/ai";
 
-const ProfileActions = ({ isAdmin, params, onOpen, studentId }) => {
+const ProfileActions = ({
+  isAdmin,
+  params,
+  onOpen,
+  studentId,
+  isAdminpath,
+}) => {
   // const { users } = useSelector((strore) => strore.profiles);
   // console.log(studentId);
   const studentid = params.id;
@@ -30,7 +36,7 @@ const ProfileActions = ({ isAdmin, params, onOpen, studentId }) => {
         <Fab>
           <GrOverview />
         </Fab> */}
-      {isAdmin ? (
+      {isAdmin || isAdminpath ? (
         <Link href={`${addRoute}/${studentid}`}>
           <Fab>
             <AiFillFileAdd />
@@ -38,7 +44,7 @@ const ProfileActions = ({ isAdmin, params, onOpen, studentId }) => {
         </Link>
       ) : null}
 
-      {isAdmin ? (
+      {isAdmin || isAdminpath ? (
         <Fab
           color="primary"
           sx={{

@@ -14,7 +14,7 @@ const Login = () => {
   const username = loggedInUser?.map((i) => {
     return i.username;
   });
-  console.log(users);
+  //console.log(users);
   useEffect(() => {
     dispatch(GetAllUsers());
     if (loggedInUser !== "" || loggedInUser !== undefined) {
