@@ -148,12 +148,13 @@ const Loginpage = (session) => {
     ).catch((err) => {
       setdisplayError(true);
       setLoading(false);
+      console.log(err.response);
       setError(err.response);
     });
 
     // setData(user1);
 
-    //console.log(user1);
+    console.log(user1);
     const userRole = user1?.data.user?.roles;
     const stats = user1?.status;
 
