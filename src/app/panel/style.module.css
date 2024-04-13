@@ -4,7 +4,7 @@
 }
 
 /* make scrollbar transparent on Firefox, IE and Edge*/
-.scrollbar {
+.scrollbar::-webkit-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
