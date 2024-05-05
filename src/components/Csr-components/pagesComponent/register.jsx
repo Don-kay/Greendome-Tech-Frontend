@@ -37,6 +37,7 @@ const Registerpage = () => {
   const [countryZip, setCountryZip] = useState([]);
   const [err, setError] = useState("");
   const [isTutor, setisTutor] = useState(false);
+  const [errTrig, setErrorTrig] = useState(false);
   const [img, setImg] = useState(false);
   const { userAuth, isLoading } = useSelector((store) => store.user);
   const dispatch = useDispatch();
@@ -109,6 +110,15 @@ const Registerpage = () => {
     // console.log(_.toString(label));
   };
 
+  // const googleAuth = () => {
+  //   window.open(
+  //     `${process.env.NEXT_APP_API_URL}/auth/google/callback`,
+  //     "_self"
+  //   );
+
+  //   // console.log(user);
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const {
@@ -152,7 +162,8 @@ const Registerpage = () => {
       },
       { withCredentials: true }
     ).catch((err) => {
-      //console.log(err.response);
+      console.log(err.response);
+      setErrorTrig(!errTrig);
       setError(err.response);
     });
     dispatch(
@@ -511,6 +522,14 @@ const Registerpage = () => {
                   </form>
                 )}
 
+                {/* <Button
+                  onClick={googleAuth}
+                  type="submit"
+                  className="mt-4  text-white"
+                  block
+                >
+                  sign up with google
+                </Button> */}
                 <Label className="mt-6" check>
                   <Input type="checkbox" />
                   <span className="ml-2 text-white">

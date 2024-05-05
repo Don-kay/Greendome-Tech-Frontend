@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Loading from "../../../components/Csr-components/layout_constructs/loading";
 import { setLoading } from "../../../features/user/userSlice";
 import { GetAllUsers } from "../../../features/profile/profileSlice";
+import { getPercentage } from "../../../features/course/percentage/percentageSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,18 @@ const Login = () => {
   });
   //console.log(users);
   useEffect(() => {
+    // console.log(window);
+    if (typeof window !== undefined) {
+      window.history.pushState(null, "", window.location.href);
+      window.onpopstate = function () {
+        window.history.pushState(null, "", window.location.href);
+      };
+    } else {
+      return;
+    }
+  }, []);
+  useEffect(() => {
+    dispatch(getPercentage());
     dispatch(GetAllUsers());
     if (loggedInUser !== "" || loggedInUser !== undefined) {
       dispatch(setLoading(false));

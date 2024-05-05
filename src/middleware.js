@@ -76,7 +76,7 @@ export default function middleware(req, res) {
   let isPanel = false;
   let isTutor = false;
 
-  //console.log(jwt === undefined);
+  //console.log(req);
   const env = process.env.NODE_ENV;
 
   if (

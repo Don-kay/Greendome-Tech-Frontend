@@ -8,8 +8,11 @@ const customFetch = axios.create({
 export const customFetchProduction = axios.create({
   baseURL: "https://greendome.onrender.com",
 });
+// export const customFetchProduction = axios.create({
+//   baseURL: "https://greendome.onrender.com",
+// });
 export const customSitebase = axios.create({
-  baseURL: "https://greendometech.netlify.app",
+  baseURL: "https://greendometech.onrender.com",
 });
 
 export const Fetch =

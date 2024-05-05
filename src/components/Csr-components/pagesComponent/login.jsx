@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../layout_constructs/loading";
 import { setLoading } from "../../../features/user/userSlice";
-import { getPercentage } from "@/features/course/percentage/percentageSlice";
-import { GetAllUsers } from "@/features/profile/profileSlice";
+import { getPercentage } from "../../../features/course/percentage/percentageSlice";
+import { GetAllUsers } from "../../../features/profile/profileSlice";
 import customFetch, { customFetchProduction } from "../../../utilities/axios";
 import { Fetch } from "../../../utilities/axios";
 import {
@@ -51,6 +51,7 @@ const Loginpage = (session) => {
   const [values, setValues] = useState(initialState);
   const [data, setData] = useState({});
   const [err, setError] = useState("");
+  const [errTrig, setErrorTrig] = useState(false);
   const [displayerr, setdisplayError] = useState(false);
   const [isloading, setLoading] = useState(false);
   const [isEmail, setisEmail] = useState(false);
@@ -60,6 +61,36 @@ const Loginpage = (session) => {
   const { user, isLoading, role } = useSelector((strore) => strore.user);
   // const token = user?.token;
   // const roles = userRole?.roles;
+  // const googleAuth = () => {
+  //   window.open(`http://localhost:8000/auth/google/callback`, "_self");
+
+  //   // console.log(user);
+  // };
+  // const logOutgoogleAuth = () => {
+  //   window.open(`http://localhost:8000/auth/logout`, "_self");
+
+  //   // console.log(user);
+  // };
+  // const googleAuthreg = () => {
+  //   window.open(
+  //     `${process.env.NEXT_APP_API_URL}/auth/google/callback`,
+  //     "_self"
+  //   );
+  // };
+  // const getUser = async () => {
+  //   try {
+  //     const url = `http://localhost:8000/auth/login/success`;
+  //     const { data } = await axios.get(url, { withCredentials: true });
+  //     console.log(data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getUser();
+  // }, [googleAuth]);
+
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -94,17 +125,28 @@ const Loginpage = (session) => {
         return true;
       }
   };
-  useEffect(() => {
-    // console.log(window);
-    if (typeof window !== undefined) {
-      window.history.pushState(null, "", window.location.href);
-      window.onpopstate = function () {
-        window.history.pushState(null, "", window.location.href);
-      };
-    } else {
-      return;
-    }
-  }, []);
+  // useEffect(() => {
+  //   // console.log(window);
+  //   if (typeof window !== undefined) {
+  //     window.history.pushState(null, "", window.location.href);
+  //     window.onpopstate = function () {
+  //       window.history.pushState(null, "", window.location.href);
+  //     };
+  //   } else {
+  //     return;
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   // console.log(window);
+  //   if (typeof window !== undefined) {
+  //     window.history.pushState(null, "", window.location.href);
+  //     window.onpopstate = function () {
+  //       window.history.pushState(null, "", window.location.href);
+  //     };
+  //   } else {
+  //     return;
+  //   }
+  // }, []);
 
   useEffect(() => {
     const state = setTimeout(() => {
@@ -130,47 +172,32 @@ const Loginpage = (session) => {
   const handleSubmitUsername = async (e) => {
     e.preventDefault();
     const { password, username } = values;
-    if (!password || !username) {
+    const users = { username: username, password: password };
+
+    if (password === "" || username === "") {
       toast.error("please fill out all details");
       setLoading(false);
     } else {
       setLoading(true);
     }
     setError("");
-
-    const user1 = await Fetch.post(
-      "/auth/login/username",
-      {
-        username: username,
-        password: password,
-      },
-      { withCredentials: true }
-    ).catch((err) => {
+    //console.log(password);
+    const user1 = await Fetch.post("/auth/login/username", users, {
+      withCredentials: true,
+      credentials: "include",
+    }).catch((err) => {
       setdisplayError(true);
       setLoading(false);
-      console.log(err.response);
+      //console.log(err.response);
+      setErrorTrig(!errTrig);
       setError(err.response);
     });
 
     // setData(user1);
 
-    console.log(user1);
+    //console.log(user1);
     const userRole = user1?.data.user?.roles;
     const stats = user1?.status;
-
-    if (stats === 200) {
-      dispatch(getPercentage());
-      dispatch(GetAllUsers());
-      setLoading(false);
-    } else {
-      null;
-    }
-    // if (stats !== 200) {
-    //   dispatch(setLoading(true));
-    // } else {
-    //   dispatch(setLoading(false));
-    // }
-    const error = data.data;
 
     let isCompany = false;
     let isAdmin = false;
@@ -209,20 +236,40 @@ const Loginpage = (session) => {
     if (user1?.status === 200 && isStudent) {
       router.push("/panel/student_dashboard");
     }
+
+    if (stats === 200) {
+      //   dispatch(getPercentage());
+      dispatch(GetAllUsers());
+      setLoading(false);
+    } else {
+      null;
+    }
+    // if (stats !== 200) {
+    //   dispatch(setLoading(true));
+    // } else {
+    //   dispatch(setLoading(false));
+    // }
+    const error = data.data;
+
     // router.reload;
     // dispatch(setRole(userRole));
 
     dispatch(
       loginUsername({
-        username: username,
-        password: password,
+        usernames: username,
+        passwords: password,
       })
     );
     // console.log(user);
   };
+
   const handleSubmitEmail = async (e) => {
     e.preventDefault();
     const { email, password } = values;
+    const users = {
+      email: email,
+      password: password,
+    };
     if (!email || !password) {
       toast.error("please fill out all details");
       setLoading(false);
@@ -231,14 +278,10 @@ const Loginpage = (session) => {
     }
     setError("");
 
-    const user1 = await Fetch.post(
-      "/auth/login/email",
-      {
-        email: email,
-        password: password,
-      },
-      { withCredentials: true }
-    ).catch((err) => {
+    const user1 = await Fetch.post("/auth/login/email", users, {
+      withCredentials: true,
+      credentials: "include",
+    }).catch((err) => {
       setdisplayError(true);
       setLoading(false);
       setError(err.response);
@@ -247,16 +290,16 @@ const Loginpage = (session) => {
     const stats = user1?.status;
 
     if (stats === 200) {
-      dispatch(getPercentage());
+      //   dispatch(getPercentage());
       dispatch(GetAllUsers());
       setLoading(false);
     } else {
       null;
     }
-    //console.log(user1);
+
     const userRole = user1?.data.user?.roles;
     const error = data.data;
-
+    //console.log(user1);
     let isCompany = false;
     let isAdmin = false;
     let isTutor = false;
@@ -428,6 +471,30 @@ const Loginpage = (session) => {
                   <Link href="/dome/register">Create account</Link>
                 </p>
               </form>
+              {/* <Button
+                onClick={googleAuth}
+                type="submit"
+                className="mt-4  text-white"
+                block
+              >
+                sign in with google
+              </Button>
+              <Button
+                onClick={logOutgoogleAuth}
+                type="submit"
+                className="mt-4  text-white"
+                block
+              >
+                logout with google
+              </Button>
+              <Button
+                onClick={googleAuthreg}
+                type="submit"
+                className="mt-4  text-white"
+                block
+              >
+                sign up with google
+              </Button> */}
             </main>
           </div>
         </div>
