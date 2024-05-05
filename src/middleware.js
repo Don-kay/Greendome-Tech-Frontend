@@ -87,7 +87,7 @@ export default function middleware(req, res) {
     return NextResponse.redirect(
       env === "development"
         ? "http://localhost:3000/dome/login"
-        : "https://greendometech.netlify.app/dome/login"
+        : "https://greendometech.onrender/dome/login"
     );
   }
 
@@ -121,7 +121,7 @@ export default function middleware(req, res) {
     return NextResponse.redirect(
       env === "development"
         ? "http://localhost:3000/panel/admin_dashboard"
-        : "https://greendometech.netlify.app/panel/admin_dashboard"
+        : "https://greendometech.onrender.com/panel/admin_dashboard"
     );
   }
   if (
@@ -132,7 +132,7 @@ export default function middleware(req, res) {
     return NextResponse.redirect(
       env === "development"
         ? "http://localhost:3000/panel/student_dashboard"
-        : "https://greendometech.netlify.app/panel/student_dashboard"
+        : "https://greendometech.onrender.com/panel/student_dashboard"
     );
   }
 
@@ -143,14 +143,14 @@ export default function middleware(req, res) {
     return NextResponse.redirect(
       env === "development"
         ? "http://localhost:3000/panel/admin_dashboard"
-        : "https://greendometech.netlify.app/panel/admin_dashboard"
+        : "https://greendometech.onrender.com/panel/admin_dashboard"
     );
   }
   if (PanelRoute(pathname) && isTutor) {
     return NextResponse.redirect(
       env === "development"
         ? "http://localhost:3000/panel/tutor_dashboard"
-        : "https://greendometech.netlify.app/panel/tutor_dashboard"
+        : "https://greendometech.onrender.com/panel/tutor_dashboard"
     );
   }
   if (isProfileRoute(pathname) && isPanel) {
