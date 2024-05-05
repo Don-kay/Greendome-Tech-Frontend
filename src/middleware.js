@@ -87,7 +87,7 @@ export default function middleware(req, res) {
     return NextResponse.redirect(
       env === "development"
         ? "http://localhost:3000/dome/login"
-        : "https://greendometech.onrender/dome/login"
+        : "https://greendometech.onrender.com/dome/login"
     );
   }
 

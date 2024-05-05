@@ -195,7 +195,7 @@ const Loginpage = (session) => {
 
     // setData(user1);
 
-    //console.log(user1);
+    console.log(user1);
     const userRole = user1?.data.user?.roles;
     const stats = user1?.status;
 

@@ -34,6 +34,12 @@ const Logout = () => {
   const abort = () => {
     router.back();
   };
+
+  const logOutgoogleAuth = () => {
+    window.open(`${process.env.NEXT_APP_API_URL}/auth/logout/`, "_self");
+
+    // console.log(user);
+  };
   const logout = async () => {
     setLoading(true);
     try {
@@ -99,7 +105,14 @@ const Logout = () => {
                   Yes
                 </Button>
               </div>
-
+              <Button
+                onClick={logOutgoogleAuth}
+                type="submit"
+                className="mt-4  text-white"
+                block
+              >
+                logout with google
+              </Button>
               <hr className="my-8 text-white" />
             </main>
           </div>
