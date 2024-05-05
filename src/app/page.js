@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-// import "../styles/globals.css";
+import "../styles/globals.css";
 import Hero from "../components/Csr-components/homepageComponents/hero";
 import Features from "../components/Csr-components/homepageComponents/features";
 import Newsletter from "../components/Csr-components/homepageComponents/newsletter";

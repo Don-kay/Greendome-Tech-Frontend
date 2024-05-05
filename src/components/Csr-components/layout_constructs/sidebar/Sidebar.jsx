@@ -18,7 +18,7 @@ import { toggleSideBar } from "../../../../features/functions/functionSlice";
 import { SidebarEl, studentSidebarEl } from "../../../data/elements";
 import Dennis from "../../../asset/dennis.jpg";
 import { useSelector, useDispatch } from "react-redux";
-// import css from "../../../../app/panel/style.module.css";
+import css from "../../../../app/panel/style.module.css";
 import { SidebarItems } from "./SidebarItems";
 import { usePathname } from "next/navigation";
 import { SidebarHeader } from "./SidebarHeader";
@@ -143,10 +143,10 @@ export const Sidebar = ({ mobileOrientation, IsAdmin, IsStudent }) => {
         isAdminDashboard
           ? `${style.default} 
         ${style.mobileOrientation[mobileOrientation]} 
-        ${sidebarOpen ? style.open : style.close}`
+        ${sidebarOpen ? style.open : style.close} `
           : `${style.default1} 
         ${style.mobileOrientation[mobileOrientation]} 
-        ${sidebarOpen ? style.open : style.close} `
+        ${sidebarOpen ? style.open : style.close}`
       }
     >
       {/* <EditProfile
