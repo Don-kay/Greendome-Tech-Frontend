@@ -1,11 +1,11 @@
 "use client";
-import "../styles/globals.css";
+// import "../styles/globals.css";
 import { Inter, Architects_Daughter } from "next/font/google";
 import { store } from "../utilities/strore";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
-import "react-datetime/css/react-datetime.css";
+// import "react-datetime/css/react-datetime.css";
 
 import Modal from "react-modal";
 
