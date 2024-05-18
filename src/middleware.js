@@ -10,12 +10,12 @@ import {
   Tutor,
   Student,
 } from "./components/ROLE_LISTS";
-import Localbase from "localbase";
+// import Localbase from "localbase";
 
 import moment from "moment";
 // import { jwtVerify } from "jose";
 
-let db = new Localbase("db");
+// let db = new Localbase("db");
 
 const isProfileRoute = (pathname) => {
   return pathname.includes("/view_profile");
