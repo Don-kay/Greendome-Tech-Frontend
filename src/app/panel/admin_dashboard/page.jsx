@@ -5,6 +5,7 @@ import Loading from "../../../components/Csr-components/layout_constructs/loadin
 import { setLoading } from "../../../features/user/userSlice";
 import { GetAllUsers } from "../../../features/profile/profileSlice";
 import { getPercentage } from "../../../features/course/percentage/percentageSlice";
+import Localbase from "localbase";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -15,9 +16,15 @@ const Login = () => {
   const username = loggedInUser?.map((i) => {
     return i.username;
   });
+  let db = new Localbase("db");
   //console.log(users);
   useEffect(() => {
     // console.log(window);
+    // db.collection("cookie")
+    //   .get()
+    //   .then((document) => {
+    //     console.log(document);
+    //   });
     if (typeof window !== undefined) {
       window.history.pushState(null, "", window.location.href);
       window.onpopstate = function () {

@@ -3,6 +3,7 @@ import React from "react";
 import FormRow from "../../FormRow";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
+import { addUserLocalStorage } from "@/utilities/localStorage";
 import Loading from "../layout_constructs/loading";
 import { setLoading } from "../../../features/user/userSlice";
 import { getPercentage } from "../../../features/course/percentage/percentageSlice";
@@ -33,6 +34,8 @@ import { Label, Input, Button } from "@roketid/windmill-react-ui";
 import { FaGithubAlt } from "react-icons/fa";
 import { BsTwitterX } from "react-icons/bs";
 import Greendome from "../../asset/greendome.jpg";
+import Localbase from "localbase";
+
 import PageTitle from "../../typography/PageTitle";
 
 const initialState = {
@@ -56,6 +59,8 @@ const Loginpage = (session) => {
   const [isloading, setLoading] = useState(false);
   const [isEmail, setisEmail] = useState(false);
   const dispatch = useDispatch();
+
+  let db = new Localbase("db");
   // const fetch =
   //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   const { user, isLoading, role } = useSelector((strore) => strore.user);
@@ -86,10 +91,51 @@ const Loginpage = (session) => {
   //     console.log(err);
   //   }
   // };
+  // const indexDB =
+  //   window.indexedDB ||
+  //   window.mozIndexedDB ||
+  //   window.webkitIndexedDB ||
+  //   window.msIndexedDB ||
+  //   window.shimIndexedDB;
+
+  // const request = indexDB.open("cookie", 1);
+
+  // request.onerror = function (event) {
+  //   console.error("there is an error");
+  //   console.error(event);
+  // };
+
+  // request.onupgradeneeded = function () {
+  //   const db = request.result;
+  //   const store = db.createObjectStore("token", { keypath: "id" });
+  //   store.createIndex("mytoken", "cookie", { unique: false });
+  // };
+
+  // request.onsuccess = function (event) {
+  //   const db = request.result;
+  //   const transaction = db.transaction("token", "readwrite");
+
+  //   const store = transaction.objectStore("token");
+  //   const tokenIndex = store.index("mytoken");
+
+  //   store.add(token);
+
+  //   const idQuery = store.get(1);
+  //   // const tokenQuery = tokenIndex.getAll();
+
+  //   idQuery.onsuccess = function () {
+  //     console.log("idQuery", idQuery.result);
+  //   };
+
+  //   transaction.oncomplete = function () {
+  //     db.close();
+  //   };
+  // };
 
   // useEffect(() => {
-  //   getUser();
-  // }, [googleAuth]);
+  //   const token = { id: 1, cookie: "12345" };
+  //   db.collection("cookie").add(token);
+  // }, []);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -197,7 +243,19 @@ const Loginpage = (session) => {
 
     console.log(user1);
     const userRole = user1?.data.user?.roles;
+    const userToken = user1?.data.user?.token;
+
+    // localStorage.setItem("user", JSON.stringify(userToken));
+
     const stats = user1?.status;
+    console.log(userToken);
+    const token = { id: 1, token: userToken };
+
+    // if (userToken === undefined || userToken === "") {
+    //   return null;
+    // } else {
+    //   db.collection("cookie").add(token);
+    // }
 
     let isCompany = false;
     let isAdmin = false;
@@ -244,11 +302,11 @@ const Loginpage = (session) => {
     } else {
       null;
     }
-    // if (stats !== 200) {
-    //   dispatch(setLoading(true));
-    // } else {
-    //   dispatch(setLoading(false));
-    // }
+    if (stats !== 200) {
+      dispatch(setLoading(true));
+    } else {
+      dispatch(setLoading(false));
+    }
     const error = data.data;
 
     // router.reload;

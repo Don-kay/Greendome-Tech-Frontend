@@ -28,7 +28,7 @@ export default function Page() {
   useEffect(() => {
     try {
       if (user === "" || users?.length === 0) {
-        null;
+        return null;
       } else {
         const loggedInUserId = user?.data.user.id;
 
