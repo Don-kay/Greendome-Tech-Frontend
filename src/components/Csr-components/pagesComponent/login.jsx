@@ -303,9 +303,9 @@ const Loginpage = (session) => {
       null;
     }
     if (stats !== 200) {
-      dispatch(setLoading(true));
+      setLoading(true);
     } else {
-      dispatch(setLoading(false));
+      setLoading(false);
     }
     const error = data.data;
 
