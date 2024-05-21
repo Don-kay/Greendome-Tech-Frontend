@@ -34,9 +34,13 @@ import { Label, Input, Button } from "@roketid/windmill-react-ui";
 import { FaGithubAlt } from "react-icons/fa";
 import { BsTwitterX } from "react-icons/bs";
 import Greendome from "../../asset/greendome.jpg";
-import Localbase from "localbase";
-
+import cookieCutter from "cookie-cutter";
 import PageTitle from "../../typography/PageTitle";
+
+// async function create(data) {
+//   cookies().set('name', 'lee')
+//   // or
+//   cookies().set('name', 'lee', { secure: true })
 
 const initialState = {
   firstname: "",
@@ -59,8 +63,6 @@ const Loginpage = (session) => {
   const [isloading, setLoading] = useState(false);
   const [isEmail, setisEmail] = useState(false);
   const dispatch = useDispatch();
-
-  let db = new Localbase("db");
   // const fetch =
   //   process.env.NODE_ENV === "production" ? customFetchProduction : customFetch;
   const { user, isLoading, role } = useSelector((strore) => strore.user);
@@ -220,6 +222,13 @@ const Loginpage = (session) => {
     const { password, username } = values;
     const users = { username: username, password: password };
 
+    dispatch(
+      loginUsername({
+        username: username,
+        password: password,
+      })
+    );
+
     if (password === "" || username === "") {
       toast.error("please fill out all details");
       setLoading(false);
@@ -249,13 +258,18 @@ const Loginpage = (session) => {
 
     const stats = user1?.status;
     console.log(userToken);
-    const token = { id: 1, token: userToken };
 
-    // if (userToken === undefined || userToken === "") {
-    //   return null;
-    // } else {
-    //   db.collection("cookie").add(token);
-    // }
+    if (userToken === undefined || userToken === "") {
+      return null;
+    } else {
+      cookieCutter.set("myToken", userToken, {
+        httpOnly: false,
+        secure: true,
+        sameSite: "none",
+        maxAge: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+        path: "/",
+      });
+    }
 
     let isCompany = false;
     let isAdmin = false;
@@ -295,13 +309,13 @@ const Loginpage = (session) => {
       router.push("/panel/student_dashboard");
     }
 
-    if (stats === 200) {
-      //   dispatch(getPercentage());
-      dispatch(GetAllUsers());
-      setLoading(false);
-    } else {
-      null;
-    }
+    // if (stats === 200) {
+    //   //   dispatch(getPercentage());
+    //   dispatch(GetAllUsers());
+    //   setLoading(false);
+    // } else {
+    //   null;
+    // }
     if (stats !== 200) {
       setLoading(true);
     } else {
@@ -312,12 +326,6 @@ const Loginpage = (session) => {
     // router.reload;
     // dispatch(setRole(userRole));
 
-    dispatch(
-      loginUsername({
-        usernames: username,
-        passwords: password,
-      })
-    );
     // console.log(user);
   };
 

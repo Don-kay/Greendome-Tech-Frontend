@@ -16,6 +16,12 @@ const Login = () => {
   const username = loggedInUser?.map((i) => {
     return i.username;
   });
+
+  // Get a cookie
+  // cookieCutter.get("myCookieName");
+
+  // Set a cookie
+
   // let db = new Localbase("db");
   //console.log(users);
   useEffect(() => {

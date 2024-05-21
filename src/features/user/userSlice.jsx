@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { registerUserThunk, loginUserThunk } from "./userThunk";
 import { toast } from "react-toastify";
-import { addUserLocalStorage } from "../../utilities/localStorage";
 
 // const { setToken, setStatus, setRole } = useGlobalContext();
 const initialState = {
@@ -16,6 +15,7 @@ const initialState = {
   phoneNumber: "",
   errorMsg: "",
   status: "",
+  token: "",
 };
 
 export const registerUser = createAsyncThunk(
@@ -100,6 +100,9 @@ const userSlice = createSlice({
       const data = { data: payload.data, stats: payload.stats };
       state.user = data;
       state.status = data.stats;
+      state.token = data.data.token;
+      console.log(data?.data.user.token);
+      console.log(data);
       //paload is grabbing data from the res.data endpoint
       state.isLoading = false;
       // addUserLocalStorage(data);

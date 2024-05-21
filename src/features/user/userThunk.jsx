@@ -22,7 +22,7 @@ export const loginUserThunk = async (url, user, thunkApi) => {
       credentials: "include",
     });
     const response = { data: resp.data, stats: resp.status };
-    //console.log(response.data);
+    console.log(response.data);
 
     return response;
   } catch (error) {
