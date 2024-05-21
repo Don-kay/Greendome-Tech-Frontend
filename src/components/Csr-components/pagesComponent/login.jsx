@@ -34,7 +34,7 @@ import { Label, Input, Button } from "@roketid/windmill-react-ui";
 import { FaGithubAlt } from "react-icons/fa";
 import { BsTwitterX } from "react-icons/bs";
 import Greendome from "../../asset/greendome.jpg";
-// import cookieCutter from "cookie-cutter";
+import cookieCutter from "cookie-cutter";
 import PageTitle from "../../typography/PageTitle";
 
 // async function create(data) {
@@ -259,17 +259,17 @@ const Loginpage = (session) => {
     const stats = user1?.status;
     console.log(userToken);
 
-    // if (userToken === undefined || userToken === "") {
-    //   return null;
-    // } else {
-    //   cookieCutter.set("myToken", userToken, {
-    //     httpOnly: false,
-    //     secure: true,
-    //     sameSite: "none",
-    //     maxAge: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-    //     path: "/",
-    //   });
-    // }
+    if (userToken === undefined || userToken === "") {
+      return null;
+    } else {
+      cookieCutter.set("myToken", userToken, {
+        httpOnly: false,
+        secure: true,
+        sameSite: "none",
+        maxAge: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+        path: "/",
+      });
+    }
 
     let isCompany = false;
     let isAdmin = false;
