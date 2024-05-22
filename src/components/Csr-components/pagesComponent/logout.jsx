@@ -43,19 +43,22 @@ const Logout = () => {
   // };
   const logout = async () => {
     setLoading(true);
-    cookieCutter.set("myToken", "", {
-      httpOnly: false,
-      secure: true,
-      sameSite: "none",
-      maxAge: 0,
-      path: "/",
-    });
+
     try {
       const user1 = await Fetch.post(`/auth/logout/${loggedInUserId}`, {
         withCredentials: true,
       });
       const status = user1?.status;
       const data = user1?.data.data.msg;
+      const userToken = user1?.data.user?.token;
+
+      cookieCutter.set("myToken", userToken, {
+        httpOnly: false,
+        secure: true,
+        sameSite: "none",
+        maxAge: 0,
+        path: "/",
+      });
       // console.log(status);
       // console.log(data);
       if (data === "succesfully logged out" && status === 200) {
