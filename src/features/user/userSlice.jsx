@@ -101,8 +101,8 @@ const userSlice = createSlice({
       state.user = data;
       state.status = data.stats;
       state.token = data.data.token;
-      console.log(data?.data.user.token);
-      console.log(data);
+      // console.log(data?.data.user.token);
+      // console.log(data);
       //paload is grabbing data from the res.data endpoint
       state.isLoading = false;
       // addUserLocalStorage(data);

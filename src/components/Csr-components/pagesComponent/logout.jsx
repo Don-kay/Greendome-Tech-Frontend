@@ -18,6 +18,7 @@ import PageTitle from "../../typography/PageTitle";
 import Loading from "../layout_constructs/loading";
 import customFetch, { customFetchProduction } from "@/utilities/axios";
 import { Fetch } from "../../../utilities/axios";
+import cookieCutter from "cookie-cutter";
 import { setLoading } from "../../../features/user/userSlice";
 
 const Logout = () => {
@@ -35,13 +36,20 @@ const Logout = () => {
     router.back();
   };
 
-  const logOutgoogleAuth = () => {
-    window.open(`${process.env.NEXT_APP_API_URL}/auth/logout/`, "_self");
+  // const logOutgoogleAuth = () => {
+  //   window.open(`${process.env.NEXT_APP_API_URL}/auth/logout/`, "_self");
 
-    // console.log(user);
-  };
+  //   // console.log(user);
+  // };
   const logout = async () => {
     setLoading(true);
+    cookieCutter.set("myToken", "", {
+      httpOnly: false,
+      secure: true,
+      sameSite: "none",
+      maxAge: 0,
+      path: "/",
+    });
     try {
       const user1 = await Fetch.post(`/auth/logout/${loggedInUserId}`, {
         withCredentials: true,
@@ -105,14 +113,14 @@ const Logout = () => {
                   Yes
                 </Button>
               </div>
-              <Button
+              {/* <Button
                 onClick={logOutgoogleAuth}
                 type="submit"
                 className="mt-4  text-white"
                 block
               >
                 logout with google
-              </Button>
+              </Button> */}
               <hr className="my-8 text-white" />
             </main>
           </div>
