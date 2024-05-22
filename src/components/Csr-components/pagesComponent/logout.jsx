@@ -50,7 +50,9 @@ const Logout = () => {
       });
       const status = user1?.status;
       const data = user1?.data.data.msg;
-      const userToken = user1?.data.user?.token;
+      const userToken = user1?.data.data?.token;
+
+      //console.log(user1);
 
       cookieCutter.set("myToken", userToken, {
         httpOnly: false,
