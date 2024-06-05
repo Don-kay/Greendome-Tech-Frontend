@@ -1,66 +1,93 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
 
 First, run the development server:
 
+##### Website url
+
+''' https://greendometech.netlify.app/
+
+##### Greendome technology
+
+''' this is a full stack project, making use of technologies as :
+
+#### Back end technologies
+
+''' Node js, express js, cors, mongo db etc...
+
+#### Front-end technologies
+
+''' Npm, React js, Next js, tailwindCSS, redux js, react-redux, socket io etc...
+
+### FUNCTIONAITY
+
+''' This project permits you to login as a student and register for courses, or login as a tutor and create your courses. As an Admin you have full priviledges on the site.
+
+### React and next js FUNCTIONAITY
+
+### ADMIN LOGIN
+
+username: dkriz
+password: secret
+
+email: dkrizlive@gmail.com
+password: secret
+
+### STUDENT LOGIN
+
+username: willis
+password: secret
+
+email: dayowillis@gmail.com
+password: secret
+
+#### Setup
+
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+npm install && npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Database Connection
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+1. Import connect.js
+2. Invoke in start()
+3. Setup .env in the root
+4. Add MONGO_URI with correct value
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+#### User Model
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Email Validation Regex
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```regex
+/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+```
 
-## Learn More
+#### Register User
 
-To learn more about Next.js, take a look at the following resources:
+- Validate - name, email, password - with Mongoose
+- Hash Password (with bcryptjs)
+- Save User
+- Generate Token
+- Send Response with Token
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Login User
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Validate - email, password - in controller
+- If email or password is missing, throw BadRequestError
+- Find User
+- Compare Passwords
+- If no user or password does not match, throw UnauthenticatedError
+- If correct, generate Token
+- Send Response with Token
 
-## Deploy on Vercel
+#### Mongoose Errors
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Validation Errors
+- Duplicate (Email)
+- Cast Error
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### Security
 
-create a ThunkApi
-
-module.exports = {
-content: ["*./src/**/*.{html,js}*"],
-theme: {
-screens: {
-exsm: "350px",
-sm: "480px",
-md: "768px",
-lg: "980px",
-exlg: "1440px",
-},
-extend: {
-colors: {
-darkgreen: "hsl(119, 80%, 9%)",
-lightgreen: "hsl(119, 80%, 32%)",
-lightergreen: "hsl(119, 80%, 64%)",
-litered: "hsl(360, 88%, 51%)",
-hushgrey: "hsl(360, 0%, 55%)",
-darkhushgrey: "hsl(360, 0%, 55%)",
-dark: "hsl(360, 0%, 7%)",
-lite: "hsl(338, 100%, 100%)",
-},
-},
-},
-plugins: [],
-};
+- helmet
+- cors
+- xss-clean
+- express-rate-limit
